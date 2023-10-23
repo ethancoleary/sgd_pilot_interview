@@ -1,0 +1,35 @@
+{{ block title }}
+  Choice 1
+{{ endblock }}
+
+<p>
+    {{  include_sibling 'RiskPrefInstructions.html' }}
+</p>
+<br>
+<br>
+    {{ include_sibling 'RiskTable.html' }}
+<html>
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            width: 50%;
+            text-align: center;
+            border: 1px solid #000;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th><button name="optionA" value="True">A</button></th>
+            <th><button name="optionA" value="False">B</button></th>
+        </tr>
+    </table>
+</body>
+</html>

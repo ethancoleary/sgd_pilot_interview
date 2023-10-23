@@ -9,7 +9,7 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'intro'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 1
+    NUM_ROUNDS = 10
 
 
 class Subsession(BaseSubsession):
@@ -21,20 +21,34 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    risk = models.FloatField()
+    optionA= models.BooleanField()
 
 
 # PAGES
 class Welcome(Page):
-    pass
+
+    def is_displayed(subsession):
+        return subsession.round_number == 1
+
+
 
 
 class RiskPref(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['optionA']
+
+    def vars_for_template(player):
+        round_number = player.round_number
+        probability_1 = round_number
+        probability_2 = 10 - round_number
 
 
 class Results(Page):
-    pass
+
+    def is_displayed(player):
+        return player.round_number > 10
 
 
-page_sequence = [MyPage, ResultsWaitPage, Results]
+
+
+page_sequence = [Welcome, RiskPref, Results]
