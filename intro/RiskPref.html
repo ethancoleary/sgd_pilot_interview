@@ -1,14 +1,16 @@
 {{ block title }}
-  Choice 1
+Choice {{ p1 }}
 {{ endblock }}
 
+
+{{ block content }}
 <p>
-    {{  include_sibling 'RiskPrefInstructions.html' }}
+    Choose one of the two lotteries below.
+    Recall one of your ten choices will be randomly chosen for payment following this stage.
 </p>
 <br>
 <br>
-    {{ include_sibling 'RiskTable.html' }}
-<html>
+   <html>
 <head>
     <style>
         table {
@@ -27,9 +29,22 @@
 <body>
     <table>
         <tr>
+            <th>Option A</th>
+            <th>Option B</th>
+        </tr>
+        <tr>
+            <td>{{ p1 }}/10 of $2.00 <br>
+                {{ p2 }}/10 of $1.60</td>
+            <td>{{ p1 }}/10 of $3.85 <br>
+                {{ p2 }}/10 of $0.80</td>
+        </tr>
+        <tr>
             <th><button name="optionA" value="True">A</button></th>
             <th><button name="optionA" value="False">B</button></th>
         </tr>
     </table>
 </body>
 </html>
+
+
+{{ endblock }}
