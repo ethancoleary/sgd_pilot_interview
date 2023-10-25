@@ -29,11 +29,18 @@ class Player(BasePlayer):
     belief_absolute = models.IntegerField()
 
 
+def blind(player):
+    import random
+    treatment = random.randint(0,1)
+    player.blind = treatment
+    player.participant.blind = player.blind
 
 
 # PAGES
 class Structure(Page):
-    pass
+
+    def vars_for_template(player):
+        blind(player)
 
 class IntroToInterview(Page):
     pass
@@ -42,6 +49,8 @@ class TrialTask(Page):
     form_model = 'player'
     form_fields = ['trial_task']
 
+    def is_displayed(subsession):
+        return subsession.round_number == 1
 
 
     def vars_for_template(player):
@@ -56,14 +65,15 @@ class TrialTask(Page):
 
     @staticmethod
     def error_message(player: Player, values):
-        solutions = player.trial_answer
+        solutions = dict(trial_task = player.trial_answer)
 
         if values != solutions:
             return "Answer is incorrect, try again."
 
 
 class Decision(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['compete']
 
 
 class Task(Page):

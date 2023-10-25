@@ -1,9 +1,47 @@
 {{ block title }}
-    Page title
+    Interview Choice
 {{ endblock }}
 {{ block content }}
 
-    {{ formfields }}
-    {{ next_button }}
+Now that you are acquainted with the nature of the task, you are required to choose your preferred interview method.
+Recall that regardless of the method of position procurement, a manager continues with the experiment and faces
+multiple opportunities to increase earnings.
+<br>
+
+ <html>
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            width: 50%;
+            text-align: center;
+            border: 1px solid #000;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Compete for the role</th>
+            <th>Roll a dice</th>
+        </tr>
+        <tr>
+            <td>A random {{ if player.blind == 0 }}female {{ endif }}worker in the current team who is not up for the promotion is selected.
+                If you outperform the worker in 90 seconds of the task, you will obtain the managerial position along with a $2.00 signing bonus.</td>
+            <td>You perform the task for 90 seconds obtaining $0.10 for each correct answer.
+                Afterwards a fair die is rolled. If the die shows a 1 or 2, you will be given a managerial position but without a signing bonus.</td>
+        </tr>
+        <tr>
+            <th><button name="compete" value="True">Compete</button></th>
+            <th><button name="compete" value="False">Roll a die</button></th>
+        </tr>
+    </table>
+</body>
+</html>
 
 {{ endblock }}
