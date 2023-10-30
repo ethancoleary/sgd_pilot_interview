@@ -3,7 +3,39 @@
 {{ endblock }}
 {{ block content }}
 
-    {{ formfields }}
+If the timer runs out then the answer that is currently typed into the box will be submitted.
+
+        <div class="container">
+        <table class="table table-bordered">
+                <tr>
+                <td> {{ grid_numbers.0 }}</td>
+                <td> {{ grid_numbers.1 }}</td>
+                <td> {{ grid_numbers.2 }}</td>
+                <td> {{ grid_numbers.3 }}</td>
+            </tr>
+            <tr>
+                <td> {{ grid_numbers.4 }}</td>
+                <td> {{ grid_numbers.5 }}</td>
+                <td> {{ grid_numbers.6 }}</td>
+                <td> {{ grid_numbers.7 }}</td>
+            </tr>
+            <tr>
+                <td> {{ grid_numbers.8 }}</td>
+                <td> {{ grid_numbers.9 }}</td>
+                <td> {{ grid_numbers.10 }}</td>
+                <td> {{ grid_numbers.11 }}</td>
+            </tr>
+            <tr>
+                <td> {{ grid_numbers.12 }}</td>
+                <td> {{ grid_numbers.13 }}</td>
+                <td> {{ grid_numbers.14 }}</td>
+                <td> {{ grid_numbers.15 }}</td>
+            </tr>
+        </table>
+    </div>
+    <br>
+How many ones (1s) are in the table above?
+{% formfields %}
     {{ next_button }}
 
 {{ endblock }}

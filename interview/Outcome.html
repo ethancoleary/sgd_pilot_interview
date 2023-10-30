@@ -1,9 +1,100 @@
 {{ block title }}
-    Page title
+    Outcome
 {{ endblock }}
 {{ block content }}
 
-    {{ formfields }}
+    {{ if participant.compete == 1 }}
+    You're score in the interview was {{ participant.interview_score }}. You were matched with worker {{ participant.worker_id }} who scored {{ participant.worker_score }}. <br>
+<br><br>
+        <!-- If win the competition -->
+        {{ if participant.interview_score > participant.worker_score }}
+Therefore, you have been earned the position of manager with a signing bonus of <b>$2.00</b>.
+        <br><br>
+        <b> Congratulations!</b>
+        <br><br>
+        You guessed that you submitted {{ player.belief_absolute }} correct answers.
+
+            <!-- If guesses score correctly -->
+            {{ if player.belief_absolute == participant.interview_score }}
+This was correct and you have been credited with an additional bonus of <b>$1.00</b>.
+            {{ endif }}
+
+            <!-- If guesses score incorrectly -->
+            {{ if player.belief_absolute != participant.interview_score }}
+            This was unfortunately incorrect.
+            {{ endif }}
+            <br><br>
+
+        You guessed that there was a {{ player.belief_relative }}% probability that you were the top scorer. <br><br>
+        To determine your payoff for this guess, we filled a virtual bag with {{ red_balls }} red balls and {{ blue_balls }} blue balls and asked the computer to draw a random ball.
+        Therefore, the probability the computer draws a red ball is equal to your estimated probability of winning. Thus if a red ball is pulled then you receive a reward of $1.00. <br><br>
+
+            <!-- Guesses relative performance correctly -->
+            {{ if ball_pull <= red_balls }}
+            The computer drew a red ball. This means that you have been credited with an additional bonus of <b>$1.00</b>.
+            {{ endif }}
+
+            <!-- Guesses relative performance incorrectly -->
+            {{ if ball_pull > red_balls }}
+            The computer drew a blue ball.
+            {{ endif }}
+
+        {{ endif }}
+
+        <!-- If do not win competition -->
+        {{ if participant.interview_score <= participant.worker_score }}
+        Therefore you have been unsuccessful in your interview. Thank you for taking the time to apply and you will be compensated with a base pay for your time.
+        {{ endif }}
+
+    {{ endif }}
+
+
+    {{ if participant.compete == 0 }}
+    You're score in the interview was {{ participant.interview_score }} so your payoff for this performance is <b>{{ player.combined_payoff }}</b>.
+<br>
+<br>
+    The computer has rolled a fair die to determine if you will be offered the managerial position.
+        Recall that if the die lands on a 1 or a 2, you will be successful. The die has landed on a {{ participant.die_roll }}. <br> <br>
+
+        {{ if participant.die_roll < 3 }}
+        Hence you have been lucky enough to be offered a managerial position!
+<br><br>
+        <b> Congratulations!</b>
+        <br><br>
+        Moreover, you guessed that you submitted {{ player.belief_absolute }} correct answers.
+
+             <!-- If guesses score correctly -->
+            {{ if player.belief_absolute == participant.interview_score }}
+This was correct and you have been credited with an additional bonus of <b>$1.00.</b>
+            {{ endif }}
+
+            <!-- If guesses score incorrectly -->
+            {{ if player.belief_absolute != participant.interview_score }}
+            This was unfortunately incorrect.
+            {{ endif }}
+        <br><br>
+
+        You may now proceed to the next round where you will begin work as a manager of a team.
+
+        {{ endif }}
+
+        <!-- If unsuccessful -->
+        {{ if participant.die_roll > 2 }}
+        Therefore you have been unsuccessful in your interview. Thank you for taking the time to apply and you will be compensated with a base pay for your time plus your performance payoff.
+
+        {{ endif }}
+
+    {{ endif }}
+    <br><br>
+
+    {{ if participant.manager == 1 }}
+    Press next to continue to your work as manager.
+    {{ endif }}
+
+    {{ if participant.manager == 0 }}
+    Press next to end the experiment.
+    {{ endif }}
+
     {{ next_button }}
 
 {{ endblock }}

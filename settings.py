@@ -4,7 +4,7 @@ SESSION_CONFIGS = [
      dict(
          name='interview',
          app_sequence=['interview'],
-         num_demo_participants=1,
+         num_demo_participants=5,
      ),
 ]
 
@@ -17,7 +17,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = ['blind', 'risk_preference']
+PARTICIPANT_FIELDS = ['blind', 'risk_preference', 'interview_score',  'expiry', 'compete', 'interview_score', 'interview_payoff', 'worker_id', 'worker_score', 'die_roll', 'manager']
 SESSION_FIELDS = []
 
 # ISO-639 code
