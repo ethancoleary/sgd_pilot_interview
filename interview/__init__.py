@@ -262,7 +262,8 @@ class Outcome(Page):
 
     @staticmethod
     def app_after_this_page(player, upcoming_apps):
-        if get_timeout_seconds(player) <= 0:
+        participant = player.participant
+        if get_timeout_seconds(player) <= 0 and participant.manager == 1:
             return upcoming_apps[0]
 
 

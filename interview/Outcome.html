@@ -89,12 +89,14 @@ This was correct and you have been credited with an additional bonus of <b>$1.00
 
     {{ if participant.manager == 1 }}
     Press next to continue to your work as manager.
+
+    {{ next_button }}
     {{ endif }}
 
     {{ if participant.manager == 0 }}
-    Press next to end the experiment.
+    Thank you, you may now close the experiment.
     {{ endif }}
 
-    {{ next_button }}
+
 
 {{ endblock }}

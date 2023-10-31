@@ -1,0 +1,23 @@
+{{ block title }}
+Riskiness
+{{ endblock }}
+
+
+{{ block content }}
+
+<br> <br>
+<center>
+    <b>How often do you choose to take risks?</b></center> <br>
+<table class="table" style="margin: 0 auto; text-align: center;">
+    <tr>
+    {{ for choice in form.riskyness }}
+        <td>{{ choice }}<br>
+            {{ choice.label }}
+        </td>
+    {{ endfor }}
+</tr>
+</table>
+
+{{ next_button }}
+
+{{ endblock }}
