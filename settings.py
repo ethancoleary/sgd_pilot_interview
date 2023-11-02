@@ -3,7 +3,8 @@ from os import environ
 SESSION_CONFIGS = [
      dict(
          name='interview',
-         app_sequence=['interview', 'closing'],
+         #app_sequence = ['intro', 'interview', 'closing'],
+         app_sequence=['manager'],
          num_demo_participants=5,
      ),
 ]
@@ -17,7 +18,8 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = ['blind', 'risk_preference', 'interview_score',  'expiry', 'compete', 'interview_score', 'interview_payoff', 'worker_id', 'worker_score', 'die_roll', 'manager']
+PARTICIPANT_FIELDS = ['blind', 'risk_preference', 'interview_score',  'expiry', 'compete', 'interview_score', 'interview_payoff', 'worker_id', 'worker_score', 'die_roll', 'manager',
+                      't2_mixgroup', 't2_malefirst', 't3_observed', 't4_maleboard', 't4_femaleboard', 'male', 'female', 'pseudonym', 'team1', 'team2', 'round1_score']
 SESSION_FIELDS = []
 
 # ISO-639 code

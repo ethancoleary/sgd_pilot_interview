@@ -1,0 +1,71 @@
+{{ block title }}
+    Round 1 Summary
+{{ endblock }}
+{{ block content }}
+
+You guessed that you submitted {{ player.belief_absolute }} correct entries in round 1 and that this was
+{{ if player.belief_relative == 1 }}
+the highest
+{{ endif }}
+
+{{ if player.belief_relative == 2 }}
+the 2nd highest
+{{ endif }}
+
+{{ if player.belief_relative == 3 }}
+the lowest
+{{ endif }}
+
+score of your team. <br><br>
+Your score was {{ participant.round1_score }} which gave you a payment of ${{ player.round1_performance_payment }}. This means that
+{{ if player.belief_absolute == participant.round1_score }}
+you correctly guessed your raw score in this round so you have earned a bonus of ${{ player.belief_absolute_payoff }}.
+{{ endif }}
+{{ if player.belief_absolute != participant.round1_score }}
+you did not correctly guess your raw score in this round.
+{{ endif }}
+Below you can observe how your performance fared with your workers.
+<br>
+<br>
+<html>
+<head>
+    <title>Your team</title>
+    <style>
+        table {
+            margin: 20px auto;
+        }
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td colspan="2"><img src="{{ static 'manager/neutral_avatar.png'}}" width="100"/> <br>
+                <b>You</b> <br>
+            Round 1 score: {{ participant.round1_score }}</td>
+        </tr>
+        <tr>
+            <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ participant.team1 }}</b><br>
+            Round 1 Score: {{ player.team1_score }}</td>
+            <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ participant.team2 }}</b><br>
+            Round 1 Score: {{ player.team2_score }}</td>
+        </tr>
+    </table>
+</body>
+</html>
+<br>
+<br>
+Thus, since you guessed that you ranked in position {{ player.belief_relative }}. This means that you have earned another bonus of ${{ player.belief_relative_payoff }}.
+
+In the next stage you will receive instructions for round 2 and make your decision.
+<br>
+<br>
+
+{{ next_button }}
+
+{{ endblock }}
