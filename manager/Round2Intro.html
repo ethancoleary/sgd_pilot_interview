@@ -1,0 +1,161 @@
+{{ block title }}
+    Information on round 2
+{{ endblock }}
+{{ block content }}
+
+<html>
+<head>
+    <title>Your team</title>
+    <style>
+        table {
+            float: right;
+            margin: 20px;
+            border: 1px solid black; /* Border around the table */
+            border-collapse: collapse; /* Collapses the border */
+        }
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td colspan="2">Your team</td>
+        </tr>
+        <tr>
+            <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ participant.team1 }}</b><br>
+            Round 1 Score: {{ player.team1_score }}</td>
+            <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ participant.team2 }}</b><br>
+            Round 1 Score: {{ player.team2_score }}</td>
+        </tr>
+    </table>
+</body>
+</html>
+
+<br>
+<br>
+
+In round 2, you are no longer working on the task, instead delegating the work to your subordinates and focusing on management.
+Because of this, both of the workers will have an increased work load and their task becomes more difficult. Specifically the grid within which they must count the number of ones will expand from the 4x4 size to 6x6 size. An example is displayed below.<br><br>
+
+        <div class="container">
+        <table class="table table-bordered">
+                <tr>
+                <td> {{ grid_numbers.0 }}</td>
+                <td> {{ grid_numbers.1 }}</td>
+                <td> {{ grid_numbers.2 }}</td>
+                <td> {{ grid_numbers.3 }}</td>
+                <td> {{ grid_numbers.4 }}</td>
+                <td> {{ grid_numbers.5 }}</td>
+            </tr>
+            <tr>
+                <td> {{ grid_numbers.6 }}</td>
+                <td> {{ grid_numbers.7 }}</td>
+                <td> {{ grid_numbers.8 }}</td>
+                <td> {{ grid_numbers.9 }}</td>
+                <td> {{ grid_numbers.10 }}</td>
+                <td> {{ grid_numbers.11 }}</td>
+            </tr>
+            <tr>
+                <td> {{ grid_numbers.12 }}</td>
+                <td> {{ grid_numbers.13 }}</td>
+                <td> {{ grid_numbers.14 }}</td>
+                <td> {{ grid_numbers.15 }}</td>
+                <td> {{ grid_numbers.16 }}</td>
+                <td> {{ grid_numbers.17 }}</td>
+            </tr>
+            <tr>
+                <td> {{ grid_numbers.18 }}</td>
+                <td> {{ grid_numbers.19 }}</td>
+                <td> {{ grid_numbers.20 }}</td>
+                <td> {{ grid_numbers.21 }}</td>
+                <td> {{ grid_numbers.22 }}</td>
+                <td> {{ grid_numbers.23 }}</td>
+            </tr>
+            <tr>
+                <td> {{ grid_numbers.24 }}</td>
+                <td> {{ grid_numbers.25 }}</td>
+                <td> {{ grid_numbers.26 }}</td>
+                <td> {{ grid_numbers.27 }}</td>
+                <td> {{ grid_numbers.28 }}</td>
+                <td> {{ grid_numbers.29 }}</td>
+            </tr>
+            <tr>
+                <td> {{ grid_numbers.30 }}</td>
+                <td> {{ grid_numbers.31 }}</td>
+                <td> {{ grid_numbers.32 }}</td>
+                <td> {{ grid_numbers.33 }}</td>
+                <td> {{ grid_numbers.34 }}</td>
+                <td> {{ grid_numbers.35 }}</td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <br>
+
+
+By delegating your work-load to your workers, you earn an income by choosing a worker from which you will earn commission and who will receive a bonus. <br><br>
+Specifically, both workers have continued to work on the hard task for 90 seconds following their previous performance.
+Your task is to now pick a worker, call them <b>Worker A</b> who you wish to earn commission from. Namely, while the workers continue to receive <b>$0.10</b> per correct answer they submit, you will earn a commission of <b>$0.20</b> for every correct answer your chosen <b>Worker A</b> submits.
+You do not earn commission from the other worker. <b>Worker A</b> will also receive a non-zero expected bonus themselves. Among all the managers in DataProcess Ltd, one will be chosen at random and their chosen <b>Worker A</b> will receive a bonus of $1.00.<br><br>
+
+{{ if participant.t3_observed == 1 }}
+
+<html>
+<head>
+    <title>Your board</title>
+    <style>
+        table {
+            float: right;
+            margin: 20px;
+            border: 1px solid black; /* Border around the table */
+            border-collapse: collapse; /* Collapses the border */
+        }
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td colspan="3">Your board</td>
+        </tr>
+        <tr>
+            <td colspan="3"><img src="{{ static 'manager/board_avatar.png'}}" width="150"/></td>
+        </tr>
+        <tr>
+            <td>
+                {{ player.board1 }}
+            </td>
+            <td>
+                {{ player.board2 }}
+            </td>
+            <td>
+                {{ player.board3 }}
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+<b>Additionally, you should note that you are under observation from your superiors during this round.
+    Your superiors consist of a board of 3 experienced managers who will individually vote for who you should pick as Worker A.
+    For every board member that disagrees with your decision, you will lose one third of your commission. <br><br>
+
+    The board members are shown to the right here.</b>
+
+
+
+{{ endif }}
+
+
+On the next page you will make your decision of <b>Worker A</b>. <br><br>
+
+{{ next_button }}
+
+{{ endblock }}

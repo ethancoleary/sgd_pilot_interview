@@ -1,0 +1,128 @@
+{{ block title }}
+    Information on round 2
+{{ endblock }}
+{{ block content }}
+
+{{ if player.workerA_team1 == True }}
+
+<center>
+<html>
+<head>
+    <title>Your team</title>
+    <style>
+        table {
+            margin: 20px auto;
+        }
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ workerA }}</b><br>
+            Round 2 Score: {{ player.workerA_score }}</td>
+            <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ workerB }}</b><br>
+            Round 2 Score: {{ workerB_score }}</td>
+        </tr>
+    </table>
+</body>
+</html>
+
+{{ endif }}
+{{ if player.workerA_team1 == False }}
+<html>
+<head>
+    <title>Your team</title>
+    <style>
+        table {
+            margin: 20px auto;
+        }
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ workerB }}</b><br>
+            Round 2 Score: {{ workerB_score }}</td>
+            <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ workerA }}</b><br>
+            Round 2 Score: {{ player.workerA_score }}</td>
+        </tr>
+    </table>
+</body>
+</html>
+</center>
+
+{{ endif }}
+
+You chose {{ workerA }} to be worker A. They have hence received an extra entry into a draw to receive a bonus of $1.00. <br><br>
+
+In round 2, {{ workerA }} submitted {{ player.workerA_score }} correct answers. Which entitled you to a commission of {{ player.commission }}.<br><br>
+
+{{ if participant.t3_observed == 1 }}
+
+In total, {{ board_member_agreeing }} of your senior management board members also voted for {{ workerA }} to be ranked as <b>Worker A</b>.
+You can observe the real votes of the board below. <br><br>
+<center>
+<html>
+<head>
+    <title>Your board</title>
+    <style>
+        table {
+            width: 50%;
+            margin: 20px;
+            border: 1px solid black; /* Border around the table */
+            border-collapse: collapse; /* Collapses the border */
+        }
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td colspan="3">Your board</td>
+        </tr>
+        <tr>
+            <td colspan="3"><img src="{{ static 'manager/board_avatar.png'}}" width="150"/></td>
+        </tr>
+        <tr>
+            <td>
+                {{ player.board1 }} voted for {{ board1_vote }}.
+            </td>
+            <td>
+                {{ player.board2 }} voted for {{ board2_vote }}.
+            </td>
+            <td>
+                {{ player.board3 }} voted for {{ board3_vote }}.
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+    </center>
+
+<br><br>
+
+Since each vote of approval from your senior management board entitles you to receive one third of your commission, your total commission payout is {{ player.round2_performance_payment }}. <br><br>
+
+{{  endif }}
+
+Thus during your tenure of manager you have earned a total payoff of {{ player.total_rounds_payoff }}. <br><br>
+
+
+Click next to complete the final part of the experiment.
+
+{{ endblock }}

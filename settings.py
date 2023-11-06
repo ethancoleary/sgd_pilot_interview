@@ -19,7 +19,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 )
 
 PARTICIPANT_FIELDS = ['blind', 'risk_preference', 'interview_score',  'expiry', 'compete', 'interview_score', 'interview_payoff', 'worker_id', 'worker_score', 'die_roll', 'manager',
-                      't2_mixgroup', 't2_malefirst', 't3_observed', 't4_maleboard', 't4_femaleboard', 'male', 'female', 'pseudonym', 'team1', 'team2', 'round1_score']
+                      't2_mixgroup', 't2_malefirst', 't3_observed', 't4_maleboard', 't4_femaleboard', 'male', 'female', 'pseudonym', 'team1', 'team2', 'round1_score', 'total_round1_payoff', 'board_names']
 SESSION_FIELDS = []
 
 # ISO-639 code
@@ -28,7 +28,7 @@ LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'USD'
-USE_POINTS = True
+USE_POINTS = False
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable

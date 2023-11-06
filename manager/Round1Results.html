@@ -17,9 +17,9 @@ the lowest
 {{ endif }}
 
 score of your team. <br><br>
-Your score was {{ participant.round1_score }} which gave you a payment of ${{ player.round1_performance_payment }}. This means that
+Your score was {{ participant.round1_score }} which gave you a payment of {{ player.round1_performance_payment }}. This means that
 {{ if player.belief_absolute == participant.round1_score }}
-you correctly guessed your raw score in this round so you have earned a bonus of ${{ player.belief_absolute_payoff }}.
+you correctly guessed your raw score in this round so you have earned a bonus of {{ player.belief_absolute_payoff }}.
 {{ endif }}
 {{ if player.belief_absolute != participant.round1_score }}
 you did not correctly guess your raw score in this round.
@@ -60,7 +60,15 @@ Below you can observe how your performance fared with your workers.
 </html>
 <br>
 <br>
-Thus, since you guessed that you ranked in position {{ player.belief_relative }}. This means that you have earned another bonus of ${{ player.belief_relative_payoff }}.
+Thus, since you guessed that you ranked in position {{ player.belief_relative }},
+{{ if player.belief_relative_payoff == 1 }}
+you have earned an additional bonus of $1.00.
+{{ endif }}
+
+{{ if player.belief_relative_payoff == 0 }}
+you did not earn a bonus for this guess.
+{{ endif }}<br><br>
+In total you have earned {{ participant.total_round1_payoff }} from round 1. <br><br>
 
 In the next stage you will receive instructions for round 2 and make your decision.
 <br>
