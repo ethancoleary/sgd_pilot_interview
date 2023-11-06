@@ -71,7 +71,7 @@ In round 2, {{ workerA }} submitted {{ player.workerA_score }} correct answers. 
 
 {{ if participant.t3_observed == 1 }}
 
-In total, {{ board_member_agreeing }} of your senior management board members also voted for {{ workerA }} to be ranked as <b>Worker A</b>.
+In total, {{ board_member_agreeing }} of your senior management board members approved of your choice for {{ workerA }} to be ranked as <b>Worker A</b>.
 You can observe the real votes of the board below. <br><br>
 <center>
 <html>
@@ -100,13 +100,13 @@ You can observe the real votes of the board below. <br><br>
         </tr>
         <tr>
             <td>
-                {{ player.board1 }} voted for {{ board1_vote }}.
+                {{ player.board1 }} {{  if board1_agree == 1 }} approved. {{ endif }} {{ if board1_agree == 0 }} disapproved. {{ endif }}
             </td>
             <td>
-                {{ player.board2 }} voted for {{ board2_vote }}.
+                {{ player.board2 }} {{  if board2_agree == 1 }} approved. {{ endif }} {{ if board2_agree == 0 }} disapproved. {{ endif }}
             </td>
             <td>
-                {{ player.board3 }} voted for {{ board3_vote }}.
+                {{ player.board3 }} {{  if board3_agree == 1 }} approved. {{ endif }} {{ if board3_agree == 0 }} disapproved. {{ endif }}
             </td>
         </tr>
     </table>

@@ -356,6 +356,11 @@ class Round2Results(Page):
                 'board1_vote': board1_vote,
                 'board2_vote': board2_vote,
                 'board3_vote': board3_vote,
+
+                'board1_agree':board1_agree,
+                'board2_agree':board2_agree,
+                'board3_agree':board3_agree,
+
                 'board_member_agreeing':board_members_agreeing,
 
                 'workerB_score': workerB_score,
