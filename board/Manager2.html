@@ -1,0 +1,77 @@
+{{ block title }}
+    Manager 1
+{{ endblock }}
+{{ block content }}
+
+<center>
+    <img src="{{ static 'manager/neutral_avatar.png'}}" width="150"/> <br>
+    <br>
+    <p style="font-size: 130%;"><b>Manager:</b> {{ player.manager2_name }}<br></p>
+    <b>Age:</b> 28 <br>
+    <b>Promotion via:</b> {{ promotion_via }}<br>
+    <b>Performance from round 1:</b> {{ manager_performance }}<br><br>
+
+    <p style="font-size: 110%;"><b>Chosen worker A: {{ workerA }}</b></p> <br><br><br><br>
+
+    {{ if worker1A == True }}
+    <table class="table" style="margin: 0 auto; text-align: center;">
+    <tr>
+        <td></td>
+        <td> <img src="{{ static 'manager/neutral_avatar_highlighted.png'}}" width="150"/> <br>
+            <b>{{ worker1 }}</b><br>
+            <b>Performance in first 30 secs of round 1:</b> {{ worker1_performance }}
+        </td>
+
+        <td></td>
+
+        <td><td> <img src="{{ static 'manager/neutral_avatar.png'}}" width="150"/> <br>
+            <b>{{ worker2 }}</b><br>
+            <b>Performance in first 30 secs of round 1:</b> {{ worker2_performance }}
+
+        </td>
+
+        <td></td>
+
+</tr>
+</table>
+
+{{ endif }}
+
+{{ if worker1A == False }}
+<table class="table" style="margin: 0 auto; text-align: center;">
+    <tr>
+        <td></td>
+        <td> <img src="{{ static 'manager/neutral_avatar.png'}}" width="150"/> <br>
+            <b>{{ worker1 }} </b> <br>
+            <b>Performance in first 30 secs of round 1:</b> {{ worker1_performance }}
+        </td>
+
+        <td></td>
+
+        <td><td> <img src="{{ static 'manager/neutral_avatar_highlighted.png'}}" width="150"/> <br>
+            <b>{{ worker2 }}</b><br>
+            <b>Performance in first 30 secs of round 1:</b> {{ worker2_performance }}
+
+        </td>
+
+        <td></td>
+
+</tr>
+</table>
+
+{{ endif }}
+
+    <br><br>
+
+ <button name="manager2_approve" value="True">Approve {{ player.manager2_name }}'s decision of {{ worker2 }}</button>
+    <br>
+
+    <button name="manager2_approve" value="False">Disprove of {{ player.manager2_name }}'s decision of {{ worker2 }}</button>
+
+
+</center>
+
+
+{{ endblock }}
+
+

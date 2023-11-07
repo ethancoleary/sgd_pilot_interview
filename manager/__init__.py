@@ -273,13 +273,13 @@ class Round2Intro(Page):
 
         participant = player.participant
         if participant.t4_femaleboard == 0 and participant.t4_maleboard == 0:
-            board_names = ["", "", ""]
+            participant.board_names = ["", "", ""]
         else:
-            board_names = C.BOARDS[participant.t4_femaleboard]
+            participant.board_names = C.BOARDS[participant.t4_femaleboard]
 
-        player.board1 = board_names[0]
-        player.board2 = board_names[1]
-        player.board3 = board_names[2]
+        player.board1 = participant.board_names[0]
+        player.board2 = participant.board_names[1]
+        player.board3 = participant.board_names[2]
 
         return {
             'grid_numbers': grid_numbers,
