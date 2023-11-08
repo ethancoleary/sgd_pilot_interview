@@ -350,6 +350,7 @@ class Round2Results(Page):
 
         player.round2_performance_payment = commission_payout
         player.total_rounds_payoff = player.round1_performance_payment + player.belief_relative_payoff + player.belief_absolute_payoff+ player.round2_performance_payment
+        participant.total_manager_payoff = player.total_rounds_payoff
 
         if participant.t3_observed == 1:
             return {
@@ -367,6 +368,7 @@ class Round2Results(Page):
                 'workerA':workerA,
                 'workerB':workerB,
             }
+
         if participant.t3_observed == 0:
             return {
                 'workerB_score': workerB_score,
@@ -375,7 +377,15 @@ class Round2Results(Page):
 
             }
 
+    @staticmethod
+    def app_after_this_page(player, upcoming_apps):
+        participant = player.participant
 
+        participant.board = player.total_rounds_payoff > 2 and participant.t3_observed == 0
+        if get_timeout_seconds(player) <= 0 and player.round_number == player.display_counter and participant.board == 1:
+            return upcoming_apps[0]
+        if participant.board == 0:
+            return upcoming_apps[-1]
 
 
 page_sequence = [TeamWelcome, Round1Intro, Round1, Calculation, Belief, Round1Results, Round2Intro, Round2Decision, Round2Results]

@@ -31,7 +31,7 @@ class Player(BasePlayer):
     pseudonym = models.StringField(
         widget=widgets.RadioSelect,
         choices=[
-            'Jacob', 'Zoe', 'Aiden', 'Abbie', 'Matthew', 'Chloe', 'Alexander', 'Grace', 'Daniel', 'Emma'
+            'Zoe',  'Abbie',  'Chloe',  'Grace',  'Emma', 'Ella', 'Viola', 'Sara', 'Jacob', 'Aiden',  'Matthew',  'Alexander',  'Daniel', 'Joel', 'Harvey', 'Mason'
         ]
     )
 # PAGES

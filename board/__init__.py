@@ -72,6 +72,7 @@ class Intro(Page):
         participant.t3_observed = 0
         participant.t2_mixgroup = 0
         participant.compete = 1
+        participant.board_payoff = 0
 
         if participant.female == 1: #Female
             player.pseudonym_loc = C.FEMALE_NAMES.index(participant.pseudonym)
@@ -223,6 +224,10 @@ class Manager1(Page):
 
         }
 
+    def before_next_page(player, timeout_happened):
+        participant = player.participant
+        participant.board_payoff += cu(0.5)
+
 class Manager2(Page):
     form_model = 'player'
     form_fields = ['manager2_approve']
@@ -258,6 +263,8 @@ class Manager2(Page):
 
         manager_performance = C.MANAGER_PERFORMANCE[random.randint(0,6)]
 
+
+
         return {
             'promotion_via':promotion_via,
             'manager_performance':manager_performance,
@@ -270,9 +277,11 @@ class Manager2(Page):
 
         }
 
+    def before_next_page(player, timeout_happened):
+        participant = player.participant
+        participant.board_payoff += cu(0.5)
 
-class Results(Page):
-    pass
+
 
 
 page_sequence = [Intro, Manager1, Manager2]

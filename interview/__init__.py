@@ -31,9 +31,14 @@ class Player(BasePlayer):
 
     blind = models.BooleanField()
     compete = models.BooleanField()
-    belief_relative = models.FloatField(
+    belief_relative = models.IntegerField(
         widget=widgets.RadioSelect,
-        choices=[0,10,20,30,40,50,60,70,80,90,100],
+        choices=[
+            [0, 'Lower Quartile: 0-25%'],
+            [25, 'Lower-Mid Quartile: 26-50%'],
+            [50, 'Upper-Mid Quartile: 51-75%'],
+            [75, 'Upper Quartile: 76-100%'],
+        ],
         initial = 0
     )
     belief_absolute = models.IntegerField(initial = 0)
@@ -166,7 +171,8 @@ class Calculation(Page):
 
 
         if participant.compete == 0:
-            participant.combined_payoff = participant.interview_score * C.PAYMENT_PER_CORRECT_ANSWER
+            player.combined_payoff = participant.interview_score * C.PAYMENT_PER_CORRECT_ANSWER
+            participant.combined_payoff = player.combined_payoff
 
         worker_pool = {
             "A": 1,
@@ -265,6 +271,9 @@ class Outcome(Page):
         participant = player.participant
         if get_timeout_seconds(player) <= 0 and participant.manager == 1:
             return upcoming_apps[0]
+        if participant.manager == 0:
+            return upcoming_apps[-1]
 
 
 page_sequence = [Structure, IntroToInterview, TrialTask, Decision, Task, Calculation, Belief, Belief_die, Outcome]
+

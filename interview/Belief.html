@@ -25,24 +25,46 @@ How many correct answers do you believe that you submitted in 90 seconds?
 <br>
 <br>
 <center>
-<b>Based on your performance, how likely do you believe you are to have outperformed the randomly chosen {{ if participant.blind == 0 }}female {{ endif }}worker?</b>
-<br><small><i>You will be rewarded with $1.00 for accuracy based on the following procedure. Consider an empty bag. Suppose you believe that there is a 70% chance you were the top performer yet in fact you were not the top performer.
-In this case we fill the bag with 7 red balls and 3 blue balls. The computer will then randomly draw a ball from the bag.
-The red balls correspond to the chances that are the top performer so if a red is drawn, you will not be paid a bonus.
-    If a blue is drawn however, this corresponds to the probability that you were not the top performer which is true in this case, so you will receive the bonus of $1.00.</i></small>
+    <b>Based on your performance, how do you believe that your performance ranked in the distribution of all workers?</b><br>
+    There is a pool of 40 representative workers, who have each performed the task under the same conditions.
+    You will receive $1.00 bonus if you can correctly estimate the quartile within which your score falls compared to the 40 other workers.
 <br>
 <br>
 
 
 
-<input type="range" name="belief_relative" min="0" max="100" step="10" oninput="updateDescription(this)">
-<p id="description"></p>
-<script>
-    let description = document.getElementById('description');
-    function updateDescription(input) {
-        let belief_relative = parseInt(input.value);
-        description.innerText = `There is a ${belief_relative}% probability that I was the top performer`
-    }
+ <html>
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            width: 25%;
+            text-align: center;
+            border: 1px solid white;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Lower Quartile: <br>1-25%<br>
+            <input type="radio" id="choice1" name="belief_relative" value=0></th>
+            <th>Lower-Mid Quartile: <br>26-50%<br>
+            <input type="radio" id="choice2" name="belief_relative" value=25></th>
+            <th>Upper-Mid Quartile: <br>51-75%<br>
+            <input type="radio" id="choice3" name="belief_relative" value=50></th>
+            <th>Upper Quartile: <br>76-100%<br>
+            <input type="radio" id="choice4" name="belief_relative" value=75></th>
+        </tr>
+    </table>
+</body>
+</html>
+
 </script>
     </center>
 

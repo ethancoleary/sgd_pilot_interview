@@ -69,11 +69,19 @@ class Feedback(Page):
     form_model = 'player'
     form_fields = ['instructions', 'incentives', 'feedback']
 
+class ThankYou(Page):
 
+    @staticmethod
+    def vars_for_template(player):
+        participant = player.participant
 
+        if participant.manager != 1:
+            participant.total_earnings = cu(participant.interview_payoff) + cu(1)
 
+        if participant.manager == 1 and participant.board != 1:
+            participant.total_earnings = cu(participant.interview_payoff) + cu(participant.total_manager_payoff) + cu(2)
 
+        if participant.manager == 1 and participant.board != 1:
+            participant.total_earnings = cu(participant.interview_payoff) + cu(participant.total_manager_payoff) + cu(participant.board_payoff) + cu(2)
 
-
-
-page_sequence = [Welcome, RiskPref, Feedback]
+page_sequence = [Welcome, RiskPref, Feedback, ThankYou]

@@ -2,10 +2,10 @@ from os import environ
 
 SESSION_CONFIGS = [
      dict(
-         name='interview',
+         name='Main',
          #app_sequence = ['intro', 'interview', 'closing'],
-         app_sequence=['board'],
-         num_demo_participants=5,
+         app_sequence=['intro', 'interview', 'manager', 'board', 'closing'],
+         num_demo_participants=5
      ),
 ]
 
@@ -18,8 +18,8 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = ['blind', 'risk_preference', 'interview_score',  'expiry', 'compete', 'interview_score', 'interview_payoff', 'worker_id', 'worker_score', 'die_roll', 'manager',
-                      't2_mixgroup', 't2_malefirst', 't3_observed', 't4_maleboard', 't4_femaleboard', 'male', 'female', 'pseudonym', 'team1', 'team2', 'round1_score', 'total_round1_payoff', 'board_names']
+PARTICIPANT_FIELDS = ['blind', 'risk_preference', 'interview_score',  'expiry', 'compete', 'interview_score', 'interview_payoff', 'worker_id', 'worker_score', 'die_roll', 'manager', 'combined_payoff',
+                      't2_mixgroup', 't2_malefirst', 't3_observed', 't4_maleboard', 't4_femaleboard', 'male', 'female', 'pseudonym', 'team1', 'team2', 'round1_score', 'total_round1_payoff', 'total_manager_payoff', 'board', 'board_names', 'board_payoff', 'total_earnings']
 SESSION_FIELDS = []
 
 # ISO-639 code
