@@ -1,9 +1,9 @@
-{{ block title }}
-    Outcome
-{{ endblock }}
+
 {{ block content }}
 
     {{ if participant.compete == 1 }}
+    <h2>Interview Result</h2>
+<br>
     You're score in the interview was {{ participant.interview_score }}. You were matched with worker {{ participant.worker_id }} who scored {{ participant.worker_score }}. <br>
 <br><br>
         <!-- If win the competition -->
@@ -11,7 +11,9 @@
 Therefore, you have been earned the position of manager with a signing bonus of <b>$2.00</b>.
         <br><br>
         <b> Congratulations!</b>
-        <br><br>
+        <br><br><br>
+<h2>Belief Results</h2>
+<br>
         You guessed that you submitted {{ player.belief_absolute }} correct answers.
 
             <!-- If guesses score correctly -->
@@ -25,19 +27,8 @@ This was correct and you have been credited with an additional bonus of <b>$1.00
             {{ endif }}
             <br><br>
 
-        You guessed that there was a {{ player.belief_relative }}% probability that you were the top scorer. <br><br>
-        To determine your payoff for this guess, we filled a virtual bag with {{ red_balls }} red balls and {{ blue_balls }} blue balls and asked the computer to draw a random ball.
-        Therefore, the probability the computer draws a red ball is equal to your estimated probability of winning. Thus if a red ball is pulled then you receive a reward of $1.00. <br><br>
+        You guessed that you were in the {{ belief_relative }} quartile of performances. Your score fell in the {{ relative }} quartile. Therefore you received a bonus payment of {{ payoff_relative }}. <br><br>
 
-            <!-- Guesses relative performance correctly -->
-            {{ if ball_pull <= red_balls }}
-            The computer drew a red ball. This means that you have been credited with an additional bonus of <b>$1.00</b>.
-            {{ endif }}
-
-            <!-- Guesses relative performance incorrectly -->
-            {{ if ball_pull > red_balls }}
-            The computer drew a blue ball.
-            {{ endif }}
 
         {{ endif }}
 
@@ -50,6 +41,8 @@ This was correct and you have been credited with an additional bonus of <b>$1.00
 
 
     {{ if participant.compete == 0 }}
+    <h2>Interview Outcome</h2>
+<br>
     You're score in the interview was {{ participant.interview_score }} so your payoff for this performance is <b>{{ player.combined_payoff }}</b>.
 <br>
 <br>
@@ -60,8 +53,10 @@ This was correct and you have been credited with an additional bonus of <b>$1.00
         Hence you have been lucky enough to be offered a managerial position!
 <br><br>
         <b> Congratulations!</b>
-        <br><br>
-        Moreover, you guessed that you submitted {{ player.belief_absolute }} correct answers.
+        <br><br><br>
+<h2>Belief Results</h2>
+<br>
+        You guessed that you submitted {{ player.belief_absolute }} correct answers.
 
              <!-- If guesses score correctly -->
             {{ if player.belief_absolute == participant.interview_score }}
@@ -85,7 +80,7 @@ This was correct and you have been credited with an additional bonus of <b>$1.00
         {{ endif }}
 
     {{ endif }}
-    <br><br>
+    <br>
 
     {{ if participant.manager == 1 }}
     Press next to continue to your work as manager.

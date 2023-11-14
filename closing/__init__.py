@@ -31,21 +31,8 @@ class Player(BasePlayer):
             [5, 'Always take risks']
         ]
     )
-    instructions = models.IntegerField(
-        widget=widgets.RadioSelect,
-        choices=[
-            [1, 'Instructions were not clear at all'],
-            [2, 'Instructions could be made slightly more clear'],
-            [3, 'I mostly understood what I had to do but the broader concept was confusing'],
-            [4, 'I understood completely what I had to do']]
-    )
-    incentives = models.IntegerField(
-        widget=widgets.RadioSelect,
-        choices=[
-            [1, 'I did not understand how my decisions affected my earnings'],
-            [2, 'I understood how I would earn money but I could not easily compare decisions based on money'],
-            [3, 'When making decisions, I always tried to compute my most profitable outcome']]
-    )
+    instructions = models.LongStringField()
+    incentives = models.LongStringField()
     feedback = models.LongStringField(blank=True)
 
 

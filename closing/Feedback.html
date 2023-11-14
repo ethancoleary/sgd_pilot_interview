@@ -6,29 +6,13 @@
 <br> <br>
 <center>
     <b>How would you rate the experiment instructions? </b></center> <br>
-<table class="table" style="margin: 0 auto; text-align: center;">
-    <tr>
-    {{ for choice in form.instructions }}
-        <td>{{ choice }}<br>
-            {{ choice.label }}
-        </td>
-    {{ endfor }}
-</tr>
-</table>
+{{form.instructions}}
 <br>
 <br>
 
 <center>
     <b>How well did you understand the payment structure of the experiment?</b></center> <br>
-<table class="table" style="margin: 0 auto; text-align: center;">
-    <tr>
-    {{ for choice in form.incentives }}
-        <td>{{ choice }}<br>
-            {{ choice.label }}
-        </td>
-    {{ endfor }}
-</tr>
-</table>
+{{ form.incentives }}
 <br>
 <br>
 

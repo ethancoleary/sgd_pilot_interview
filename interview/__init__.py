@@ -34,12 +34,12 @@ class Player(BasePlayer):
     belief_relative = models.IntegerField(
         widget=widgets.RadioSelect,
         choices=[
-            [0, 'Lower Quartile: 0-25%'],
-            [25, 'Lower-Mid Quartile: 26-50%'],
-            [50, 'Upper-Mid Quartile: 51-75%'],
-            [75, 'Upper Quartile: 76-100%'],
+            [1, 'Lower Quartile: 0-25%'],
+            [2, 'Lower-Mid Quartile: 26-50%'],
+            [3, 'Upper-Mid Quartile: 51-75%'],
+            [4, 'Upper Quartile: 76-100%'],
         ],
-        initial = 0
+        initial=0
     )
     belief_absolute = models.IntegerField(initial = 0)
     combined_payoff = models.CurrencyField(initial=0)
@@ -243,28 +243,61 @@ class Outcome(Page):
 
     def vars_for_template(player):
 
-        import random
-
-        ball_pull = random.randint(1,10)
-        red_balls = player.belief_relative / 10
-        blue_balls = 10-red_balls
-
         participant = player.participant
+        scores = [1, 1, 1, 1, 1, 1, 1, 1]
+        scores.sort()
 
-        if ball_pull <= red_balls:
-            if participant.compete == 1 and participant.manager ==1 :
-                player.belief_relative_payoff = 1
+        quartile_length = round(len(scores)/4)
+        half_length = round(len(scores)/2)
+        third_quartile = len(scores)-quartile_length
 
-        if ball_pull > red_balls:
-            if participant.compete == 1 and participant.manager == 0:
-                player.belief_relative_payoff = 0
+        if player.belief_relative == 1 :
+            player.belief_relative_payoff = participant.interview_score <= scores[quartile_length]
+            belief_relative = "1st"
+
+        if player.belief_relative == 2 :
+            player.belief_relative_payoff = participant.interview_score > scores[quartile_length] and participant.interview_score <= scores[half_length]
+            belief_relative = "2nd"
+
+        if player.belief_relative ==  3:
+            player.belief_relative_payoff = participant.interview_score > scores[half_length] and participant.interview_score <= scores[third_quartile]
+            belief_relative = "3rd"
+
+        if player.belief_relative == 4:
+            player.belief_relative_payoff = participant.interview_score > scores[third_quartile]
+            belief_relative = "4th"
+
+        if participant.interview_score <= scores[quartile_length] :
+            relative = "1st"
+
+        if participant.interview_score > scores[quartile_length] and participant.interview_score <= scores[half_length]:
+            relative = "2nd"
+
+        if participant.interview_score > scores[half_length] and participant.interview_score <= scores[third_quartile]:
+            relative = "3rd"
+
+        if participant.interview_score > scores[third_quartile]:
+            relative = "4th"
+
+        payoff_relative = cu(player.belief_relative_payoff)
+        if participant.compete == 1:
+            if participant.manager == 1:
+                participant.interview_payoff = cu(player.belief_relative_payoff+player.belief_absolute_payoff+2)
+            if participant.manager == 0:
+                participant.interview_payoff = 0
+
+        if participant.compete == 0:
+            participant.interview_payoff = cu(player.belief_relative_payoff + player.belief_absolute_payoff + participant.interview_score*C.PAYMENT_PER_CORRECT_ANSWER)
 
 
         return {
-            "red_balls": red_balls,
-            "blue_balls": blue_balls,
-            "ball_pull": ball_pull,
+            'belief_relative':belief_relative,
+            'relative':relative,
+            'payoff_relative':payoff_relative
         }
+
+
+
 
     @staticmethod
     def app_after_this_page(player, upcoming_apps):
