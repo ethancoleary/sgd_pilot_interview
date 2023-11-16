@@ -7,7 +7,7 @@ Now that you are acquainted with the nature of the task, you are required to cho
 Recall that regardless of the method of position procurement, a manager continues with the experiment and faces
 multiple opportunities to increase earnings.
 <br>
-Once you click on your choice, you will begin the task straight away and your 90 seconds will begin.
+Once you click on your choice, you will begin the task straight away and your 30 seconds will begin.
 <br>
  <html>
 <head>
@@ -32,10 +32,11 @@ Once you click on your choice, you will begin the task straight away and your 90
             <th>Roll a dice</th>
         </tr>
         <tr>
-            <td>A random {{ if player.blind == 0 }}female {{ endif }}worker in the current team who is not up for the promotion is selected.
-                If you outperform the worker in 90 seconds of the task, you will obtain the managerial position along with a $2.00 signing bonus.</td>
-            <td>You perform the task for 90 seconds obtaining $0.10 for each correct answer.
-                Afterwards a fair die is rolled. If the die shows a 1 or 2, you will be given a managerial position but without a signing bonus.</td>
+            <td>Perform the task for 30 seconds in the interview group (2 males, 2 females). Receive promotion and $2 signing bonus if score is
+                                                                                                                                {{ if participant.quota == 0 }} in the top two positions among the team. {{ endif }}
+                                                                                                                                {{ if participant.quota == 1 }} the highest among the two females or exceeds the scores of both the males. {{ endif }} Ties are decided by a fair die. </td>
+            <td>You perform the task for 30 seconds obtaining $0.10 for each correct answer.
+                After, a fair die is rolled. If the die shows a 1 or 2, you will be given a managerial position but without a signing bonus.</td>
         </tr>
         <tr>
             <th><button name="compete" value="True">Compete</button></th>

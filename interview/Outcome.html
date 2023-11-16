@@ -1,89 +1,198 @@
 
 {{ block content }}
+<h2>Interview Outcome</h2>
 
-    {{ if participant.compete == 1 }}
+{{ if participant.compete == 1 }}
     <h2>Interview Result</h2>
-<br>
-    You're score in the interview was {{ participant.interview_score }}. You were matched with worker {{ participant.worker_id }} who scored {{ participant.worker_score }}. <br>
+    <br>
+    You're score in the interview was {{ participant.interview_score }}. Below is a list of the scores of the others in your interview group. <br>
+    <br>
+
+    <center>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Centered Table</title>
+        <style>
+        /* Center the table on the page */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Center the text inside the cells */
+        table {
+            border-collapse: collapse;
+            width: 200px; /* Set the overall width of the table */
+        }
+
+        td {
+            width: 50px;
+            text-align: center; /* Center the text */
+        }
+
+        /* Style for the new column on the left */
+        .left-column {
+            border-right: 1px solid black; /* Right border for the left column */
+        }
+    </style>
+    </head>
+    <body>
+
+        <table border="1">
+            <tr>
+                <td style="width: 200px;" class="left-column"><b>Worker ID</b></td>
+                <td style="width: 50px;">{{ player.worker_1_id }}</td>
+                <td style="width: 50px;">{{ player.worker_2_id }}</td>
+                <td style="width: 50px;">{{ player.worker_3_id }}</td>
+            </tr>
+            <tr>
+                <td style="width: 200px;" class="left-column"><b>Worker score</b></td>
+                <td style="width: 50px;">{{ player.worker_1_score }}</td>
+                <td style="width: 50px;">{{ player.worker_2_score }}</td>
+                <td style="width: 50px;">{{ player.worker_3_score }}</td>
+            </tr>
+        </table>
+
+    </body>
+    </html>
+    </center>
+    <br> <br>
+    Hence, within your team, you ranked as {{ relative }} among the others. <br><br>
+
+    {{ if participant.manager == 1 }}
+        {{ if participant.quota == 0 }}
+
+        <b>Congratulations!</b> Since you were placed in the top two of your team, you have earned the promotion to manager and will receive a signing bonus of <b>$2.00</b>.
+
+        {{ endif }}
+
+        {{ if participant.quota == 1 }}
+
+            {{ if player.position <= 2 }}
+
+                <b>Congratulations!</b> Since you were placed in the top two of your team, you have earned the promotion to manager and will receive a signing bonus of <b>$2.00</b>.
+
+            {{ endif }}
+
+            {{ if player.position > 2 }}
+
+                <b>Congratulations!</b> Since you were the top performing woman, you have earned the promotion to manager and will receive a signing bonus of <b>$2.00</b>
+
+            {{ endif }}
+
+        {{ endif }}
+
 <br><br>
-        <!-- If win the competition -->
-        {{ if participant.interview_score > participant.worker_score }}
-Therefore, you have been earned the position of manager with a signing bonus of <b>$2.00</b>.
-        <br><br>
-        <b> Congratulations!</b>
-        <br><br><br>
-<h2>Belief Results</h2>
-<br>
-        You guessed that you submitted {{ player.belief_absolute }} correct answers.
+            <h2>Belief Results</h2>
 
-            <!-- If guesses score correctly -->
-            {{ if player.belief_absolute == participant.interview_score }}
-This was correct and you have been credited with an additional bonus of <b>$1.00</b>.
-            {{ endif }}
+                You guessed that you submitted {{ player.belief_absolute }} correct answers.
 
-            <!-- If guesses score incorrectly -->
-            {{ if player.belief_absolute != participant.interview_score }}
-            This was unfortunately incorrect.
-            {{ endif }}
-            <br><br>
+                    <!-- If guesses score correctly -->
+                    {{ if player.belief_absolute == participant.interview_score }}
+                    This was correct and you have been credited with an additional bonus of <b>$1.00</b>.
+                    {{ endif }}
 
-        You guessed that you were in the {{ belief_relative }} quartile of performances. Your score fell in the {{ relative }} quartile. Therefore you received a bonus payment of {{ payoff_relative }}. <br><br>
+                    <!-- If guesses score incorrectly -->
+                    {{ if player.belief_absolute != participant.interview_score }}
+                    This was unfortunately incorrect.
+                    {{ endif }}
+                    <br><br>
 
-
-        {{ endif }}
-
-        <!-- If do not win competition -->
-        {{ if participant.interview_score <= participant.worker_score }}
-        Therefore you have been unsuccessful in your interview. Thank you for taking the time to apply and you will be compensated with a base pay for your time.
-        {{ endif }}
+                You guessed that you were in the {{ belief_relative }} quartile of performances. You poled as {{ relative }} among your team. Therefore, you received a bonus payment of {{ payoff_relative }} for this answer. <br><br>
 
     {{ endif }}
 
 
+        <!-- If do not win competition -->
+    {{ if participant.manager == 0 }}
+
+        {{ if participant.quota == 0 }}
+            Therefore you have been unsuccessful in your interview. Thank you for taking the time to apply and you will be compensated with a base pay for your time.
+
+        {{ endif }}
+
+        {{ if participant.quota == 1 }}
+
+            {{ if participant.male == 0 }}
+
+                Therefore you have been unsuccessful in your interview. Thank you for taking the time to apply and you will be compensated with a base pay for your time.
+
+            {{ endif }}
+
+            {{ if participant.male == 1 }}
+
+                {{ if player.position <= 2 }}
+
+                    Therefore, even though you placed in the top two performers, we were obliged to offer at least one of the positions to a female, and so you have been unsuccessful in your interview.
+                    Thank you for taking the time to apply and you will be compensated with a base pay for your time.
+
+                {{ endif }}
+
+                {{ if player.position > 2 }}
+
+                    Therefore you have been unsuccessful in your interview. Thank you for taking the time to apply and you will be compensated with a base pay for your time.
+
+                {{ endif }}
+            {{ endif }}
+        {{ endif }}
+    {{ endif }}
+{{ endif }}
+
+<br>
+
+
+
     {{ if participant.compete == 0 }}
-    <h2>Interview Outcome</h2>
-<br>
-    You're score in the interview was {{ participant.interview_score }} so your payoff for this performance is <b>{{ player.combined_payoff }}</b>.
-<br>
-<br>
-    The computer has rolled a fair die to determine if you will be offered the managerial position.
+        <h2>Interview Outcome</h2>
+    <br>
+        You're score in the interview was {{ participant.interview_score }} so your payoff for this performance is <b>{{ player.combined_payoff }}</b>.
+    <br>
+    <br>
+        The computer has rolled a fair die to determine if you will be offered the managerial position.
         Recall that if the die lands on a 1 or a 2, you will be successful. The die has landed on a {{ participant.die_roll }}. <br> <br>
 
         {{ if participant.die_roll < 3 }}
-        Hence you have been lucky enough to be offered a managerial position!
-<br><br>
-        <b> Congratulations!</b>
-        <br><br><br>
-<h2>Belief Results</h2>
-<br>
-        You guessed that you submitted {{ player.belief_absolute }} correct answers.
+            Hence you have been lucky enough to be offered a managerial position!
+            <br><br>
+            <b> Congratulations!</b>
+            <br><br>
+
+            <h2>Belief Results</h2>
+            <br>
+            You guessed that you submitted {{ player.belief_absolute }} correct answers.
 
              <!-- If guesses score correctly -->
             {{ if player.belief_absolute == participant.interview_score }}
-This was correct and you have been credited with an additional bonus of <b>$1.00.</b>
+                This was correct and you have been credited with an additional bonus of <b>$1.00.</b>
             {{ endif }}
 
-            <!-- If guesses score incorrectly -->
+        <!-- If guesses score incorrectly -->
             {{ if player.belief_absolute != participant.interview_score }}
-            This was unfortunately incorrect.
+                This was unfortunately incorrect.
             {{ endif }}
-        <br><br>
+            <br><br>
 
-        You may now proceed to the next round where you will begin work as a manager of a team.
+            You may now proceed to the next round where you will begin work as a manager of a team.
 
         {{ endif }}
 
         <!-- If unsuccessful -->
         {{ if participant.die_roll > 2 }}
-        Therefore you have been unsuccessful in your interview. Thank you for taking the time to apply and you will be compensated with a base pay for your time plus your performance payoff.
-
+            Therefore you have been unsuccessful in your interview. Thank you for taking the time to apply and you will be compensated with a base pay for your time plus your performance payoff.
         {{ endif }}
 
     {{ endif }}
-    <br>
+    <br><br>
 
     {{ if participant.manager == 1 }}
-    Press next to continue to your work as manager.
+
+    Press next to continue to your work as manager.<br><br>
 
     {{ next_button }}
     {{ endif }}
@@ -91,7 +200,5 @@ This was correct and you have been credited with an additional bonus of <b>$1.00
     {{ if participant.manager == 0 }}
     Thank you, you may now close the experiment.
     {{ endif }}
-
-
 
 {{ endblock }}

@@ -29,15 +29,15 @@ class Player(BasePlayer):
     correct_answer = models.IntegerField()
     score = models.IntegerField(initial=0)
 
-    blind = models.BooleanField()
+    quota = models.BooleanField()
     compete = models.BooleanField()
     belief_relative = models.IntegerField(
         widget=widgets.RadioSelect,
         choices=[
-            [1, 'Lower Quartile: 0-25%'],
-            [2, 'Lower-Mid Quartile: 26-50%'],
-            [3, 'Upper-Mid Quartile: 51-75%'],
-            [4, 'Upper Quartile: 76-100%'],
+            [1, '1st place'],
+            [2, '2nd place'],
+            [3, '3rd place'],
+            [4, '4th place'],
         ],
         initial=0
     )
@@ -46,13 +46,23 @@ class Player(BasePlayer):
     belief_absolute_payoff = models.CurrencyField(initial=0)
     belief_relative_payoff = models.CurrencyField(initial=0)
     interview_total_payoff = models.CurrencyField(initial=0)
+    worker_1_id = models.IntegerField()
+    worker_2_id = models.IntegerField()
+    worker_3_id = models.IntegerField()
+    worker_1_score = models.IntegerField()
+    worker_2_score = models.IntegerField()
+    worker_3_score = models.IntegerField()
+    position = models.IntegerField()
 
 
-def blind(player):
+def quota(player):
     import random
     treatment = random.randint(0,1)
-    player.blind = treatment
-    player.participant.blind = player.blind
+    player.quota = treatment
+    player.participant.quota = player.quota
+
+    if player.participant.male == 1:
+        player.participant.quota = 0
 
 
 timer_text = 'Time left in interview task'
@@ -71,7 +81,7 @@ class Structure(Page):
     def is_displayed(subsession):
         return subsession.round_number == 1
     def vars_for_template(player):
-        blind(player)
+        quota(player)
 
 class IntroToInterview(Page):
     def is_displayed(subsession):
@@ -88,7 +98,7 @@ class TrialTask(Page):
     def vars_for_template(player):
         import random
         # Generate a list of 16 random integers, each either 0 or 1
-        grid_numbers = [random.randint(0, 1) for _ in range(16)]
+        grid_numbers = [random.randint(0, 1) for _ in range(9)]
         player.trial_answer = sum(grid_numbers)
 
         return {
@@ -117,7 +127,7 @@ class Decision(Page):
         import time
 
         # remember to add 'expiry' to PARTICIPANT_FIELDS.
-        participant.expiry = time.time() + 20
+        participant.expiry = time.time() + 30
 
 
 
@@ -137,7 +147,7 @@ class Task(Page):
 
         import random
         # Generate a list of 25 random integers, each either 0 or 1
-        grid_numbers = [random.randint(0, 1) for _ in range(16)]
+        grid_numbers = [random.randint(0, 1) for _ in range(9)]
         player.correct_answer = sum(grid_numbers)
 
         return {
@@ -174,36 +184,142 @@ class Calculation(Page):
             player.combined_payoff = participant.interview_score * C.PAYMENT_PER_CORRECT_ANSWER
             participant.combined_payoff = player.combined_payoff
 
-        worker_pool = {
-            "A": 1,
-            "B": 1,
-            "C": 1,
-            "D": 1,
-            "E": 1,
-            "F": 1,
-            "G": 1,
-            "H": 1,
-            "I": 1,
-            "J": 1,
-            "K": 1,
+        male_pool = {
+            1: 1,
+            2: 1,
+            3: 1,
+            4: 1,
+            5: 1,
+            6: 1,
+            7: 1,
+            8: 1,
+            9: 1,
+            10: 1,
+            11: 1,
+        }
+
+        female_pool = {
+            20: 1,
+            21: 1,
+            23: 1,
+            24: 1,
+            25: 1,
+            26: 1,
+            27: 1,
+            28: 1,
+            29: 1,
+            30: 1,
+            31: 1,
         }
 
         import random
-        participant.worker_id, participant.worker_score = random.choice(list(worker_pool.items()))
 
         if participant.compete == 1:
-            if participant.interview_score > participant.worker_score:
-                player.combined_payoff = 2
+        ## Worker 1 and 2 are always of opposite gender. Worker 3 is own gender.
+            if participant.male == 1:
+                player.worker_1_id, player.worker_1_score = random.choice(list(female_pool.items()))
+                player.worker_2_id, player.worker_2_score = random.choice(list(female_pool.items()))
+                while player.worker_2_id == player.worker_1_id:
+                    player.worker_2_id, player.worker_2_score = random.choice(list(female_pool.items()))
 
-        participant.die_roll = random.randint(1, 6)
+                player.worker_3_id, player.worker_3_score = random.choice(list(male_pool.items()))
 
-        if participant.compete == 1:
-            if participant.interview_score > participant.worker_score:
-                participant.manager = 1
-            else:
-                participant.manager = 0
+                others_scores = [player.worker_1_score, player.worker_2_score, player.worker_3_score]
+                others_scores.sort()
+
+                if participant.interview_score >= others_scores[0]:
+                    player.position = 1
+                if participant.interview_score < others_scores[0] and participant.interview_score >= others_scores[1]:
+                    player.position = 2
+                if participant.interview_score < others_scores[1] and participant.interview_score >= others_scores[2]:
+                    player.position = 3
+                if participant.interview_score < others_scores[2]:
+                    player.position = 4
+
+                if participant.interview_score > others_scores[1]:
+                    player.combined_payoff = 2
+                    participant.manager = 1
+
+                if participant.interview_score == others_scores[1]:
+                    roll = random.randint(0,1)
+                    if roll == 1:
+                        player.combined_payoff = 2
+                        participant.manager = 1
+                    else:
+                        player.combined_payoff = 0
+                        participant.manager = 0
+
+                if participant.interview_score < others_scores[1]:
+                    player.combined_payoff = 0
+                    participant.manager = 0
+
+            if participant.female == 1:
+                player.worker_1_id, player.worker_1_score = random.choice(list(male_pool.items()))
+                player.worker_2_id, player.worker_2_score = random.choice(list(male_pool.items()))
+                while player.worker_2_id == player.worker_1_id:
+                    player.worker_2_id, player.worker_2_score = random.choice(list(male_pool.items()))
+
+                player.worker_3_id, player.worker_3_score = random.choice(list(female_pool.items()))
+
+                others_scores = [player.worker_1_score, player.worker_2_score, player.worker_3_score]
+                others_scores.sort()
+
+                if participant.interview_score >= others_scores[0]:
+                    player.position = 1
+                if participant.interview_score < others_scores[0] and participant.interview_score >= others_scores[1]:
+                    player.position = 2
+                if participant.interview_score < others_scores[1] and participant.interview_score >= others_scores[2]:
+                    player.position = 3
+                if participant.interview_score < others_scores[2]:
+                    player.position = 4
+
+                if participant.quota == 1:
+
+                    if player.worker_1_score >= player.worker_2_score:
+                        top_male_score = player.worker_1_score
+                    else:
+                        top_male_score = player.worker_2_score
+
+                    if participant.interview_score > top_male_score or participant.interview_score > player.worker_3_score:
+                        player.combined_payoff = 2
+                        participant.manager = 1
+
+                    if participant.interview_score == top_male_score or participant.interview_score == player.worker_3_score:
+                        roll = random.randint(0, 1)
+                        if roll == 1:
+                            player.combined_payoff = 2
+                            participant.manager = 1
+                        else:
+                            player.combined_payoff = 0
+                            participant.manager = 0
+                    else:
+                        player.combined_payoff = 0
+                        participant.manager = 0
+
+                if participant.quota == 0:
+
+
+
+                    if participant.interview_score > others_scores[1]:
+                        player.combined_payoff = 2
+                        participant.manager = 1
+
+                    if participant.interview_score == others_scores[1]:
+                        roll = random.randint(0, 1)
+                        if roll == 1:
+                            player.combined_payoff = 2
+                            participant.manager = 1
+                        else:
+                            player.combined_payoff = 0
+                            participant.manager = 0
+
+                    if participant.interview_score < others_scores[1]:
+                        player.combined_payoff = 0
+                        participant.manager = 0
+
 
         if participant.compete == 0:
+            participant.die_roll = random.randint(1, 6)
             if participant.die_roll <3:
                 participant.manager = 1
             else:
@@ -244,40 +360,32 @@ class Outcome(Page):
     def vars_for_template(player):
 
         participant = player.participant
-        scores = [1, 1, 1, 1, 1, 1, 1, 1]
-        scores.sort()
 
-        quartile_length = round(len(scores)/4)
-        half_length = round(len(scores)/2)
-        third_quartile = len(scores)-quartile_length
+        player.belief_relative_payoff = player.position == player.belief_relative
+
+        if player.position == 1 :
+            relative = "1st"
+
+        if player.position == 2:
+            relative = "2nd"
+
+        if player.position == 3:
+            relative = "3rd"
+
+        if player.position == 4:
+            relative = "4th"
 
         if player.belief_relative == 1 :
-            player.belief_relative_payoff = participant.interview_score <= scores[quartile_length]
             belief_relative = "1st"
 
-        if player.belief_relative == 2 :
-            player.belief_relative_payoff = participant.interview_score > scores[quartile_length] and participant.interview_score <= scores[half_length]
+        if player.belief_relative == 2:
             belief_relative = "2nd"
 
-        if player.belief_relative ==  3:
-            player.belief_relative_payoff = participant.interview_score > scores[half_length] and participant.interview_score <= scores[third_quartile]
+        if player.belief_relative == 3:
             belief_relative = "3rd"
 
         if player.belief_relative == 4:
-            player.belief_relative_payoff = participant.interview_score > scores[third_quartile]
             belief_relative = "4th"
-
-        if participant.interview_score <= scores[quartile_length] :
-            relative = "1st"
-
-        if participant.interview_score > scores[quartile_length] and participant.interview_score <= scores[half_length]:
-            relative = "2nd"
-
-        if participant.interview_score > scores[half_length] and participant.interview_score <= scores[third_quartile]:
-            relative = "3rd"
-
-        if participant.interview_score > scores[third_quartile]:
-            relative = "4th"
 
         payoff_relative = cu(player.belief_relative_payoff)
         if participant.compete == 1:
