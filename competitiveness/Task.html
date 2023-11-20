@@ -1,11 +1,11 @@
 {{ block title }}
-    Round 1
+    Stage 1: Round 2
 {{ endblock }}
 {{ block content }}
 
 If the timer runs out then the answer that is currently typed into the box will be submitted.
 
-        <div class="container">
+         <div class="container">
         <table class="table table-bordered">
                 <tr>
                 <td> {{ grid_numbers.0 }}</td>
@@ -25,10 +25,9 @@ If the timer runs out then the answer that is currently typed into the box will 
         </table>
     </div>
     <br>
-<br>
-How many ones (1s) are in the table above? <br>
-<input name="number_entered" type="number" label="" autofocus="autofocus"/>
-<br> <br>
+How many ones (1s) are in the table above?<br>
+<input type="number" name="number_entered" autofocus="autofocus" label=""/>
+<br><br>
     {{ next_button }}
 
 {{ endblock }}

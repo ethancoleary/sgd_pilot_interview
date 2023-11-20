@@ -7,7 +7,7 @@ Your app description
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'consent'
+    NAME_IN_URL = 'base'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
@@ -22,11 +22,42 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     consent = models.IntegerField(initial=0)
+    age = models.IntegerField(
+        choices = [
+            [1, '<20 years'],
+            [2, '20-29 years'],
+            [3, '30-39 years'],
+            [4, '40-49 years'],
+            [5, '50-59 years'],
+            [6, '60-69 years'],
+            [7, '70 years and over']
+        ],
+        widget=widgets.RadioSelect
+    )
+    experience = models.IntegerField(
+        choices = [
+            [1, 'No managerial experience'],
+            [2, '0-2 years managerial experience'],
+            [3, '3-10 years managerial experience'],
+            [4, '>10 years managerial experience']
+        ],
+        widget=widgets.RadioSelect
+    )
+    education = models.IntegerField(
+        choices = [
+            [1, 'Did not graduate high school'],
+            [2, 'High school graduate'],
+            [3, 'Some college education'],
+            [4, 'Undergraduate degree'],
+            [5, 'Postgraduate degree']
+        ],
+        widget=widgets.RadioSelect
+    )
     gender = models.IntegerField(
         choices=[
             [1, 'Female'],
             [2, 'Male'],
-            [3, 'Both/Neither'],
+            [3, 'Other'],
         ],
         widget=widgets.RadioSelect)
     pseudonym = models.StringField(
@@ -36,6 +67,8 @@ class Player(BasePlayer):
             'Daniel', 'Joel', 'Harvey', 'Mason'
         ]
     )
+
+
 
 # PAGES
 class Intro(Page):
@@ -54,8 +87,7 @@ class Intro(Page):
 
 class GenderElicit(Page):
     form_model = 'player'
-    form_fields = ['gender', 'pseudonym']
-
+    form_fields = ['age', 'gender', 'education', 'experience']
 
 
     def before_next_page(player, timeout_happened):
@@ -74,18 +106,25 @@ class GenderElicit(Page):
             participant.male = 0
             participant.female = 0
 
+
+
+
+
+
+class PseudonymElicit(Page):
+    form_model = 'player'
+    form_fields = ['pseudonym']
+
+    def before_next_page(player, timeout_happened):
+        participant = player.participant
         participant.pseudonym = player.pseudonym
 
     def app_after_this_page(player, upcoming_apps):
         return upcoming_apps[0]
 
 
-class ResultsWaitPage(WaitPage):
-    pass
-
-
 class Results(Page):
     pass
 
 
-page_sequence = [Intro, GenderElicit]
+page_sequence = [Intro, GenderElicit, PseudonymElicit]

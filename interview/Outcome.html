@@ -1,204 +1,122 @@
-
+{{ block title }}
+    Stage 1 Results
+{{ endblock }}
 {{ block content }}
-<h2>Interview Outcome</h2>
+<html>
+<head>
 
-{{ if participant.compete == 1 }}
-    <h2>Interview Result</h2>
-    <br>
-    You're score in the interview was {{ participant.interview_score }}. Below is a list of the scores of the others in your interview group. <br>
-    <br>
+</head>
+<body>
 
-    <center>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Centered Table</title>
-        <style>
-        /* Center the table on the page */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+<h2>Round 1</h2>
+In the first round, you submitted {{ participant.ability_score }} correct answers.
+Additionally, you stated that you believed you answered {{ participant.ability_belief }} correctly.
+Accordingly, your first stage payoff was {{ participant.ability_payoff }}.
+<br> <br>
+<h2>Round 2</h2>
+In the second round, you submitted {{ participant.compete_score }} correct answers.
+You randomly drew participant {{ participant.competitor }} who scored {{ participant.competitor_score }}.
+{{ if participant.win_compete == 1 }}Therefore, you won the tournament. {{ endif }}
+{{ if participant.win_compete == 0 }}Therefore, you did not win the tournament. {{ endif }}<br><br>
 
-        /* Center the text inside the cells */
-        table {
-            border-collapse: collapse;
-            width: 200px; /* Set the overall width of the table */
-        }
+You stated that you believed you answered {{ participant.belief_absolute_comp }} correctly.
+Therefore, your total payoff from this stage is {{ participant.compete_payoff }}. <br><br>
 
-        td {
-            width: 50px;
-            text-align: center; /* Center the text */
-        }
+<h2>Round 3</h2>
+In the final round of stage 1, you submitted {{ participant.interview_score }} correct answers.
+Below you can see a summary of your group's scores. <br><br>
 
-        /* Style for the new column on the left */
-        .left-column {
-            border-right: 1px solid black; /* Right border for the left column */
-        }
-    </style>
-    </head>
-    <body>
 
-        <table border="1">
-            <tr>
-                <td style="width: 200px;" class="left-column"><b>Worker ID</b></td>
-                <td style="width: 50px;">{{ player.worker_1_id }}</td>
-                <td style="width: 50px;">{{ player.worker_2_id }}</td>
-                <td style="width: 50px;">{{ player.worker_3_id }}</td>
-            </tr>
-            <tr>
-                <td style="width: 200px;" class="left-column"><b>Worker score</b></td>
-                <td style="width: 50px;">{{ player.worker_1_score }}</td>
-                <td style="width: 50px;">{{ player.worker_2_score }}</td>
-                <td style="width: 50px;">{{ player.worker_3_score }}</td>
-            </tr>
-        </table>
 
-    </body>
-    </html>
-    </center>
-    <br> <br>
-    Hence, within your team, you ranked as {{ relative }} among the others. <br><br>
+<table class="table">
+    <tbody>
+        <tr>
+            <th scope="row"><b> Participant ID</b></th>
+            <td>You</td>
+            <td>{{ player.worker_1_id }}</td>
+            <td>{{ player.worker_2_id }}</td>
+            <td>{{ player.worker_3_id }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Gender</th>
+            <td>{{ if participant.male == 1 }}Male{{ endif }}
+                {{ if participant.female == 1 }}Female{{ endif }}</td>
+            <td>{{ if player.worker_1_id < 12 }}Male{{ endif }}
+                {{ if player.worker_1_id > 12 }}Female{{ endif }}</td>
+            <td>{{ if player.worker_2_id < 12 }}Male{{ endif }}
+                {{ if player.worker_2_id > 12 }}Female{{ endif }}</td>
+            <td>{{ if player.worker_3_id < 12 }}Male{{ endif }}
+                {{ if player.worker_3_id > 12 }}Female{{ endif }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Score</th>
+            <td>{{ participant.interview_score }}</td>
+            <td>{{ player.worker_1_score}}</td>
+            <td>{{ player.worker_2_score}}</td>
+            <td>{{ player.worker_3_score}}</td>
+        </tr>
+    </tbody>
+</table>
+
+{{ if participant.quota == 0 }}
+You positioned at number {{ relative }}.
+
+    {{ if participant.manager == 0 }}
+    This means that were not one of the winners of the tournament and your performance bonus for this round is $0.00.
+    {{ endif }}
 
     {{ if participant.manager == 1 }}
-        {{ if participant.quota == 0 }}
-
-        <b>Congratulations!</b> Since you were placed in the top two of your team, you have earned the promotion to manager and will receive a signing bonus of <b>$2.00</b>.
-
-        {{ endif }}
-
-        {{ if participant.quota == 1 }}
-
-            {{ if player.position <= 2 }}
-
-                <b>Congratulations!</b> Since you were placed in the top two of your team, you have earned the promotion to manager and will receive a signing bonus of <b>$2.00</b>.
-
-            {{ endif }}
-
-            {{ if player.position > 2 }}
-
-                <b>Congratulations!</b> Since you were the top performing woman, you have earned the promotion to manager and will receive a signing bonus of <b>$2.00</b>
-
-            {{ endif }}
-
-        {{ endif }}
-
-<br><br>
-            <h2>Belief Results</h2>
-
-                You guessed that you submitted {{ player.belief_absolute }} correct answers.
-
-                    <!-- If guesses score correctly -->
-                    {{ if player.belief_absolute == participant.interview_score }}
-                    This was correct and you have been credited with an additional bonus of <b>$1.00</b>.
-                    {{ endif }}
-
-                    <!-- If guesses score incorrectly -->
-                    {{ if player.belief_absolute != participant.interview_score }}
-                    This was unfortunately incorrect.
-                    {{ endif }}
-                    <br><br>
-
-                You guessed that you were in the {{ belief_relative }} quartile of performances. You poled as {{ relative }} among your team. Therefore, you received a bonus payment of {{ payoff_relative }} for this answer. <br><br>
-
+    This means that you were one of the winners of the tournament.
+    You have received a performance bonus of $2.00 for this round and will proceed to the next stage of the experiment.
+    <br><br>
+    You stated that you believed you answered {{ player.belief_absolute }} correctly.
+    You also stated that you believed you placed {{ belief_relative }} among the group.
+    Therefore, your total payoff from this stage is {{ participant.interview_payoff }}.
     {{ endif }}
 
-
-        <!-- If do not win competition -->
-    {{ if participant.manager == 0 }}
-
-        {{ if participant.quota == 0 }}
-            Therefore you have been unsuccessful in your interview. Thank you for taking the time to apply and you will be compensated with a base pay for your time.
-
-        {{ endif }}
-
-        {{ if participant.quota == 1 }}
-
-            {{ if participant.male == 0 }}
-
-                Therefore you have been unsuccessful in your interview. Thank you for taking the time to apply and you will be compensated with a base pay for your time.
-
-            {{ endif }}
-
-            {{ if participant.male == 1 }}
-
-                {{ if player.position <= 2 }}
-
-                    Therefore, even though you placed in the top two performers, we were obliged to offer at least one of the positions to a female, and so you have been unsuccessful in your interview.
-                    Thank you for taking the time to apply and you will be compensated with a base pay for your time.
-
-                {{ endif }}
-
-                {{ if player.position > 2 }}
-
-                    Therefore you have been unsuccessful in your interview. Thank you for taking the time to apply and you will be compensated with a base pay for your time.
-
-                {{ endif }}
-            {{ endif }}
-        {{ endif }}
-    {{ endif }}
 {{ endif }}
 
-<br>
+{{ if participant.quota == 1 }}
+You positioned at number {{ relative }} in the quota tournament.
 
-
-
-    {{ if participant.compete == 0 }}
-        <h2>Interview Outcome</h2>
-    <br>
-        You're score in the interview was {{ participant.interview_score }} so your payoff for this performance is <b>{{ player.combined_payoff }}</b>.
-    <br>
-    <br>
-        The computer has rolled a fair die to determine if you will be offered the managerial position.
-        Recall that if the die lands on a 1 or a 2, you will be successful. The die has landed on a {{ participant.die_roll }}. <br> <br>
-
-        {{ if participant.die_roll < 3 }}
-            Hence you have been lucky enough to be offered a managerial position!
-            <br><br>
-            <b> Congratulations!</b>
-            <br><br>
-
-            <h2>Belief Results</h2>
-            <br>
-            You guessed that you submitted {{ player.belief_absolute }} correct answers.
-
-             <!-- If guesses score correctly -->
-            {{ if player.belief_absolute == participant.interview_score }}
-                This was correct and you have been credited with an additional bonus of <b>$1.00.</b>
-            {{ endif }}
-
-        <!-- If guesses score incorrectly -->
-            {{ if player.belief_absolute != participant.interview_score }}
-                This was unfortunately incorrect.
-            {{ endif }}
-            <br><br>
-
-            You may now proceed to the next round where you will begin work as a manager of a team.
-
-        {{ endif }}
-
-        <!-- If unsuccessful -->
-        {{ if participant.die_roll > 2 }}
-            Therefore you have been unsuccessful in your interview. Thank you for taking the time to apply and you will be compensated with a base pay for your time plus your performance payoff.
-        {{ endif }}
-
-    {{ endif }}
+    {{ if player.position <= 2 }}
+    Therefore you were one of the winners of the tournament.
+    You have received a performance bonus of $2.00 for this round and will proceed to the next stage of the experiment.
     <br><br>
-
-    {{ if participant.manager == 1 }}
-
-    Press next to continue to your work as manager.<br><br>
-
-    {{ next_button }}
+    You stated that you believed you answered {{ player.belief_absolute }} correctly.
+    You also stated that you believed you placed {{ belief_relative }} among the group.
+    Therefore, your total payoff from this stage is {{ participant.interview_payoff }}.
     {{ endif }}
 
-    {{ if participant.manager == 0 }}
-    Thank you, you may now close the experiment.
+    {{ if player.position > 2 }}
+        {{ if participant.manager == 1 }}
+            Therefore you were one of the winners of the tournament due to the quota policy.
+            You have received a performance bonus of $2.00 for this round and will proceed to the next stage of the experiment.
+            <br><br>
+            You stated that you believed you answered {{ player.belief_absolute }} correctly.
+            You also stated that you believed you placed {{ belief_relative }} among the group.
+            Therefore, your total payoff from this stage is {{ participant.interview_payoff }}.
+        {{ endif }}
+        {{ if participant.manager == 0 }}
+            This means that were not one of the winners of the tournament and your performance bonus for this round is $0.00.
+        {{ endif }}
     {{ endif }}
 
+{{ endif }}
+<br><br>
+
+For your stage 1 payment, you will receive a fixed participation fee of $1.50 in addition to a bonus payment according to your earnings from one of the rounds.
+A random draw was conducted and you will receive bonus payment from your performance in round {{ round_draw }}.
+Thus your bonus payment from stage 1 is {{ participant.stage1_payoff }}.<br><br>
+
+{{ if participant.manager == 0 }}
+Thank you for taking the time to complete this experiment. You may now close this tab.
+{{ endif }}
+
+{{ if participant.manager == 1 }}
+You may now proceed to stage 2 where you will perform tasks given your newly earned responsibility.<br><br>
+
+{{ next_button }}{{ endif }}
+</body>
+</html>
 {{ endblock }}

@@ -1,0 +1,72 @@
+{{ block title }}
+    Stage 1: Round 2
+{{ endblock }}
+{{ block content }}
+
+<p>In the previous stage, you got to perform the real-effort task and were paid according to your raw performance.
+    In this round, you will get to decide how you would like to paid for the task before performing.  </p>
+<br>
+<p>
+    You are endowed with 10 points and asked to choose the portion of this amount (between 0 and 10
+points, inclusive) that you wish to invest in a tournament (option A). The rest of the 10 points will be invested in a
+piece-rate compensation scheme, just like the previous stage (option B).
+</p>
+<br>
+<p>
+    The payments for each point invested in the options are as follows:
+</p>
+
+<ol>
+  <li> <b>Option A:</b> Tournament pays $0.03 per point for each correct grid count if you have a greater score than a randomly chosen participant.
+      If you have a lower score than the randomly chosen participant, then you will be paid zero for this stage.
+      In case the two of you tie, you will receive $0.02 coin per point for each correct grid. </li>
+    <li> <b>Option B:</b> The piece-rate option pays $0.01 coin per point for each successful toss. </li>
+</ol> <br>
+<br>
+
+You now need to decide how many of the 10 points you would like to invest into the tournament (option A).<br><br>
+<b>Move the slider below</b> to see how much you would earn in each outcome before making your decision. <br>
+<br>
+<center>
+
+    <script>
+        function randomNumber(len) {
+  var randomNumber;
+  var n = '';
+
+  for (var count = 0; count < len; count++) {
+    randomNumber = Math.floor(Math.random() * 10);
+    n += randomNumber.toString();
+  }
+  return n;
+}
+window.onload = function() {
+document.getElementById("investment").value = randomNumber(1); };
+    </script>
+
+
+
+            <input type="range" name="investment" id="investment" min="0" max="10" step="1" value="" list="markers" oninput="updateDescription(this)"><p id="description"></p>
+
+
+
+<br>
+<script>
+    let description = document.getElementById('description');
+    function updateDescription(input) {
+        let option_A = parseInt(input.value);
+        let option_B = 10 - option_A;
+        let tournament = option_A * 0.03;
+        let pr = option_B * 0.01;
+        let win = pr + tournament;
+        let lose = pr;
+        description.innerText = `Invest ${option_A} points in the tournament and ${option_B} points in the piece rate. \n Earn $${win} per correct answer if you win the tournament and $${lose} per correct submission if you lose.`;
+    }
+</script>
+    </center>
+<br><br>
+
+{{ next_button }}
+{{ endblock }}
+
+

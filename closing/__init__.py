@@ -68,7 +68,7 @@ class ThankYou(Page):
         if participant.manager == 1 and participant.board != 1:
             participant.total_earnings = cu(participant.interview_payoff) + cu(participant.total_manager_payoff) + cu(2)
 
-        if participant.manager == 1 and participant.board != 1:
+        if participant.manager == 1 and participant.board == 1:
             participant.total_earnings = cu(participant.interview_payoff) + cu(participant.total_manager_payoff) + cu(participant.board_payoff) + cu(2)
 
 page_sequence = [Welcome, RiskPref, Feedback, ThankYou]

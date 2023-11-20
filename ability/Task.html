@@ -1,21 +1,11 @@
 {{ block title }}
-    Trial task
+    Stage 1: Round 1
 {{ endblock }}
 {{ block content }}
 
- The first round lasts for 30 seconds.
-    During this round you will be tasked with counting the number of ones (1) in a table.
-    Once you have counted the number of ones, input the number in the box and click 'next'.
-    Your task is to correctly count ones in as many tables as possible in 30 seconds.
-    For each table that you correctly complete, you will earn 2 coins (2 coins = $0.05) as bonus. <br>
-</p>
+If the timer runs out then the answer that is currently typed into the box will be submitted.
 
-<p>
-    Below is an example table. Count the number of ones in the table correctly before proceeding.
-</p>
-
-
-    <div class="container">
+         <div class="container">
         <table class="table table-bordered">
                 <tr>
                 <td> {{ grid_numbers.0 }}</td>
@@ -35,10 +25,8 @@
         </table>
     </div>
     <br>
-
-
 How many ones (1s) are in the table above?<br>
-<input type="number" name="trial_task" autofocus="autofocus" label=""/>
+<input type="number" name="number_entered" autofocus="autofocus" label=""/>
 <br><br>
     {{ next_button }}
 

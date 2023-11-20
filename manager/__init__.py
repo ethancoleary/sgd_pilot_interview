@@ -45,7 +45,12 @@ class Player(BasePlayer):
     belief_absolute = models.IntegerField()
     belief_relative = models.IntegerField(
         widget=widgets.RadioSelect,
-        choices = [1, 2, 3]
+        choices=[
+            [1, '1st place'],
+            [2, '2nd place'],
+            [3, '3rd place'],
+        ],
+        initial=0
     )
     round1_performance_payment = models.CurrencyField()
     round2_performance_payment = models.CurrencyField()
@@ -71,8 +76,8 @@ def get_timeout_seconds(player):
 def t2(player):
     import random
 
-    t2 = random.randint(0,1)
-    player.t2_mixgroup = t2
+
+    player.t2_mixgroup = 1
     player.participant.t2_mixgroup = player.t2_mixgroup
 
 
@@ -137,7 +142,7 @@ class Round1Intro(Page):
     def vars_for_template(player):
         import random
         # Generate a list of 16 random integers, each either 0 or 1
-        grid_numbers = [random.randint(0, 1) for _ in range(16)]
+        grid_numbers = [random.randint(0, 1) for _ in range(9)]
 
         return {
             'grid_numbers': grid_numbers
@@ -149,7 +154,7 @@ class Round1Intro(Page):
         import time
 
         # remember to add 'expiry' to PARTICIPANT_FIELDS.
-        participant.expiry = time.time() + 20
+        participant.expiry = time.time() + 30
 
 class Round1(Page):
     form_model = 'player'
@@ -167,7 +172,7 @@ class Round1(Page):
 
         import random
         # Generate a list of 25 random integers, each either 0 or 1
-        grid_numbers = [random.randint(0, 1) for _ in range(16)]
+        grid_numbers = [random.randint(0, 1) for _ in range(9)]
         player.correct_answer = sum(grid_numbers)
 
         return {
@@ -381,7 +386,7 @@ class Round2Results(Page):
     def app_after_this_page(player, upcoming_apps):
         participant = player.participant
 
-        participant.board = player.total_rounds_payoff > 2 and participant.t3_observed == 0
+        participant.board = player.total_rounds_payoff > 2
         if get_timeout_seconds(player) <= 0 and player.round_number == player.display_counter and participant.board == 1:
             return upcoming_apps[0]
         if participant.board == 0:

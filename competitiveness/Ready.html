@@ -1,0 +1,48 @@
+{{ block title }}
+    Stage 1: Round 2
+{{ endblock }}
+{{ block content }}
+
+<p>
+    When you click on the next button, you will have 30 seconds to complete as many grids as possible.
+    You will receive {{ win }} for every correct answer you submit if you beat your opponent or {{ lose }}
+    for every correct answer you submit if you lose the tournament.
+
+</p>
+<br><br>
+Before continuing, we wish to ask you how likely you think it is that you will win the tournament? <br><br>
+<center>
+
+    <script>
+        function randomNumber(len) {
+  var randomNumber;
+  var n = '';
+
+  for (var count = 0; count < len; count++) {
+    randomNumber = Math.floor(Math.random() * 10);
+    n += randomNumber.toString();
+  }
+  return n;
+}
+window.onload = function() {
+document.getElementById("investment").value = randomNumber(1); };
+    </script>
+<input type="range" name="belief_relative_before" min="0" max="100" step="1" value=""  oninput="updateDescription(this)"
+     ><p id="description"></p>
+<script>
+    let description = document.getElementById('description');
+    function updateDescription(input) {
+        let chance = parseInt(input.value);
+        description.innerText = `I believe I have a ${chance}% chance of winning the tournament.`;
+    }
+</script>
+    </center>
+
+<br>
+<b>Clicking next starts the timer.</b>
+<br><br>
+
+{{ next_button }}
+{{ endblock }}
+
+

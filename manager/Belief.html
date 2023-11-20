@@ -3,41 +3,6 @@
 {{ endblock }}
 {{ block content }}
 
-<html>
-<head>
-    <title>Your team</title>
-    <style>
-        table {
-            float: right;
-            margin: 20px;
-            border: 1px solid black; /* Border around the table */
-            border-collapse: collapse; /* Collapses the border */
-        }
-        th, td {
-            padding: 5px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <table>
-        <tr>
-            <td colspan="2">Your team</td>
-        </tr>
-        <tr>
-            <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
-            {{ participant.team1 }}</td>
-            <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
-            {{ participant.team2 }}</td>
-        </tr>
-    </table>
-</body>
-</html>
-
-<br>
-<br>
-<br>
-
 
 Before you observe the performance of your workers, we would like to ask you how well you how many correct answers do you believe you submitted in the 90 seconds? <br>
     <br> <small><i>You will earn $1.00 for the correct answer.</i></small>
@@ -48,28 +13,46 @@ Before you observe the performance of your workers, we would like to ask you how
 <br>
 <br>
 
-<b>Based on your performance, how do you think your performance compared to your workers? </b> <br>  Enter what position you believe your performance places (1 means the highest performer in your team). <br> <br>
-    <br><small><i>You will be rewarded with $1.00 for the correct answer.</i></small>
+<center>
+    <b>How well do you believe that you performed compared to the others in your interview group?</b><br>
+    You will receive $1.00 bonus if you can correctly estimate the position at which your score places you among your group.
 <br>
 <br>
 
 
 
-<input type="range" name="belief_relative" min="1" max="3" step="1" oninput="updateDescription(this)" list="markers">
-<p id="description"></p>
-<script>
-    let description = document.getElementById('description');
-    function updateDescription(input) {
-        let belief_relative = parseInt(input.value);
-        description.innerText = `I believe my performance ranked at number ${belief_relative} among my team.`
-    }
+ <html>
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            width: 25%;
+            text-align: center;
+            border: 1px solid white;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>1st place<br>
+            <input type="radio" id="choice1" name="belief_relative" value=1></th>
+            <th>2nd place<br>
+            <input type="radio" id="choice2" name="belief_relative" value=2></th>
+            <th>3rd place<br>
+            <input type="radio" id="choice3" name="belief_relative" value=3></th>
+        </tr>
+    </table>
+</body>
+</html>
+
 </script>
-
-<datalist id="markers">
-  <option value="1"></option>
-  <option value="2"></option>
-  <option value="3"></option>
-</datalist>
+    </center>
 
 
 

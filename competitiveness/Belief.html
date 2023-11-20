@@ -1,0 +1,45 @@
+{{ block title }}
+    Stage 1: Round 2
+{{ endblock }}
+{{ block content }}
+
+
+Before you learn about the outcome of your interview, we would like to ask you how well you how many correct answers do you believe you submitted in the 30 seconds?
+    <br> <small><i>You will earn $0.50 for the correct answer.</i></small>
+<br>
+    <br>
+    <input name="belief_absolute" type="number" label=""/>
+
+<br><br>
+We would also like to ask you what do you think your chance is of winning the tournament now that you have performed?<br>
+
+<center>
+
+    <script>
+        function randomNumber(len) {
+  var randomNumber;
+  var n = '';
+
+  for (var count = 0; count < len; count++) {
+    randomNumber = Math.floor(Math.random() * 10);
+    n += randomNumber.toString();
+  }
+  return n;
+}
+window.onload = function() {
+document.getElementById("investment").value = randomNumber(1); };
+    </script>
+<input type="range" name="belief_relative" min="0" max="100" step="1" value="" onchange="$('#'+this.id+' + input').prop('required',false);" oninput="updateDescription(this)"><p id="description"></p>
+<script>
+    let description = document.getElementById('description');
+    function updateDescription(input) {
+        let chance = parseInt(input.value);
+        description.innerText = `I believe I have a ${chance}% chance of winning the tournament.`;
+    }
+</script>
+    </center>
+
+{{ next_button }}
+
+
+{{ endblock }}

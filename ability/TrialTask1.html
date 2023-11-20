@@ -1,0 +1,45 @@
+{{ block title }}
+    Stage 1: Round 1
+{{ endblock }}
+{{ block content }}
+
+ The first round lasts for 30 seconds.
+    During this round you will be tasked with counting the number of ones (1) in a table.
+    Once you have counted the number of ones, input the number in the box and click 'next' or press the 'enter' key on your keyboard.
+    Your task is to correctly count ones in as many tables as possible in 30 seconds.
+    For each table that you correctly complete, you will earn $0.10 as bonus. <br>
+</p>
+
+<p>
+    Below is an example table. Count the number of ones in the table correctly before proceeding.
+</p>
+
+
+    <div class="container">
+        <table class="table table-bordered">
+                <tr>
+                <td> {{ grid_numbers.0 }}</td>
+                <td> {{ grid_numbers.1 }}</td>
+                <td> {{ grid_numbers.2 }}</td>
+            </tr>
+            <tr>
+                <td> {{ grid_numbers.3 }}</td>
+                <td> {{ grid_numbers.4 }}</td>
+                <td> {{ grid_numbers.5 }}</td>
+            </tr>
+            <tr>
+                <td> {{ grid_numbers.6 }}</td>
+                <td> {{ grid_numbers.7 }}</td>
+                <td> {{ grid_numbers.8 }}</td>
+            </tr>
+        </table>
+    </div>
+    <br>
+
+
+How many ones (1s) are in the table above?<br>
+<input type="number" name="trial_task1" autofocus="autofocus" label=""/>
+<br><br>
+    {{ next_button }}
+
+{{ endblock }}

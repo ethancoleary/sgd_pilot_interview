@@ -1,0 +1,24 @@
+{{ block title }}
+    Stage 1: Round 2
+{{ endblock }}
+{{ block content }}
+
+<p>
+    When you click on the next button, you will have 30 seconds to complete as many grids as possible.
+    Recall that you are competing against 3 others (one of your gender and two of the opposite gender).
+    To ensure your bonus payment and continuation in the experiment to the next stage, you must be one of the two winners.
+
+</p>
+
+{{ if participant.quota == 1 }}
+Recall also that there is a gender quota for the winners: at least one of the winners must be female.
+{{ endif }}
+<br>
+<br>
+<b>Clicking next starts the timer.</b>
+<br><br>
+
+{{ next_button }}
+{{ endblock }}
+
+

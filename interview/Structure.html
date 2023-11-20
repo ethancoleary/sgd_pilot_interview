@@ -1,26 +1,29 @@
 {{ block title }}
-    Welcome to your job interview
+    Stage 1: Round 3
 {{ endblock }}
 {{ block content }}
 
-<p>
-    During this experiment, you have the possibility of working your way up the career ladder at the company DataProcess Ltd.
-Throughout, you will make real life decisions that affect your own payoff and potentially those of others in your team.
-    The higher up in the career ladder you progress the larger your stage-compensation package will be.
-    </p>
-<br>
 
-<p>
-    Right now there are managerial openings at DataProcess Ltd and you are a candidate for the position.
-    You have the option to apply to compete for the position or you can abstain from such competition and rely on luck to be promoted.
-</p>
+In this final round, you will compete with three other randomly chosen participants.
+    The group will be set such that there are 2 individuals of each gender, so you will be matched with
+    {{ if participant.male == 1 }}
+    1 randomly chosen male and 2 randomly chosen females.
+    {{ endif }}
+    {{ if participant.male == 0 }}
+    2 randomly chosen males and 1 randomly chosen female.
+    {{ endif }}<br><br>
 
-<br>
-<p>
-    Should you be successful in your interview for the manager position then you can expect a bonus payment and opportunity to
-    earn more money with the firm by working more tasks and making real life decisions for yourself and your employees.
-    Should you be unsuccessful in the interview then you will be compensated for your time in the task but then asked to leave the experiment.
-</p>
+    Of this group, there will be two winners.
+    If you are one of the winners, you will receive a one-off bonus of $2.00 and continue to stage 2 where you will have an increased level of responsibility and further potential to earn bonuses.
+    If you are a loser in this round, then you will be paid your participation fee and will exit the experiment.
+
+<br> <br>
+The two winners of this round will be the top two performers in the tasks over 30 seconds. Draws will be decided by a fair coin flip. <br><br>
+
+{{ if participant.quota == 1 }}
+Additionally, there is a gender quota for this tournament. At least one of the winners must be a female.
+Therefore, to guarantee a winning position, you must either be the top performing female or be in one of the top two positions of the group.
+{{ endif }} <br><br>
 
 {{ next_button }}
 {{ endblock }}

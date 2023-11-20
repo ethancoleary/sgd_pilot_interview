@@ -3,19 +3,12 @@
 {{ endblock }}
 {{ block content }}
 
-{{ if participant.compete == 0 }}
-Before you learn about the outcome of your interview, we would like to ask you how well you how many correct answers do you believe you submitted in the 90 seconds?
-    <br> <small><i>You will earn $1.00 for the correct answer.</i></small>
-<br>
-    <br>
-    <input name="belief_absolute" type="number" label=""/>
-{{ endif }}
 
-{{ if participant.compete == 1 }}
+
 Before you learn about the outcome of your interview, we would like to ask you a couple of questions on how well you think you did.
 <br>
 <center>
-How many correct answers do you believe that you submitted in 90 seconds?
+How many correct answers do you believe that you submitted in 30 seconds?
     <br> <small><i>You will earn $1.00 for the correct answer.</i></small>
 <br>
     <br>
@@ -55,8 +48,8 @@ How many correct answers do you believe that you submitted in 90 seconds?
             <input type="radio" id="choice1" name="belief_relative" value=1></th>
             <th>2nd place<br>
             <input type="radio" id="choice2" name="belief_relative" value=2></th>
-            <th>3rd place%<br>
-            <input type="radio" id="choice3" name="belief_relative" value=2></th>
+            <th>3rd place<br>
+            <input type="radio" id="choice3" name="belief_relative" value=3></th>
             <th>4th place<br>
             <input type="radio" id="choice4" name="belief_relative" value=4></th>
         </tr>
@@ -67,7 +60,7 @@ How many correct answers do you believe that you submitted in 90 seconds?
 </script>
     </center>
 
-{{ endif }}
+<br><br>
 
 {{ next_button }}
 

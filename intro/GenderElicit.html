@@ -1,60 +1,21 @@
 {{ block title }}
-
+    Background information
 {{ endblock }}
 {{ block content }}
 
-<h3>Gender Identity</h3><br>
-    First we ask that you kindly provide us with the gender that you identify with.<br><br>
+We first ask you to provide some information. <br><br>
 
-
+Which age bracket do you belong to?<br>
+<p> {{ form.age }} </p>
+<br>
+What is your gender identity? <br>
 <p>{{ form.gender }}</p>
-
-
 <br>
+What is the highest level of education that you have achieved?<br>
+<p>{{ form.education }}</p>
 <br>
-<h3>Choose your experiment pseudonym</h3><br>
-
-During the experiment, others may be able to observe your choices and/or performances. To protect your identity, we ask that you choose a pseudonym from the list below.
-During the rest of the experiment you will then be represented as this name.
-<br>
-<br>
-<form name="pseudonym">
-    <div style="display: flex;">
-        <div style="flex: 1; display: flex; flex-direction: column; padding-left: 20px;">
-            <p></p>
-            <div style="flex: 1;">
-                <label for="choice1"><input type="radio" id="choice1" name="pseudonym" value="Zoe"> Zoe</label><br>
-                <label for="choice2"><input type="radio" id="choice2" name="pseudonym" value="Abbie"> Abbie</label><br>
-                <label for="choice3"><input type="radio" id="choice3" name="pseudonym" value="Chloe"> Chloe</label><br>
-                <label for="choice4"><input type="radio" id="choice4" name="pseudonym" value="Grace"> Grace</label><br>
-                <label for="choice5"><input type="radio" id="choice5" name="pseudonym" value="Emma"> Emma</label><br>
-                <label for="choice6"><input type="radio" id="choice6" name="pseudonym" value="Ella"> Ella</label><br>
-                <label for="choice7"><input type="radio" id="choice7" name="pseudonym" value="Viola"> Viola</label><br>
-                <label for="choice8"><input type="radio" id="choice8" name="pseudonym" value="Sara"> Sara</label><br>
-            </div>
-        </div>
-        <div style="flex: 1; display: flex; flex-direction: column; padding-left: 20px;">
-            <p></p>
-            <div style="flex: 1;">
-                <label for="choice9"><input type="radio" id="choice9" name="pseudonym" value="Jacob"> Jacob</label><br>
-                <label for="choice10"><input type="radio" id="choice10" name="pseudonym" value="Aiden"> Aiden</label><br>
-                <label for="choice11"><input type="radio" id="choice11" name="pseudonym" value="Matthew"> Matthew</label><br>
-                <label for="choice12"><input type="radio" id="choice12" name="pseudonym" value="Alexander"> Alexander</label><br>
-                <label for="choice13"><input type="radio" id="choice13" name="pseudonym" value="Daniel"> Daniel</label><br>
-                <label for="choice14"><input type="radio" id="choice14" name="pseudonym" value="Joel"> Joel</label><br>
-                <label for="choice15"><input type="radio" id="choice15" name="pseudonym" value="Harvey"> Harvey</label><br>
-                <label for="choice16"><input type="radio" id="choice16" name="pseudonym" value="Mason"> Mason</label><br>
-            </div>
-        </div>
-    </div>
-</form>
-
-
-
-<br>
-<br>
-
-
+Do you have experience managing a team?<br>
+<p>{{ form.experience }}</p>
 
     {{ next_button }}
 
