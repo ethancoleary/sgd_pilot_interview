@@ -61,8 +61,8 @@ Below you can observe how your performance fared with your workers.
 <br>
 <br>
 Thus, since you guessed that you ranked in position {{ player.belief_relative }},
-{{ if player.belief_relative_payoff == 1 }}
-you have earned an additional bonus of $1.00.
+{{ if player.belief_relative_payoff == 0.5 }}
+you have earned an additional bonus of $0.50.
 {{ endif }}
 
 {{ if player.belief_relative_payoff == 0 }}
@@ -70,7 +70,7 @@ you did not earn a bonus for this guess.
 {{ endif }}<br><br>
 In total you have earned {{ participant.total_round1_payoff }} from round 1. <br><br>
 
-In the next stage you will receive instructions for round 2 and make your decision.
+Click next to learn about round 2 and your decision.
 <br>
 <br>
 

@@ -1,11 +1,11 @@
 {{ block title }}
-    Information on round 2
+    Stage 2 results
 {{ endblock }}
 {{ block content }}
 
 {{ if player.workerA_team1 == True }}
 
-<center>
+
 <html>
 <head>
     <title>Your team</title>
@@ -61,11 +61,11 @@
     </table>
 </body>
 </html>
-</center>
+
 
 {{ endif }}
 
-You chose {{ workerA }} to be worker A. They have hence received an extra entry into a draw to receive a bonus of $1.00. <br><br>
+You chose {{ workerA }} to be worker A. They have hence received an entry into a draw to receive a bonus of $1.00. <br><br>
 
 In round 2, {{ workerA }} submitted {{ player.workerA_score }} correct answers. Which entitled you to a commission of {{ player.commission }}.<br><br>
 
@@ -73,25 +73,9 @@ In round 2, {{ workerA }} submitted {{ player.workerA_score }} correct answers. 
 
 In total, {{ board_member_agreeing }} of your senior management board members approved of your choice for {{ workerA }} to be ranked as <b>Worker A</b>.
 You can observe the real votes of the board below. <br><br>
-<center>
-<html>
-<head>
-    <title>Your board</title>
-    <style>
-        table {
-            width: 50%;
-            margin: 20px;
-            border: 1px solid black; /* Border around the table */
-            border-collapse: collapse; /* Collapses the border */
-        }
-        th, td {
-            padding: 5px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <table>
+<centre>
+
+    <table class="table">
         <tr>
             <td colspan="3">Your board</td>
         </tr>
@@ -110,9 +94,8 @@ You can observe the real votes of the board below. <br><br>
             </td>
         </tr>
     </table>
-</body>
-</html>
-    </center>
+
+    </centre>
 
 <br><br>
 
@@ -120,11 +103,18 @@ Since each vote of approval from your senior management board entitles you to re
 
 {{  endif }}
 
-Thus during your tenure of manager you have earned a total payoff of {{ player.total_rounds_payoff }}. <br><br>
+For your stage 2 payment, you will receive a fixed participation fee of $0.75 in addition to a bonus payment according to your earnings from one of the rounds.
+A random draw was conducted and you will receive bonus payment from your performance in round {{ round_draw }}.
+Thus your bonus payment from stage 1 is {{ participant.stage2_payoff }}.<br><br>
 
+{{ if participant.board == 1 }}
+Because of your achievement and experience in this stage, you have been selected to serve as a board member in the next and final stage. Click next to continue to stage 3.
+{{ endif }}
 
-Click next to complete the final part of the experiment.
-
+{{ if participant.board == 0 }}
+Thank you for taking part in this experiment. You may click next to complete some exit questions.
+{{ endif }}
+<br><br>
 {{ next_button }}
 
 {{ endblock }}

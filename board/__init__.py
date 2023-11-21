@@ -16,7 +16,7 @@ class C(BaseConstants):
     MALE_NAMES = [
         'Jacob', 'Aiden',  'Matthew',  'Alexander',  'Daniel', 'Joel', 'Harvey', 'Mason'
     ]
-    TYPE = ['Won', 'Lucky']
+    TYPE = ['Won', 'Quota']
     TEAM = ['Male', 'Mix']
     MALE_TEAM = [7, 8]
     MIX_TEAM = [6, 5]

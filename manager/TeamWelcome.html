@@ -1,52 +1,37 @@
 {{ block title }}
-    Meet your team
+    Stage 2
 {{ endblock }}
 {{ block content }}
 
-Congratulations on your appointment as manager here at DataProcess Ltd.
-You have been assigned to manage a team of two workers within our Data Entry subdivision. In your role, your work time is divided equally between data entry and managing your team. Your team is always performing data entry and are real humans. <br><br>
+Congratulations on earning your spot in stage 2. This stage consists of two rounds.
+In the first round you will perform a task again whereas in the second round, you will delegate the work.
+Like in the first stage, you will earn a final payoff from one of these rounds chosen at random. <br><br>
 
-In round 1, you work on a data entry task of the same type and difficulty task as your team.
-You will earn $0.15 per correct entry during this round while your workers earn $0.10 per correct submission.<br><br>
-
-In round 2 your team will perform the same type of data entry but with increased difficulty.
-Before this round begins, you will be able to view how well your workers do in the round 1 (when you are working alongside them).
-With this information, you will choose one of your workers to be Worker A.
-Who you assign to be Worker A will affect both your payoff and the payoff of the workers. <br><br>
-
-Concretely, the following is determined by your choice of Worker A:
-<br>
-
-<ul>
-    <li>You, as manager, will earn $0.20 per correct answer Worker A submits in round 2.</li>
-    <li>Worker A will receive a non-zero bonus payment as a reward.</li>
-</ul>
-<br>
+Because of your excellent achievement in stage 1, you are now responsible for a team of workers.
+You are the <b>manager</b> of this team and this constitutes an increased payment schedule, responsibility for some of your workers' earnings, and the ability to earn commission off of your workers. <br><br>
 
 Your team is seen below:
 <br>
 <br>
-
 <table class="table" style="margin: 0 auto; text-align: center;">
     <tr>
-        <td></td>
+
         <td> <img src="{{ static 'manager/neutral_avatar.png'}}" width="150"/> <br>
             {{ player.team1 }}
         </td>
 
-        <td></td>
 
         <td><td> <img src="{{ static 'manager/neutral_avatar.png'}}" width="150"/> <br>
             {{ player.team2 }}
 
         </td>
 
-        <td></td>
 
 </tr>
 </table>
 <br>
 <br>
+Continue to learn about round 1. <br><br>
 
 {{ next_button }}
 

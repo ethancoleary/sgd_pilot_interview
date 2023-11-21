@@ -11,10 +11,10 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 25
     PAYMENT_PER_CORRECT_ANSWER = 0.15
-    COMMISSION_PER_CORRECT_ANSWER = 0.2
-    TEAMS = [['Jacob', 'Daniel'], ['Matthew', 'Zoe']]
-    TEAMS_SCORE = [[5, 6], [5, 4]]
-    TEAMS_SCORE2 = [[3, 3], [3, 3]]
+    COMMISSION_PER_CORRECT_ANSWER = 0.5
+    TEAMS = [['', ''], ['Matthew', 'Zoe']]
+    TEAMS_SCORE = [[10, 11], [11, 10]]
+    TEAMS_SCORE2 = [[5, 5], [5, 5]]
     BOARDS = [['Aiden', 'Samuel', 'Alexander'], ['Abigail', 'Grace', 'Emma']]
     BOARDS_VOTE = [[[1,0], [1,0], [1,0]], [[1,1], [0,1], [0,0]]]
 
@@ -77,7 +77,7 @@ def t2(player):
     import random
 
 
-    player.t2_mixgroup = 1
+    player.t2_mixgroup = random.randint(0,1)
     player.participant.t2_mixgroup = player.t2_mixgroup
 
 
@@ -220,7 +220,7 @@ class Belief(Page):
     def before_next_page(player, timeout_happened):
         participant = player.participant
         if participant.round1_score == player.belief_absolute:
-            player.belief_absolute_payoff = 1
+            player.belief_absolute_payoff = 0.5
 
 
 
@@ -252,16 +252,16 @@ class Round1Results(Page):
 
         if player.tie == 0 :
             if player.player_positions == player.belief_relative:
-                player.belief_relative_payoff = 1
+                player.belief_relative_payoff = cu(0.5)
         if player.tie == 1 :
             if player.belief_relative == 2:
-                player.belief_relative_payoff = 1
+                player.belief_relative_payoff = cu(0.5)
             if player.player_positions ==2 and player.belief_relative == 3:
-                player.belief_relative_payoff = 1
+                player.belief_relative_payoff = cu(0.5)
             if player.player_positions ==1 and player.belief_relative == 1:
-                player.belief_relative_payoff = 1
+                player.belief_relative_payoff = cu(0.5)
 
-        participant.total_round1_payoff = player.round1_performance_payment + player.belief_relative_payoff + player.belief_absolute_payoff
+        participant.total_round1_payoff = cu(player.round1_performance_payment + player.belief_relative_payoff + player.belief_absolute_payoff)
 
 
 
@@ -353,9 +353,18 @@ class Round2Results(Page):
             #BOARDS = [['Aiden', 'Samuel', 'Alexander'], ['Abigail', 'Grace', 'Emma']]
             #BOARDS_VOTE = [[[1,0], [1,0], [1,0]], [[1,1], [0,1], [0,0]]]
 
-        player.round2_performance_payment = commission_payout
-        player.total_rounds_payoff = player.round1_performance_payment + player.belief_relative_payoff + player.belief_absolute_payoff+ player.round2_performance_payment
-        participant.total_manager_payoff = player.total_rounds_payoff
+        player.round2_performance_payment = cu(commission_payout)
+        participant.total_round2_payoff = player.round2_performance_payment
+
+        import random
+        round_draw = random.randint(1, 2)
+
+        if round_draw == 1:
+            participant.stage2_payoff = participant.total_round1_payoff
+        if round_draw == 2:
+            participant.stage2_payoff = participant.total_round2_payoff
+
+        participant.board = participant.total_round1_payoff + participant.total_round2_payoff >= 5
 
         if participant.t3_observed == 1:
             return {
@@ -372,6 +381,7 @@ class Round2Results(Page):
                 'workerB_score': workerB_score,
                 'workerA':workerA,
                 'workerB':workerB,
+                'round_draw':round_draw,
             }
 
         if participant.t3_observed == 0:
@@ -379,6 +389,7 @@ class Round2Results(Page):
                 'workerB_score': workerB_score,
                 'workerA':workerA,
                 'workerB':workerB,
+                'round_draw': round_draw,
 
             }
 
@@ -386,7 +397,7 @@ class Round2Results(Page):
     def app_after_this_page(player, upcoming_apps):
         participant = player.participant
 
-        participant.board = player.total_rounds_payoff > 2
+
         if get_timeout_seconds(player) <= 0 and player.round_number == player.display_counter and participant.board == 1:
             return upcoming_apps[0]
         if participant.board == 0:

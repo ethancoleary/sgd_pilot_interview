@@ -24,29 +24,16 @@ piece-rate compensation scheme, just like the previous stage (option B).
 </ol> <br>
 <br>
 
-You now need to decide how many of the 10 points you would like to invest into the tournament (option A).<br><br>
-<b>Move the slider below</b> to see how much you would earn in each outcome before making your decision. <br>
+How many of your points would you like to invest into the tournament (option A)? <br>
+Text will appear below when you enter a number to help you decide. <br>
 <br>
 <center>
 
-    <script>
-        function randomNumber(len) {
-  var randomNumber;
-  var n = '';
-
-  for (var count = 0; count < len; count++) {
-    randomNumber = Math.floor(Math.random() * 10);
-    n += randomNumber.toString();
-  }
-  return n;
-}
-window.onload = function() {
-document.getElementById("investment").value = randomNumber(1); };
-    </script>
 
 
 
-            <input type="range" name="investment" id="investment" min="0" max="10" step="1" value="" list="markers" oninput="updateDescription(this)"><p id="description"></p>
+
+            <input type="text" name="investment" id="investment" min="0" max="10" step="1" value="" list="markers" oninput="updateDescription(this)"><p id="description"></p>
 
 
 

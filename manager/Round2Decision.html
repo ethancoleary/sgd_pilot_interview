@@ -1,5 +1,5 @@
 {{ block title }}
-    Choose a Worker A
+
 {{ endblock }}
 {{ block content }}
 
@@ -25,7 +25,7 @@
     </style>
 </head>
 <body>
-    <table>
+    <table class="table">
         <colgroup>
             <col style="width: 33.33%;">
             <col style="width: 33.33%;">
@@ -49,10 +49,12 @@
 
 {{  endif }}
 
-Prior to beginning round 2, you must choose one of your workers to be ranked as <b>Worker A</b>. As previously mentioned, both workers are continuing their work in data processing as you make your decision however their task is now somewhat more difficult.
-The workers again perform for 90 seconds and you will earn a commission of $0.20 per correct answer that your chosen <b>Worker A</b> submits.You do not earn commission from the other worker.
-<b>Worker A</b> will also receive a non-zero expected bonus themselves.
-Among all the managers in DataProcess Ltd, one will be chosen at random and their chosen <b>Worker A</b> will receive a bonus of $1.00.<br><br>
+<h3>Prior to beginning round 2, you must choose one of your workers to be ranked as <b>Worker A</b>.</h3>
+Both workers have worked on the hard task for 90 seconds following their previous performance.
+Your task is to now pick a worker, call them <b>Worker A</b>, who you wish to earn commission from.
+While the workers receive <b>$0.25</b> per correct answer they submit, you will earn a commission of <b>$0.50</b> for every correct answer your chosen <b>Worker A</b> submits.
+You do not earn commission from the other worker. <b>Worker A</b> will also enter a draw to receive a bonus of $1.00.
+Multiple managers may work with the same teams and so the draw will be determined according to how many entries each worker receives. <br><br>
 
 {{ if participant.t3_observed == 1 }}
 Recall that you are under observation by your senior management board. Each member of the board is an experienced senior manager and will individually vote on their approval of your choice of <b>Worker A</b>.
@@ -96,5 +98,6 @@ Now you must choose your <b>Worker A</b>
     </table>
 </body>
 </html>
+
 
 {{ endblock }}

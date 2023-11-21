@@ -1,5 +1,5 @@
 {{ block title }}
-    Information on round 2
+    Stage 2: Round 2
 {{ endblock }}
 {{ block content }}
 
@@ -39,8 +39,10 @@
 <br>
 <br>
 
-In round 2, you are no longer working on the task, instead delegating the work to your subordinates and focusing on management.
-Because of this, both of the workers will have an increased work load and their task becomes more difficult. Specifically the grid within which they must count the number of ones will expand from the 4x4 size to 6x6 size. An example is displayed below.<br><br>
+In the second round of this stage you no longer work on the task; instead you delegate the work to your subordinates.
+Because of this, both of the workers will have an increased work load and their task becomes more difficult.
+Specifically the grid within which they must count the number of ones will expand from the 3x3 size to 6x6 size.
+An example is displayed below.<br><br>
 
         <div class="container">
         <table class="table table-bordered">
@@ -98,13 +100,16 @@ Because of this, both of the workers will have an increased work load and their 
     <br>
 
 
-By delegating your work-load to your workers, you earn an income by choosing a worker from which you will earn commission and who will receive a bonus. <br><br>
-Specifically, both workers have continued to work on the hard task for 90 seconds following their previous performance.
-Your task is to now pick a worker, call them <b>Worker A</b> who you wish to earn commission from. Namely, while the workers continue to receive <b>$0.10</b> per correct answer they submit, you will earn a commission of <b>$0.20</b> for every correct answer your chosen <b>Worker A</b> submits.
-You do not earn commission from the other worker. <b>Worker A</b> will also receive a non-zero expected bonus themselves. Among all the managers in DataProcess Ltd, one will be chosen at random and their chosen <b>Worker A</b> will receive a bonus of $1.00.<br><br>
+By delegating your work-load to your workers, you earn an income by choosing a worker from which you will earn commission from.
+This worker will also receive a bonus. <br><br>
+Specifically, both workers have worked on the hard task for 90 seconds following their previous performance.
+Your task is to now pick a worker, call them <b>Worker A</b>, who you wish to earn commission from.
+While the workers continue to receive <b>$0.25</b> per correct answer they submit, you will earn a commission of <b>$0.50</b> for every correct answer your chosen <b>Worker A</b> submits.
+You do not earn commission from the other worker. <b>Worker A</b> will also enter a draw to receive a bonus of $1.00.
+Multiple managers may work with the same teams and so the draw will be determined according to how many entries each worker receives.
 
 {{ if participant.t3_observed == 1 }}
-
+<br><br>
 <html>
 <head>
     <title>Your board</title>
@@ -153,7 +158,7 @@ You do not earn commission from the other worker. <b>Worker A</b> will also rece
 
 {{ endif }}
 
-
+<br><br>
 On the next page you will make your decision of <b>Worker A</b>. <br><br>
 
 {{ next_button }}
