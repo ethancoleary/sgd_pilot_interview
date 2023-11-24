@@ -188,7 +188,7 @@ class Round1(Page):
 
 
 class Calculation(Page):
-    timeout_seconds = 0.1
+    timeout_seconds = 6
 
     def is_displayed(player):
         return get_timeout_seconds(player) <= 0 and player.display_counter < 1

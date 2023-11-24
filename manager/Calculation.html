@@ -3,8 +3,12 @@
 {{ endblock }}
 {{ block content }}
 
+{{ if participant.observed == 0 }}
 Please wait while we calculate your interview outcome.<br>
-If this page does not automatically reload in 5 seconds please click the next button below.
+{{ endif }}
+{{ if participant.observed == 1 }}
+Please wait while we await the decision of board members. <br>
+{{ endif }}
 
 {{ next_button }}
 
