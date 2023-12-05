@@ -23,7 +23,6 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    trial_task1 = models.IntegerField()
     trial_answer1 = models.IntegerField()
     number_entered = models.IntegerField()
     correct_answer = models.IntegerField()
@@ -61,28 +60,26 @@ class Structure(Page):
 
 class TrialTask1(Page):
     form_model = 'player'
-    form_fields = ['trial_task1']
+    form_fields = ['trial_answer1']
 
-    def is_displayed(subsession):
-        return subsession.round_number == 1
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1
 
-
+    @staticmethod
     def vars_for_template(player):
-        import random
-        # Generate a list of 16 random integers, each either 0 or 1
-        grid_numbers = [random.randint(0, 1) for _ in range(9)]
-        player.trial_answer1 = sum(grid_numbers)
+        test_grid = [1, 0, 1,
+                     0, 0, 0,
+                     1, 0, 0]
 
         return {
-            'grid_numbers': grid_numbers
+            'test_grid': test_grid,
         }
 
     @staticmethod
     def error_message(player: Player, values):
-        solutions = dict(trial_task1 = player.trial_answer1)
-
-        if values != solutions:
-            return "Answer is incorrect, try again."
+        if values['trial_answer1'] != 3:
+            return "Answer is incorrect"
 
 
 class Ready(Page):
@@ -95,7 +92,7 @@ class Ready(Page):
         import time
 
         # remember to add 'expiry' to PARTICIPANT_FIELDS.
-        participant.expiry = time.time() + 30
+        participant.expiry = time.time() + 20
 
 
 
@@ -103,7 +100,7 @@ class Ready(Page):
 class Task(Page):
     form_model = 'player'
     form_fields = ['number_entered']
-    import random
+
 
     get_timeout_seconds = get_timeout_seconds
 
@@ -112,22 +109,28 @@ class Task(Page):
         return get_timeout_seconds(player) >= 0
 
     def vars_for_template(player):
-        participant = player.participant
-
         import random
         # Generate a list of 25 random integers, each either 0 or 1
-        grid_numbers = [random.randint(0, 1) for _ in range(9)]
-        player.correct_answer = sum(grid_numbers)
+        ones = random.randint(1, 9)
+        grid_numbers = [0, 0, 0,
+                        0, 0, 0,
+                        0, 0, 0]
+        for i in range(9):
+            if i < ones:
+                grid_numbers[i] = 1
+        random.shuffle(grid_numbers)
+        player.correct_answer = ones
 
         return {
             'grid_numbers': grid_numbers
         }
 
+    @staticmethod
     def before_next_page(player, timeout_happened):
-        participant = player.participant
         if player.correct_answer == player.number_entered:
-            player.score = 1
             player.payoff = C.PAYMENT_PER_CORRECT_ANSWER
+            player.score = 1
+
 
 
 class Calculation(Page):

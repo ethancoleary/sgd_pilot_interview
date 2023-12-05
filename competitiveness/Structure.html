@@ -7,33 +7,45 @@
     In this round, you will get to decide how you would like to paid for the task before performing.  </p>
 <br>
 <p>
-    You are endowed with 10 points and asked to choose the portion of this amount (between 0 and 10
-points, inclusive) that you wish to invest in a tournament (option A). The rest of the 10 points will be invested in a
-piece-rate compensation scheme, just like the previous stage (option B).
+    You are endowed with 10 tokens and asked to choose the number of tokens that you wish to invest in a tournament (option A).
+    The remainder of the 10 tokens will be invested in a
+piece-rate compensation scheme, just like the previous stage (option B). Tokens are indivisible.
 </p>
 <br>
 <p>
-    The payments for each point invested in the options are as follows:
+    The payments for each token invested in the options are as follows:
 </p>
 
 <ol>
-  <li> <b>Option A:</b> Tournament pays $0.03 per point for each correct grid count if you have a greater score than a randomly chosen participant.
-      If you have a lower score than the randomly chosen participant, then you will be paid zero for this stage.
-      In case the two of you tie, you will receive $0.02 coin per point for each correct grid. </li>
-    <li> <b>Option B:</b> The piece-rate option pays $0.01 coin per point for each successful toss. </li>
+    <li> <b>Option A:</b> Tournament pays $0.03 per token invested for each correct grid count <b>if you have a greater score than a randomly chosen participant.</b>
+      If you have a lower score than the randomly chosen participant, then you will be paid zero for this token invested.
+      In case the two of you tie, you will receive $0.02 coin per token for each correct grid. </li>
+    <li> <b>Option B:</b> The piece-rate option pays $0.01 coin per token for each correct grid. </li>
 </ol> <br>
 <br>
 
-How many of your points would you like to invest into the tournament (option A)? <br>
+How many of your token would you like to invest into the tournament (option A)? <br>
 Text will appear below when you enter a number to help you decide. <br>
 <br>
 <center>
 
 
+            <input type="number" name="investment" id="investment" min="0" max="10" step="1" value=" " style="width: 5em;" list="markers" oninput="updateDescription(this)" required><p id="description"></p>
+            <span class="validity"></span>
 
-
-
-            <input type="text" name="investment" id="investment" min="0" max="10" step="1" value="" list="markers" oninput="updateDescription(this)"><p id="description"></p>
+            <datalist id="markers">
+                <option value="0"></option>
+                <option value="1"></option>
+                <option value="2"></option>
+                <option value="3"></option>
+                <option value="4"></option>
+                <option value="5"></option>
+                <option value="6"></option>
+                <option value="7"></option>
+                <option value="8"></option>
+                <option value="9"></option>
+                <option value="10"></option>
+            </datalist>
 
 
 

@@ -31,35 +31,24 @@ Below you can see a summary of your group's scores. <br><br>
 <table class="table">
     <tbody>
         <tr>
-            <th scope="row"><b> Participant ID</b></th>
+            <th scope="row"><b> Participant name</b></th>
             <td>You</td>
-            <td>{{ player.worker_1_id }}</td>
-            <td>{{ player.worker_2_id }}</td>
-            <td>{{ player.worker_3_id }}</td>
-        </tr>
-        <tr>
-            <th scope="row">Gender</th>
-            <td>{{ if participant.male == 1 }}Male{{ endif }}
-                {{ if participant.female == 1 }}Female{{ endif }}</td>
-            <td>{{ if player.worker_1_id < 12 }}Male{{ endif }}
-                {{ if player.worker_1_id > 12 }}Female{{ endif }}</td>
-            <td>{{ if player.worker_2_id < 12 }}Male{{ endif }}
-                {{ if player.worker_2_id > 12 }}Female{{ endif }}</td>
-            <td>{{ if player.worker_3_id < 12 }}Male{{ endif }}
-                {{ if player.worker_3_id > 12 }}Female{{ endif }}</td>
+            <td>{{ participant.interview_competitor1 }}</td>
+            <td>{{ participant.interview_competitor2 }}</td>
+            <td>{{ participant.interview_competitor3 }}</td>
         </tr>
         <tr>
             <th scope="row">Score</th>
             <td>{{ participant.interview_score }}</td>
-            <td>{{ player.worker_1_score}}</td>
-            <td>{{ player.worker_2_score}}</td>
-            <td>{{ player.worker_3_score}}</td>
+            <td>{{ participant.interview_competitor1_score }}</td>
+            <td>{{ participant.interview_competitor2_score }}</td>
+            <td>{{ participant.interview_competitor3_score }}</td>
         </tr>
     </tbody>
 </table>
 
 {{ if participant.quota == 0 }}
-You positioned at number {{ relative }}.
+You positioned {{ relative }} among the group.
 
     {{ if participant.manager == 0 }}
     This means that were not one of the winners of the tournament and your performance bonus for this round is $0.00.
@@ -67,7 +56,7 @@ You positioned at number {{ relative }}.
 
     {{ if participant.manager == 1 }}
     This means that you were one of the winners of the tournament.
-    You have received a performance bonus of $2.00 for this round and will proceed to the next stage of the experiment.
+    You have received a performance bonus of $1.00 for this round and will proceed to the next stage of the experiment.
     <br><br>
     You stated that you believed you answered {{ player.belief_absolute }} correctly.
     You also stated that you believed you placed {{ belief_relative }} among the group.
@@ -81,7 +70,7 @@ You positioned at number {{ relative }} in the quota tournament.
 
     {{ if player.position <= 2 }}
     Therefore you were one of the winners of the tournament.
-    You have received a performance bonus of $2.00 for this round and will proceed to the next stage of the experiment.
+    You have received a performance bonus of $1.00 for this round and will proceed to the next stage of the experiment.
     <br><br>
     You stated that you believed you answered {{ player.belief_absolute }} correctly.
     You also stated that you believed you placed {{ belief_relative }} among the group.
@@ -91,7 +80,7 @@ You positioned at number {{ relative }} in the quota tournament.
     {{ if player.position > 2 }}
         {{ if participant.manager == 1 }}
             Therefore you were one of the winners of the tournament due to the quota policy.
-            You have received a performance bonus of $2.00 for this round and will proceed to the next stage of the experiment.
+            You have received a performance bonus of $1.00 for this round and will proceed to the next stage of the experiment.
             <br><br>
             You stated that you believed you answered {{ player.belief_absolute }} correctly.
             You also stated that you believed you placed {{ belief_relative }} among the group.

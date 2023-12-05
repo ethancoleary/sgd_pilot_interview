@@ -11,13 +11,46 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 25
     PAYMENT_PER_CORRECT_ANSWER = 0.15
-    COMMISSION_PER_CORRECT_ANSWER = 0.5
-    TEAMS = [['', ''], ['Matthew', 'Zoe']]
-    TEAMS_SCORE = [[10, 11], [11, 10]]
-    TEAMS_SCORE2 = [[5, 5], [5, 5]]
-    BOARDS = [['Aiden', 'Samuel', 'Alexander'], ['Abigail', 'Grace', 'Emma']]
-    BOARDS_VOTE = [[[1,0], [1,0], [1,0]], [[1,1], [0,1], [0,0]]]
-
+    COMMISSION_PER_CORRECT_ANSWER = 0.2
+    COMPETITORS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    GROUP_TYPE = [1, 2, 3]
+    PAIR = [[
+        [0, 8], [1, 5], [2, 7], [3, 4]],
+        [[0,6], [1,8], [2,5]],
+        [[1, 6], [2, 8], [3, 5]]
+    ]
+    WORKER_NAMES = [
+        "Zoe",
+        "Chloe D",
+        "Chloe T",
+        "Emma",
+        "Alexander",
+        "Daniel",
+        "Jacob M",
+        "Jacob R",
+        "Harvey"]
+    WORKER_ROUND1_SCORES = [
+        3,
+        4,
+        5,
+        7,
+        8,
+        5,
+        3,
+        6,
+        4,
+    ]
+    WORKER_ROUND2_SCORES = [
+        4,
+        4,
+        0,
+        4,
+        4,
+        7,
+        3,
+        4,
+        5,
+    ]
 
 class Subsession(BaseSubsession):
     pass
@@ -28,7 +61,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    t2_mixgroup = models.BooleanField()
+    t2_group_type = models.IntegerField()
     t2_malefirst = models.BooleanField()
     t3_observed = models.BooleanField()
     t4_maleboard = models.BooleanField(initial=0)
@@ -73,13 +106,23 @@ def get_timeout_seconds(player):
     import time
     return participant.expiry - time.time()
 
-def t2(player):
+def team(player):
     import random
 
 
-    player.t2_mixgroup = random.randint(0,1)
-    player.participant.t2_mixgroup = player.t2_mixgroup
+    player.t2_group_type = random.randint(0,2)
 
+    teams = C.PAIR[player.t2_group_type]
+    max = len(teams)-1
+    team = teams[random.randint(0,max)]
+
+    player.team1 = C.WORKER_NAMES[team[0]]
+    player.team1_score = C.WORKER_ROUND1_SCORES[team[0]]
+    player.team1_score = C.WORKER_ROUND2_SCORES[team[0]]
+
+    player.team2 = C.WORKER_NAMES[team[1]]
+    player.team2_score = C.WORKER_ROUND1_SCORES[team[1]]
+    player.team2_score = C.WORKER_ROUND2_SCORES[team[1]]
 
     malefirst = random.randint(0,1)
     player.t2_malefirst = malefirst
@@ -91,25 +134,6 @@ def t3(player):
     player.t3_observed = t3
     player.participant.t3_observed = player.t3_observed
 
-def t4(player):
-    import random
-    t4 = random.randint(0,2)
-    if t4 == 0:
-        player.t4_maleboard = 0
-        player.t4_femaleboard = 0
-        player.participant.t4_maleboard = 0
-        player.participant.t4_femaleboard = 0
-
-    if t4 == 1:
-        player.t4_maleboard = 1
-        player.t4_femaleboard = 0
-        player.participant.t4_maleboard = 1
-        player.participant.t4_femaleboard = 0
-    if t4 == 2:
-        player.t4_maleboard = 0
-        player.t4_femaleboard = 1
-        player.participant.t4_femaleboard = 1
-        player.participant.t4_maleboard = 0
 
 # PAGES
 class TeamWelcome(Page):
@@ -117,15 +141,8 @@ class TeamWelcome(Page):
     def is_displayed(subsession):
         return subsession.round_number == 1
     def vars_for_template(player):
-        t2(player)
+        team(player)
         t3(player)
-        t4(player)
-
-
-
-        team = C.TEAMS[player.t2_mixgroup]
-        player.team1 = team[1-player.t2_malefirst]
-        player.team2 = team[player.t2_malefirst]
 
         participant = player.participant
 
@@ -140,13 +157,15 @@ class Round1Intro(Page):
         return subsession.round_number == 1
 
     def vars_for_template(player):
-        import random
-        # Generate a list of 16 random integers, each either 0 or 1
-        grid_numbers = [random.randint(0, 1) for _ in range(9)]
+        grid_numbers = [1, 0, 1,
+                     0, 0, 0,
+                     1, 0, 0]
 
         return {
-            'grid_numbers': grid_numbers
+            'grid_numbers': grid_numbers,
         }
+
+
 
     @staticmethod
     def before_next_page(player, timeout_happened):
@@ -154,7 +173,7 @@ class Round1Intro(Page):
         import time
 
         # remember to add 'expiry' to PARTICIPANT_FIELDS.
-        participant.expiry = time.time() + 30
+        participant.expiry = time.time() + 20
 
 class Round1(Page):
     form_model = 'player'
@@ -168,12 +187,17 @@ class Round1(Page):
         return get_timeout_seconds(player) >= 0
 
     def vars_for_template(player):
-        participant = player.participant
-
         import random
         # Generate a list of 25 random integers, each either 0 or 1
-        grid_numbers = [random.randint(0, 1) for _ in range(9)]
-        player.correct_answer = sum(grid_numbers)
+        ones = random.randint(1, 9)
+        grid_numbers = [0, 0, 0,
+                        0, 0, 0,
+                        0, 0, 0]
+        for i in range(9):
+            if i < ones:
+                grid_numbers[i] = 1
+        random.shuffle(grid_numbers)
+        player.correct_answer = ones
 
         return {
             'grid_numbers': grid_numbers
@@ -187,14 +211,15 @@ class Round1(Page):
 
 
 
-class Calculation(Page):
-    timeout_seconds = 6
 
+class Belief(Page):
+    form_model = 'player'
+    form_fields = ['belief_absolute', 'belief_relative']
     def is_displayed(player):
-        return get_timeout_seconds(player) <= 0 and player.display_counter < 1
+        participant = player.participant
+        return get_timeout_seconds(player) <= 0 and player.round_number == player.display_counter
 
-    def before_next_page(player, timeout_happened):
-
+    def vars_for_template(player):
         all_players = player.in_all_rounds()
         total_score = sum([p.score for p in all_players])
         player.round1_performance_payment = sum([p.payoff for p in all_players])
@@ -203,19 +228,8 @@ class Calculation(Page):
         participant.round1_score = total_score
         player.round1_performance_payment = total_score * C.PAYMENT_PER_CORRECT_ANSWER
 
-
-
         player.display_counter = player.round_number
 
-
-
-
-class Belief(Page):
-    form_model = 'player'
-    form_fields = ['belief_absolute', 'belief_relative']
-    def is_displayed(player):
-        participant = player.participant
-        return get_timeout_seconds(player) <= 0 and player.round_number == player.display_counter
 
     def before_next_page(player, timeout_happened):
         participant = player.participant
@@ -297,6 +311,14 @@ class Round2Decision(Page):
     def is_displayed(player):
         participant = player.participant
         return get_timeout_seconds(player) <= 0 and player.round_number == player.display_counter
+
+
+class Calculation(Page):
+    timeout_seconds = 6
+
+    def is_displayed(player):
+        return get_timeout_seconds(player) <= 0 and player.display_counter < 1
+
 
 class Round2Results(Page):
 
@@ -404,4 +426,4 @@ class Round2Results(Page):
             return upcoming_apps[-1]
 
 
-page_sequence = [TeamWelcome, Round1Intro, Round1, Calculation, Belief, Round1Results, Round2Intro, Round2Decision, Round2Results]
+page_sequence = [TeamWelcome, Round1Intro, Round1, Belief, Round1Results, Round2Intro, Round2Decision, Calculation, Round2Results]

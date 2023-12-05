@@ -3,14 +3,48 @@
 {{ endblock }}
 {{ block content }}
 
+<html>
+<head>
+    <title>Your team</title>
+    <style>
+        table {
+            float: right;
+            margin: 10px;
+            border: 1px solid black; /* Border around the table */
+            border-collapse: collapse; /* Collapses the border */
+        }
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td >Your opponent</td>
+        </tr>
+        <tr>
+            <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> </td>
+        </tr>
+    </table>
+</body>
+</html>
+
 <p>
-    When you click on the next button, you will have 30 seconds to complete as many grids as possible.
+    When you click on the next button, you will have 20 seconds to complete as many grids as possible.
+    </p>
+
+
+<p>You have now been assigned an opponent.
     You will receive {{ win }} for every correct answer you submit if you beat your opponent or {{ lose }}
     for every correct answer you submit if you lose the tournament.
 
 </p>
+
 <br><br>
 Before continuing, we wish to ask you how likely you think it is that you will win the tournament? <br><br>
+Moving the slider shows you how to answer the question.
 <center>
 
     <script>
@@ -27,7 +61,7 @@ Before continuing, we wish to ask you how likely you think it is that you will w
 window.onload = function() {
 document.getElementById("investment").value = randomNumber(1); };
     </script>
-<input type="range" name="belief_relative_before" min="0" max="100" step="1" value=""  oninput="updateDescription(this)"
+<input type="range" name="belief_relative_before" min="0" max="100" step="1" value="49"  oninput="updateDescription(this)"
      ><p id="description"></p>
 <script>
     let description = document.getElementById('description');

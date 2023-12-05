@@ -3,10 +3,10 @@
 {{ endblock }}
 {{ block content }}
 
- The first round lasts for 30 seconds.
+ The first round lasts for 20 seconds.
     During this round you will be tasked with counting the number of ones (1) in a table.
     Once you have counted the number of ones, input the number in the box and click 'next' or press the 'enter' key on your keyboard.
-    Your task is to correctly count ones in as many tables as possible in 30 seconds.
+    Your task is to correctly count ones in as many tables as possible in 20 seconds.
     For each table that you correctly complete, you will earn $0.10 as bonus. <br>
 </p>
 
@@ -15,30 +15,31 @@
 </p>
 
 
-    <div class="container">
+     <div class="container">
         <table class="table table-bordered">
                 <tr>
-                <td> {{ grid_numbers.0 }}</td>
-                <td> {{ grid_numbers.1 }}</td>
-                <td> {{ grid_numbers.2 }}</td>
+                <td> {{ if test_grid.0 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if test_grid.0 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                <td> {{ if test_grid.1 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if test_grid.1 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                <td> {{ if test_grid.2 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if test_grid.2 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
             </tr>
             <tr>
-                <td> {{ grid_numbers.3 }}</td>
-                <td> {{ grid_numbers.4 }}</td>
-                <td> {{ grid_numbers.5 }}</td>
+                <td> {{ if test_grid.3 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if test_grid.3 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                <td> {{ if test_grid.4 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if test_grid.4 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                <td> {{ if test_grid.5 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if test_grid.5 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
             </tr>
             <tr>
-                <td> {{ grid_numbers.6 }}</td>
-                <td> {{ grid_numbers.7 }}</td>
-                <td> {{ grid_numbers.8 }}</td>
+                <td> {{ if test_grid.6 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if test_grid.6 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                <td> {{ if test_grid.7 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if test_grid.7 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                <td> {{ if test_grid.8 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if test_grid.8 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
             </tr>
         </table>
     </div>
     <br>
 
 
+
 How many ones (1s) are in the table above?<br>
-<input type="number" name="trial_task1" autofocus="autofocus" label=""/>
+<input type="number" name="trial_answer1" autofocus="autofocus" label=""/>
 <br><br>
     {{ next_button }}
 

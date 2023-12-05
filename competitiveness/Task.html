@@ -5,22 +5,22 @@
 
 If the timer runs out then the answer that is currently typed into the box will be submitted.
 
-         <div class="container">
+          <div class="container">
         <table class="table table-bordered">
                 <tr>
-                <td> {{ grid_numbers.0 }}</td>
-                <td> {{ grid_numbers.1 }}</td>
-                <td> {{ grid_numbers.2 }}</td>
+                <td> {{ if grid_numbers.0 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.0 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                <td> {{ if grid_numbers.1 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.1 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                <td> {{ if grid_numbers.2 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.2 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
             </tr>
             <tr>
-                <td> {{ grid_numbers.3 }}</td>
-                <td> {{ grid_numbers.4 }}</td>
-                <td> {{ grid_numbers.5 }}</td>
+                <td> {{ if grid_numbers.3 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.3 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                <td> {{ if grid_numbers.4 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.4 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                <td> {{ if grid_numbers.5 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.5 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
             </tr>
             <tr>
-                <td> {{ grid_numbers.6 }}</td>
-                <td> {{ grid_numbers.7 }}</td>
-                <td> {{ grid_numbers.8 }}</td>
+                <td> {{ if grid_numbers.6 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.6 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                <td> {{ if grid_numbers.7 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.7 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                <td> {{ if grid_numbers.8 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.8 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
             </tr>
         </table>
     </div>

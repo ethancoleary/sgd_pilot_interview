@@ -4,18 +4,46 @@
 {{ block content }}
 
 <p>
-    When you click on the next button, you will have 30 seconds to complete as many grids as possible.
-    Recall that you are competing against 3 others (one of your gender and two of the opposite gender).
+    When you click on the next button, you will have 20 seconds to complete as many grids as possible.
+    Recall that you are competing against 3 others.
     To ensure your bonus payment and continuation in the experiment to the next stage, you must be one of the two winners.
 
 </p>
+
+Your competition group is shown below:
+
+<table class="table" style="margin: 0 auto; text-align: center;">
+    <tr>
+
+        <td></td>
+        <td> <img src="{{ static 'manager/neutral_avatar_highlighted.png'}}" width="50"/> <br>
+            <b>{{ participant.pseudonym }} (You)</b><br>
+        </td>
+
+        <td></td>
+
+        <td> <img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ player.participant.interview_competitor1 }}</b><br>
+        </td>
+
+        <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ player.participant.interview_competitor2 }}</b><br>
+
+        <td> <img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ player.participant.interview_competitor3 }}</b><br>
+        </td>
+
+        <td></td>
+
+</tr>
+</table>
 
 {{ if participant.quota == 1 }}
 Recall also that there is a gender quota for the winners: at least one of the winners must be female.
 {{ endif }}
 <br>
 <br>
-<b>Clicking next starts the timer.</b>
+<b>Clicking next starts the timer for 20 seconds.</b>
 <br><br>
 
 {{ next_button }}

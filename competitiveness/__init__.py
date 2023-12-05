@@ -12,6 +12,28 @@ class C(BaseConstants):
     NUM_ROUNDS = 25
     PAYMENT_PER_CORRECT_ANSWER = 0.1
     USE_POINTS = True
+    COMPETITORS = [1,2,3,4,5,6,7,8,9]
+    COMPETITOR_NAMES = [
+                        "Zoe",
+                        "Chloe",
+                        "Chloe",
+                        "Emma",
+                        "Alexander",
+                        "Daniel",
+                        "Jacob",
+                        "Jacob",
+                        "Harvey"]
+    COMPETITOR_SCORES = [
+                        3,
+                        4,
+                        5,
+                        7,
+                        8,
+                        5,
+                        3,
+                        6,
+                        4,
+                        ]
 
 
 class Subsession(BaseSubsession):
@@ -24,6 +46,19 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     investment = models.IntegerField(
+        widget=widgets.RadioSelect,
+        choices= [
+            [0, '0'],
+            [1, '1'],
+            [2, '2'],
+            [3, '3'],
+            [4, '4'],
+            [5, '5'],
+            [6, '6'],
+            [7, '7'],
+            [8, '8'],
+            [9, '9'],
+            [10, '10']]
     )
     number_entered = models.IntegerField()
     correct_answer = models.IntegerField()
@@ -49,6 +84,15 @@ class Player(BasePlayer):
     #if player.participant.male == 1:
 #   player.participant.quota = 0
 
+def competitor(player):
+    import random
+    competitor = random.randint(0,8)
+    participant = player.participant
+
+    participant.competitor = C.COMPETITOR_NAMES[competitor]
+    participant.competitor_score = C.COMPETITOR_SCORES[competitor]
+
+
 
 timer_text = 'Time left in interview task'
 def get_timeout_seconds(player):
@@ -72,6 +116,7 @@ class Structure(Page):
 
 
     def before_next_page(player, timeout_happened):
+        competitor(player)
         participant = player.participant
         participant.investment = player.investment
 
@@ -97,7 +142,7 @@ class Ready(Page):
         import time
 
         # remember to add 'expiry' to PARTICIPANT_FIELDS.
-        participant.expiry = time.time() + 30
+        participant.expiry = time.time() + 20
 
 class Task(Page):
     form_model = 'player'
@@ -111,12 +156,17 @@ class Task(Page):
         return get_timeout_seconds(player) >= 0
 
     def vars_for_template(player):
-        participant = player.participant
-
         import random
         # Generate a list of 25 random integers, each either 0 or 1
-        grid_numbers = [random.randint(0, 1) for _ in range(9)]
-        player.correct_answer = sum(grid_numbers)
+        ones = random.randint(1, 9)
+        grid_numbers = [0, 0, 0,
+                        0, 0, 0,
+                        0, 0, 0]
+        for i in range(9):
+            if i < ones:
+                grid_numbers[i] = 1
+        random.shuffle(grid_numbers)
+        player.correct_answer = ones
 
         return {
             'grid_numbers': grid_numbers
@@ -143,46 +193,15 @@ class Calculation(Page):
         participant = player.participant
         participant.compete_score = total_score
 
-
-        pool = {
-            1: 1,
-            2: 1,
-            3: 1,
-            4: 1,
-            5: 1,
-            6: 1,
-            7: 1,
-            8: 1,
-            9: 1,
-            10: 1,
-            11: 1,
-            20: 1,
-            21: 1,
-            23: 1,
-            24: 1,
-            25: 1,
-            26: 1,
-            27: 1,
-            28: 1,
-            29: 1,
-            30: 1,
-            31: 1,
-        }
-
-        import random
-        player.competitor, player.competitor_score = random.choice(list(pool.items()))
-        participant.competitor = player.competitor
-        participant.competitor_score = player.competitor_score
-
-        if participant.compete_score > player.competitor_score:
+        if participant.compete_score > participant.competitor_score:
             participant.win_compete = 1
-        if participant.compete_score < player.competitor_score:
+        if participant.compete_score < participant.competitor_score:
             participant.win_compete = 0
 
 
-        if participant.compete_score == player.competitor_score:
+        if participant.compete_score == participant.competitor_score:
             participant.compete_payoff = cu(0.02 * (10 - participant.investment) * participant.compete_score)
-        if participant.compete_score != player.competitor_score:
+        if participant.compete_score != participant.competitor_score:
 
             if participant.win_compete == 1 :
                 participant.compete_payoff = cu(0.03* participant.investment * participant.compete_score) + cu(0.01 * (10-participant.investment)*participant.compete_score)

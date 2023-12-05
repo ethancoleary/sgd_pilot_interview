@@ -4,7 +4,13 @@ SESSION_CONFIGS = [
      dict(
          name='Main',
          #app_sequence = ['intro', 'interview', 'closing'],
-         app_sequence=['manager'],
+         app_sequence=['intro',
+                          #'ability',
+                          #  'competitiveness',
+                         #  'interview',
+                           'manager',
+                           'board',
+                           'closing'],
          num_demo_participants=5
      ),
 ]
@@ -20,7 +26,9 @@ SESSION_CONFIG_DEFAULTS = dict(
 
 PARTICIPANT_FIELDS = ['quota', 'risk_preference', 'interview_score',  'expiry', 'compete', 'ability_score', 'ability_belief',
                       'ability_payoff', 'compete_score', 'compete_payoff', 'investment', 'belief_absolute_comp', 'competitor', 'competitor_score',
-                      'interview_score', 'interview_payoff', 'die_roll', 'manager', 'combined_payoff', 'stage1_payoff', 'win_compete',
+                      'interview_score', 'interview_payoff', 'interview_competitor1', 'interview_competitor2', 'interview_competitor3', 'interview_type',
+                      'interview_competitor1_score', 'interview_competitor2_score', 'interview_competitor3_score',
+                      'manager', 'combined_payoff', 'stage1_payoff', 'win_compete',
                       't2_mixgroup', 't2_malefirst', 't3_observed', 't4_maleboard', 't4_femaleboard', 'male', 'total_round2_payoff', 'stage2_payoff',
                       'female', 'gender', 'pseudonym', 'team1', 'team2', 'round1_score', 'total_round1_payoff', 'total_manager_payoff', 'board',
                       'board_names', 'board_payoff', 'total_earnings']
