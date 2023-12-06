@@ -16,7 +16,7 @@ class C(BaseConstants):
     GROUP_TYPE = [1, 2, 3]
     PAIR = [[
         [0, 8], [1, 5], [2, 7], [3, 4]],
-        [[0,6], [1,8], [2,5]],
+        [[1,8], [0,6], [2,5]],
         [[1, 6], [2, 8], [3, 5]]
     ]
     WORKER_NAMES = [
@@ -108,31 +108,34 @@ def get_timeout_seconds(player):
 
 def team(player):
     import random
-
+    participant = player.participant
 
     player.t2_group_type = random.randint(0,2)
+    participant.t2_type = player.t2_group_type
 
     teams = C.PAIR[player.t2_group_type]
-    max = len(teams)-1
-    team = teams[random.randint(0,max)]
+    participant.team = teams[0] #Here I've set it all to the one where x =4
 
-    player.team1 = C.WORKER_NAMES[team[0]]
-    player.team1_score = C.WORKER_ROUND1_SCORES[team[0]]
-    player.team1_score = C.WORKER_ROUND2_SCORES[team[0]]
-
-    player.team2 = C.WORKER_NAMES[team[1]]
-    player.team2_score = C.WORKER_ROUND1_SCORES[team[1]]
-    player.team2_score = C.WORKER_ROUND2_SCORES[team[1]]
-
-    malefirst = random.randint(0,1)
+    malefirst = random.randint(0, 1)
     player.t2_malefirst = malefirst
-    player.participant.t2_malefirst =  player.t2_malefirst
+    participant.t2_malefirst = malefirst
+
+    if malefirst == 1 :
+
+        participant.team.reverse()
+
+    player.team1 = C.WORKER_NAMES[participant.team[0]]
+    participant.team1 = player.team1
+    player.team2 = C.WORKER_NAMES[participant.team[1]]
+    participant.team2 = player.team2
 
 def t3(player):
     import random
+    participant = player.participant
+
     t3 = random.randint(0,1)
     player.t3_observed = t3
-    player.participant.t3_observed = player.t3_observed
+    participant.t3_observed = t3
 
 
 # PAGES
@@ -217,8 +220,7 @@ class Belief(Page):
     form_fields = ['belief_absolute', 'belief_relative']
     def is_displayed(player):
         participant = player.participant
-        return get_timeout_seconds(player) <= 0 and player.round_number == player.display_counter
-
+        return get_timeout_seconds(player) <= 0
     def vars_for_template(player):
         all_players = player.in_all_rounds()
         total_score = sum([p.score for p in all_players])
@@ -243,13 +245,14 @@ class Round1Results(Page):
 
     def is_displayed(player):
         participant = player.participant
-        return get_timeout_seconds(player) <= 0 and player.round_number == player.display_counter
+        return get_timeout_seconds(player) <= 0
 
     def vars_for_template(player):
         participant = player.participant
-        team_score = C.TEAMS_SCORE[participant.t2_mixgroup]
-        player.team1_score = team_score[1 - participant.t2_malefirst]
-        player.team2_score = team_score[participant.t2_malefirst]
+
+        player.team1_score = C.WORKER_ROUND1_SCORES[participant.team[0]]
+
+        player.team2_score = C.WORKER_ROUND1_SCORES[participant.team[1]]
 
 
         round1_scores = [participant.round1_score, player.team1_score, player.team2_score]
@@ -283,26 +286,41 @@ class Round2Intro(Page):
 
     def is_displayed(player):
         participant = player.participant
-        return get_timeout_seconds(player) <= 0 and player.round_number == player.display_counter
+        return get_timeout_seconds(player) <= 0
 
     def vars_for_template(player):
         import random
-        # Generate a list of 25 random integers, each either 0 or 1
-        grid_numbers = [random.randint(0, 1) for _ in range(36)]
+        ones = random.randint(8, 36)
+        grid_numbers = [0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0]
+        for i in range(36):
+            if i < ones:
+                grid_numbers[i] = 1
+        random.shuffle(grid_numbers)
+        player.correct_answer = ones
 
         participant = player.participant
-        if participant.t4_femaleboard == 0 and participant.t4_maleboard == 0:
-            participant.board_names = ["", "", ""]
-        else:
-            participant.board_names = C.BOARDS[participant.t4_femaleboard]
 
-        player.board1 = participant.board_names[0]
-        player.board2 = participant.board_names[1]
-        player.board3 = participant.board_names[2]
+        if participant.t3_observed == 0:
+            player.board1 = ""
+            player.board2 = ""
+            player.board3 = ""
+        if participant.t3_observed == 1:
+            participant.board_names = ["Mason", "Alexander", "Daniel"]
+            player.board1 = participant.board_names[0]
+            player.board2 = participant.board_names[1]
+            player.board3 = participant.board_names[2]
 
         return {
-            'grid_numbers': grid_numbers,
+            'grid_numbers': grid_numbers
         }
+
+
+
 
 class Round2Decision(Page):
     form_model = 'player'
@@ -314,10 +332,11 @@ class Round2Decision(Page):
 
 
 class Calculation(Page):
-    timeout_seconds = 6
+    timeout_seconds = 2
+
 
     def is_displayed(player):
-        return get_timeout_seconds(player) <= 0 and player.display_counter < 1
+        return get_timeout_seconds(player) <= 0 and player.round_number == player.display_counter
 
 
 class Round2Results(Page):
@@ -328,9 +347,10 @@ class Round2Results(Page):
 
     def vars_for_template(player):
         participant = player.participant
-        team_score = C.TEAMS_SCORE2[participant.t2_mixgroup]
-        player.team1_score2 = team_score[1 - participant.t2_malefirst]
-        player.team2_score2 = team_score[participant.t2_malefirst]
+
+        player.team1_score2 = C.WORKER_ROUND2_SCORES[participant.team[0]]
+
+        player.team2_score2 = C.WORKER_ROUND2_SCORES[participant.team[1]]
 
         if player.workerA_team1 == True:
             workerA = participant.team1
@@ -348,29 +368,19 @@ class Round2Results(Page):
         commission_payout = player.commission
 
         if participant.t3_observed == 1:
+            import random
 
-            if participant.t4_maleboard + participant.t4_femaleboard > 0:
-                board_votes = C.BOARDS_VOTE[participant.t4_femaleboard]
-            else:
-                import random
-                board_number = random.randint(0,1)
-                board_votes = C.BOARDS_VOTE[board_number]
+            if participant.t2_type == 0 or participant.t2_type == 2:
+                board_votes = [1,1,1]
+            if participant.t2_type == 1:
+                board_votes = [random.randint(0, 1), random.randint(0, 1), random.randint(0, 1)]
 
-            board_votes_cast = [board_votes[0][participant.t2_mixgroup], board_votes[1][participant.t2_mixgroup], board_votes[2][participant.t2_mixgroup]]
+            board1_agree = board_votes[0]
+            board2_agree = board_votes[1]
+            board3_agree = board_votes[2]
+            board_members_agreeing = sum(board_votes)
 
-
-            board1_vote = C.TEAMS[participant.t2_mixgroup][board_votes_cast[0]]
-            board2_vote = C.TEAMS[participant.t2_mixgroup][board_votes_cast[1]]
-            board3_vote = C.TEAMS[participant.t2_mixgroup][board_votes_cast[2]]
-
-            board1_agree = board1_vote == workerA
-            board2_agree = board2_vote == workerA
-            board3_agree = board3_vote == workerA
-
-            board_members_agreeing = board1_agree + board2_agree + board3_agree
-
-            commission_payout = cu(((board_members_agreeing)/3) * player.workerA_score * C.COMMISSION_PER_CORRECT_ANSWER)
-
+            commission_payout = cu(((board_members_agreeing)/3) * player.commission)
 
             #BOARDS = [['Aiden', 'Samuel', 'Alexander'], ['Abigail', 'Grace', 'Emma']]
             #BOARDS_VOTE = [[[1,0], [1,0], [1,0]], [[1,1], [0,1], [0,0]]]
@@ -386,13 +396,11 @@ class Round2Results(Page):
         if round_draw == 2:
             participant.stage2_payoff = participant.total_round2_payoff
 
-        participant.board = participant.total_round1_payoff + participant.total_round2_payoff >= 5
+        participant.board = 0
+        #participant.board = participant.total_round1_payoff + participant.total_round2_payoff >= 5
 
         if participant.t3_observed == 1:
             return {
-                'board1_vote': board1_vote,
-                'board2_vote': board2_vote,
-                'board3_vote': board3_vote,
 
                 'board1_agree':board1_agree,
                 'board2_agree':board2_agree,
@@ -418,12 +426,13 @@ class Round2Results(Page):
     @staticmethod
     def app_after_this_page(player, upcoming_apps):
         participant = player.participant
+        return upcoming_apps[0]
 
 
-        if get_timeout_seconds(player) <= 0 and player.round_number == player.display_counter and participant.board == 1:
-            return upcoming_apps[0]
-        if participant.board == 0:
-            return upcoming_apps[-1]
+        #if get_timeout_seconds(player) <= 0 and player.round_number == player.display_counter and participant.board == 1:
+            #return upcoming_apps[0]
+        #if participant.board == 0:
+            #return upcoming_apps[-1]
 
 
 page_sequence = [TeamWelcome, Round1Intro, Round1, Belief, Round1Results, Round2Intro, Round2Decision, Calculation, Round2Results]

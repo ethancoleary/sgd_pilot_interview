@@ -14,12 +14,13 @@ Additionally, you stated that you believed you answered {{ participant.ability_b
 Accordingly, your first stage payoff was {{ participant.ability_payoff }}.
 <br> <br>
 <h2>Round 2</h2>
-In the second round, you submitted {{ participant.compete_score }} correct answers.
+In the second round, you submitted {{ participant.compete_score }} correct answers and invested {{ participant.investment }} tokens into the tournament option.
 You randomly drew participant {{ participant.competitor }} who scored {{ participant.competitor_score }}.
-{{ if participant.win_compete == 1 }}Therefore, you won the tournament. {{ endif }}
-{{ if participant.win_compete == 0 }}Therefore, you did not win the tournament. {{ endif }}<br><br>
+{{ if participant.win_compete == 1 }}Therefore, you won the tournament.
+This means your investment returned {{ compete_payoff_optionA }} from tournament pay and {{ compete_payoff_optionB }} from the piece-rate scheme. {{ endif }}
+{{ if participant.win_compete == 0 }}Therefore, you did not win the tournament. This means your investment returned {{ compete_payoff_optionB }} from the piece_rate scheme. {{ endif }}<br><br>
 
-You stated that you believed you answered {{ participant.belief_absolute_comp }} correctly.
+You also stated that you believed you answered {{ participant.belief_absolute_comp }} correctly.
 Therefore, your total payoff from this stage is {{ participant.compete_payoff }}. <br><br>
 
 <h2>Round 3</h2>
@@ -32,14 +33,14 @@ Below you can see a summary of your group's scores. <br><br>
     <tbody>
         <tr>
             <th scope="row"><b> Participant name</b></th>
-            <td>You</td>
+            <td><b>You</b></td>
             <td>{{ participant.interview_competitor1 }}</td>
             <td>{{ participant.interview_competitor2 }}</td>
             <td>{{ participant.interview_competitor3 }}</td>
         </tr>
         <tr>
             <th scope="row">Score</th>
-            <td>{{ participant.interview_score }}</td>
+            <td><b>{{ participant.interview_score }}</b></td>
             <td>{{ participant.interview_competitor1_score }}</td>
             <td>{{ participant.interview_competitor2_score }}</td>
             <td>{{ participant.interview_competitor3_score }}</td>
@@ -94,18 +95,20 @@ You positioned at number {{ relative }} in the quota tournament.
 {{ endif }}
 <br><br>
 
-For your stage 1 payment, you will receive a fixed participation fee of $1.50 in addition to a bonus payment according to your earnings from one of the rounds.
-A random draw was conducted and you will receive bonus payment from your performance in round {{ round_draw }}.
-Thus your bonus payment from stage 1 is {{ participant.stage1_payoff }}.<br><br>
+For your stage 1 payment, you will receive a fixed participation fee and a performance payment according to your earnings from one of the rounds.
+A random draw was conducted and you will receive payment from your performance in round {{ round_draw }}.
+<b>Thus your performance payment from stage 1 is {{ participant.stage1_payoff }}.</b><br><br>
 
 {{ if participant.manager == 0 }}
-Thank you for taking the time to complete this experiment. You may now close this tab.
+Please proceed to complete the final part of the experiment. <br><br>
 {{ endif }}
 
 {{ if participant.manager == 1 }}
 You may now proceed to stage 2 where you will perform tasks given your newly earned responsibility.<br><br>
 
-{{ next_button }}{{ endif }}
+{{ endif }}
+
+{{ next_button }}
 </body>
 </html>
 {{ endblock }}

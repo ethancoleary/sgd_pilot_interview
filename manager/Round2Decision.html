@@ -11,48 +11,45 @@
 <head>
     <title>Your board</title>
     <style>
+        .center-container {
+            width: 50%;
+            margin: auto;
+        }
         table {
-            margin: 20px auto; /* Centering the table */
-            border: 1px solid white; /* Remove the border */
-            width: 100%; /* Set table width */
-            table-layout: fixed; /* Equal column width */
+            width: 100%;
+            margin: auto;
+            border: none; /* Border around the table */
+            border-collapse: unset;
         }
         th, td {
             padding: 5px;
             text-align: center;
-            border: 1px solid white; /* Remove the inside borders */
         }
     </style>
 </head>
 <body>
-    <table class="table">
-        <colgroup>
-            <col style="width: 33.33%;">
-            <col style="width: 33.33%;">
-            <col style="width: 33.33%;">
-        </colgroup>
+<div class="center-container">
+    <table>
         <tr>
             <td colspan="3">Your board</td>
         </tr>
         <tr>
-            <td colspan="3"><img src="{{ static 'manager/board_avatar.png'}}" width="150"/></td>
-        </tr>
-        <tr>
-            <td>{{ player.board1 }}</td>
-            <td>{{ player.board2 }}</td>
-            <td>{{ player.board3 }}</td>
+            <td colspan="3"><img src="{{ static 'manager/board_avatar.png'}}" width="150"/><br>
+            {{ player.board1 }};   {{ player.board2 }};   {{ player.board3 }}</td>
         </tr>
     </table>
+</div>
 </body>
 </html>
 
 
+<br><br>
 {{  endif }}
 
 <h3>Prior to beginning round 2, you must choose one of your workers to be ranked as <b>Worker A</b>.</h3>
 Both workers have worked on the hard task for 90 seconds following their previous performance.
-Your task is to now pick a worker, call them <b>Worker A</b>, who you wish to earn commission from.
-While the workers receive <b>$0.25</b> per correct answer they submit, you will earn a commission of <b>$0.50</b> for every correct answer your chosen <b>Worker A</b> submits.
+Your task is to now pick a worker, call them <b>Worker A</b>.
+While the workers receive <b>$0.10</b> per correct answer they submit, you will earn a commission of <b>$0.20</b> for every correct answer your chosen <b>Worker A</b> submits.
 You do not earn commission from the other worker. <b>Worker A</b> will also enter a draw to receive a bonus of $1.00.
 Multiple managers may work with the same teams and so the draw will be determined according to how many entries each worker receives. <br><br>
 
@@ -85,7 +82,7 @@ Now you must choose your <b>Worker A</b>
             <th><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
             <br><b>{{ participant.team1 }}</b></th>
             <th><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
-            <br<b>{{ participant.team2 }}</b></th>
+            <br><b>{{ participant.team2 }}</b></th>
         </tr>
         <tr>
             <td>Round 1 Score: {{ player.team1_score }}</td>

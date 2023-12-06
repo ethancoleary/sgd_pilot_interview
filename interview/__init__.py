@@ -13,35 +13,23 @@ class C(BaseConstants):
     PAYMENT_PER_CORRECT_ANSWER = 0.1
     USE_POINTS = True
 
-    COMPETITORS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    COMPETITORS = [1, 2, 3, 4, 5, 6]
     COMPETITOR_NAMES = [
         "Zoe",
         "Chloe D",
         "Chloe T",
-        "Emma",
-        "Alexander",
         "Daniel",
         "Jacob M",
-        "Jacob R",
         "Harvey"]
     COMPETITOR_SCORES = [
         3,
         4,
         5,
-        7,
-        8,
         5,
         3,
-        6,
         4,
     ]
 
-    INTERVIEW_TYPE = [1, 2, 3]
-    PAIR = [[
-        [1, 8], [3, 6], [2, 5], [4, 7]],
-        [[3, 8], [6, 2], [1, 9]],
-        [[9, 3], [8, 2], [4, 5]]
-    ]
 
 
 class Subsession(BaseSubsession):
@@ -90,32 +78,32 @@ def competitors(player):
     participant = player.participant
 
     if participant.male == 0 :
-        competitor1 = random.randint(4,8)
+        competitor1 = random.randint(3,5)
         participant.interview_competitor1 = C.COMPETITOR_NAMES[competitor1]
         participant.interview_competitor1_score = C.COMPETITOR_SCORES[competitor1]
 
-        competitor2 = random.randint(4, 8)
+        competitor2 = random.randint(3, 5)
         while competitor2 == competitor1 :
-            competitor2 = random.randint(4,8)
+            competitor2 = random.randint(3,5)
         participant.interview_competitor2 = C.COMPETITOR_NAMES[competitor2]
         participant.interview_competitor2_score = C.COMPETITOR_SCORES[competitor2]
 
-        competitor3 = random.randint(0, 3)
+        competitor3 = random.randint(0, 2)
         participant.interview_competitor3 = C.COMPETITOR_NAMES[competitor3]
         participant.interview_competitor3_score = C.COMPETITOR_SCORES[competitor3]
 
     if participant.male == 1:
-        competitor1 = random.randint(0, 3)
+        competitor1 = random.randint(0, 2)
         participant.interview_competitor1 = C.COMPETITOR_NAMES[competitor1]
         participant.interview_competitor1_score = C.COMPETITOR_SCORES[competitor1]
 
-        competitor2 = random.randint(0, 3)
+        competitor2 = random.randint(0, 2)
         while competitor2 == competitor1:
-            competitor2 = random.randint(0, 3)
+            competitor2 = random.randint(0, 2)
         participant.interview_competitor2 = C.COMPETITOR_NAMES[competitor2]
         participant.interview_competitor2_score = C.COMPETITOR_SCORES[competitor2]
 
-        competitor3 = random.randint(4, 8)
+        competitor3 = random.randint(3, 5)
         participant.interview_competitor3 = C.COMPETITOR_NAMES[competitor3]
         participant.interview_competitor3_score = C.COMPETITOR_SCORES[competitor3]
 
@@ -136,11 +124,6 @@ class Structure(Page):
         quota(player)
         competitors(player)
         player.participant.manager = 0
-
-class Ready(Page):
-    def is_displayed(subsession):
-        return subsession.round_number == 1
-
 
     @staticmethod
     def before_next_page(player, timeout_happened):
@@ -200,33 +183,6 @@ class Calculation(Page):
         participant = player.participant
         participant.interview_score = total_score
 
-        male_pool = {
-            1: 1,
-            2: 1,
-            3: 1,
-            4: 1,
-            5: 1,
-            6: 1,
-            7: 1,
-            8: 1,
-            9: 1,
-            10: 1,
-            11: 1,
-        }
-
-        female_pool = {
-            20: 1,
-            21: 1,
-            23: 1,
-            24: 1,
-            25: 1,
-            26: 1,
-            27: 1,
-            28: 1,
-            29: 1,
-            30: 1,
-            31: 1,
-        }
 
         import random
         ## Worker 1 and 2 are always of opposite gender. Worker 3 is own gender.
@@ -255,22 +211,22 @@ class Calculation(Page):
 
             # Allocate payoff to those who win definitively
             if player.position <= 2:
-                player.combined_payoff = 1
+                player.combined_payoff = cu(1)
                 participant.manager = 1
 
             # Randomly draw winning probability if it is a tie
             if participant.interview_score == others_scores[1]:
                 roll = random.randint(0,1)
                 if roll == 1:
-                    player.combined_payoff = 1
+                    player.combined_payoff = cu(1)
                     participant.manager = 1
                 else:
-                    player.combined_payoff = 0
+                    player.combined_payoff = cu(0)
                     participant.manager = 0
 
             # Allocate payoff to those who lose
             if participant.interview_score < others_scores[1]:
-                player.combined_payoff = 0
+                player.combined_payoff = cu(0)
                 participant.manager = 0
 
         # If female, have two cases. First is non-quota
@@ -291,19 +247,19 @@ class Calculation(Page):
             if participant.interview_score == top_male_score and participant.interview_competitor3_score > top_male_score:
                 roll = random.randint(0, 1)
                 if roll == 1:
-                    player.combined_payoff = 1
+                    player.combined_payoff = cu(1)
                     participant.manager = 1
                 else:
-                    player.combined_payoff = 0
+                    player.combined_payoff = cu(0)
                     participant.manager = 0
             # Then if tie for top female
             if participant.interview_score == participant.interview_competitor3_score and participant.interview_score == top_male_score:
                 roll = random.randint(0, 1)
                 if roll == 1:
-                    player.combined_payoff = 1
+                    player.combined_payoff = cu(1)
                     participant.manager = 1
                 else:
-                    player.combined_payoff = 0
+                    player.combined_payoff = cu(0)
                     participant.manager = 0
 
 
@@ -320,9 +276,9 @@ class Belief(Page):
     def before_next_page(player, timeout_happened):
         participant = player.participant
         if participant.interview_score == player.belief_absolute:
-            player.belief_absolute_payoff = 0.5
+            player.belief_absolute_payoff = cu(0.5)
         if player.belief_relative == player.position:
-            player.belief_relative_payoff = 0.5
+            player.belief_relative_payoff = cu(0.5)
 
 class Outcome(Page):
 
@@ -348,7 +304,6 @@ class Outcome(Page):
             relative = "4th"
 
         if participant.manager == 1:
-            player.belief_relative_payoff = player.position == player.belief_relative
 
             if player.belief_relative == 1 :
                 belief_relative = "1st"
@@ -376,12 +331,32 @@ class Outcome(Page):
         if round_draw == 3:
             participant.stage1_payoff = participant.interview_payoff
 
-        return {
-            'belief_relative':belief_relative,
-            'relative':relative,
-            'payoff_relative':payoff_relative,
-            'round_draw':round_draw
-        }
+        piece_rate = 10-participant.investment
+        compete_payoff_optionA = cu(participant.compete_score * participant.investment*0.03*participant.win_compete)
+        compete_payoff_optionB = cu(piece_rate * participant.compete_score*0.01)
+
+        if participant.manager == 1:
+
+            return {
+                'belief_relative':belief_relative,
+                'relative':relative,
+                'payoff_relative':payoff_relative,
+                'round_draw':round_draw,
+                'compete_payoff_optionA':compete_payoff_optionA,
+                'compete_payoff_optionB': compete_payoff_optionB,
+                'piece_rate':piece_rate
+
+            }
+
+        if participant.manager == 0:
+            return {
+                'relative': relative,
+                'round_draw': round_draw,
+                'compete_payoff_optionA': compete_payoff_optionA,
+                'compete_payoff_optionB': compete_payoff_optionB,
+                'piece_rate': piece_rate
+
+            }
 
 
 
@@ -395,5 +370,5 @@ class Outcome(Page):
             return upcoming_apps[-1]
 
 
-page_sequence = [Structure, Ready, Task, Calculation, Belief, Outcome]
+page_sequence = [Structure, Task, Calculation, Belief, Outcome]
 

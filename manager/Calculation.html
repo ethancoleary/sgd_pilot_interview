@@ -3,10 +3,19 @@
 {{ endblock }}
 {{ block content }}
 
-{{ if participant.observed == 0 }}
-Please wait while we calculate your interview outcome.<br>
+
+
+<style>
+    .otree-timer{
+        display: none;
+    }
+</style>
+
+
+{{ if participant.t3_observed == 0 }}
+Please wait while we calculate your interview outcome. This page will automatically refresh in 2 seconds.<br>
 {{ endif }}
-{{ if participant.observed == 1 }}
+{{ if participant.t3_observed == 1 }}
 Please wait while we await the decision of board members. <br>
 {{ endif }}
 

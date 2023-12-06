@@ -1,0 +1,27 @@
+{{ block title }}
+Thank you!
+{{ endblock }}
+
+{{ block content }}
+
+<p>
+    You will be redirected automatically redirected to Prolific. If this hasn't happened yet, click
+    <a href={{link}}>here</a>
+</p>
+
+<script>
+    function Redirect() {
+        window.location.href = "{{link}}";
+    }
+    function onPageLoad() {
+        setTimeout(() => {
+            Redirect()
+        }, 2000)
+    }
+
+     window.onload = onPageLoad;
+</script>
+{{ endblock }}
+
+
+

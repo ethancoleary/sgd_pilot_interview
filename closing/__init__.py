@@ -10,6 +10,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'intro'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
+    PARTICIPATION = 2
 
 
 class Subsession(BaseSubsession):
@@ -31,8 +32,6 @@ class Player(BasePlayer):
             [5, 'Always take risks']
         ]
     )
-    instructions = models.LongStringField()
-    incentives = models.LongStringField()
     feedback = models.LongStringField(blank=True)
 
 
@@ -40,35 +39,43 @@ class Player(BasePlayer):
 
 
 # PAGES
-class Welcome(Page):
-
-    def is_displayed(subsession):
-        return subsession.round_number == 1
-
-
-
 
 class RiskPref(Page):
     form_model = 'player'
     form_fields = ['riskyness']
 
+    def is_displayed(player):
+        participant = player.participant
+        return participant.manager == 1
+
 class Feedback(Page):
     form_model = 'player'
-    form_fields = ['instructions', 'incentives', 'feedback']
+    form_fields = ['feedback']
 
-class ThankYou(Page):
+    def is_displayed(player):
+        participant = player.participant
+        return participant.manager == 1
 
     @staticmethod
     def vars_for_template(player):
         participant = player.participant
+        total_bonus = participant.stage1_payoff + participant.stage2_payoff
+        total_pay = total_bonus + C.PARTICIPATION
 
-        if participant.manager != 1:
-            participant.total_earnings = cu(participant.interview_payoff) + cu(1)
+        return {
+            'total_bonus': total_bonus,
+            'total_pay': total_pay
+        }
 
-        if participant.manager == 1 and participant.board != 1:
-            participant.total_earnings = cu(participant.interview_payoff) + cu(participant.total_manager_payoff) + cu(2)
+class Redirect(Page):
+    @staticmethod
+    def vars_for_template(player):
+        code = player.session.config['completion_code']
+        link = f"https://app.prolific.co/submissions/complete?cc={code}"
 
-        if participant.manager == 1 and participant.board == 1:
-            participant.total_earnings = cu(participant.interview_payoff) + cu(participant.total_manager_payoff) + cu(participant.board_payoff) + cu(2)
+        return dict(
+            link=link,
+        )
 
-page_sequence = [Welcome, RiskPref, Feedback, ThankYou]
+
+page_sequence = [RiskPref, Feedback, Redirect]

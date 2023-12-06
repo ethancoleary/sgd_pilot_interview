@@ -22,7 +22,7 @@
 <body>
     <table>
         <tr>
-            <td colspan="2">Your team</td>
+            <td colspan="2">Your workers</td>
         </tr>
         <tr>
             <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
@@ -39,60 +39,60 @@
 <br>
 <br>
 
-In the second round of this stage you no longer work on the task; instead you delegate the work to your subordinates.
+In the second round of this stage you will <b>no longer work on a task:</b> instead you will delegate the work to your subordinates.
 Because of this, both of the workers will have an increased work load and their task becomes more difficult.
-Specifically the grid within which they must count the number of ones will expand from the 3x3 size to 6x6 size.
-An example is displayed below.<br><br>
+Specifically the grid within which they must count the number of ones has expanded from the 3x3 size to 6x6 size.
+An example of your workers' task is displayed below.<br><br>
 
         <div class="container">
         <table class="table table-bordered">
                 <tr>
-                <td> {{ grid_numbers.0 }}</td>
-                <td> {{ grid_numbers.1 }}</td>
-                <td> {{ grid_numbers.2 }}</td>
-                <td> {{ grid_numbers.3 }}</td>
-                <td> {{ grid_numbers.4 }}</td>
-                <td> {{ grid_numbers.5 }}</td>
+                 <td> {{ if grid_numbers.0 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.0 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.1 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.1 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.2 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.2 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.3 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.3 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.4 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.4 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.5 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.5 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
             </tr>
             <tr>
-                <td> {{ grid_numbers.6 }}</td>
-                <td> {{ grid_numbers.7 }}</td>
-                <td> {{ grid_numbers.8 }}</td>
-                <td> {{ grid_numbers.9 }}</td>
-                <td> {{ grid_numbers.10 }}</td>
-                <td> {{ grid_numbers.11 }}</td>
+                 <td> {{ if grid_numbers.6 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.6 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.7 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.7 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.8 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.8 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.9 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.9 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.10 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.10 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.11 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.11 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
             </tr>
             <tr>
-                <td> {{ grid_numbers.12 }}</td>
-                <td> {{ grid_numbers.13 }}</td>
-                <td> {{ grid_numbers.14 }}</td>
-                <td> {{ grid_numbers.15 }}</td>
-                <td> {{ grid_numbers.16 }}</td>
-                <td> {{ grid_numbers.17 }}</td>
+                 <td> {{ if grid_numbers.12 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.12 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.13 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.13 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.14 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.14 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.15 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.15 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.16 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.16 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.17 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.17 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
             </tr>
             <tr>
-                <td> {{ grid_numbers.18 }}</td>
-                <td> {{ grid_numbers.19 }}</td>
-                <td> {{ grid_numbers.20 }}</td>
-                <td> {{ grid_numbers.21 }}</td>
-                <td> {{ grid_numbers.22 }}</td>
-                <td> {{ grid_numbers.23 }}</td>
+                 <td> {{ if grid_numbers.18 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.18 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.19 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.19 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.20 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.20 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.21 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.21 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.22 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.22 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.23 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.23 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
             </tr>
             <tr>
-                <td> {{ grid_numbers.24 }}</td>
-                <td> {{ grid_numbers.25 }}</td>
-                <td> {{ grid_numbers.26 }}</td>
-                <td> {{ grid_numbers.27 }}</td>
-                <td> {{ grid_numbers.28 }}</td>
-                <td> {{ grid_numbers.29 }}</td>
+                 <td> {{ if grid_numbers.24 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.24 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.25 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.25 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.26 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.26 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.27 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.27 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.28 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.28 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.29 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.29 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
             </tr>
             <tr>
-                <td> {{ grid_numbers.30 }}</td>
-                <td> {{ grid_numbers.31 }}</td>
-                <td> {{ grid_numbers.32 }}</td>
-                <td> {{ grid_numbers.33 }}</td>
-                <td> {{ grid_numbers.34 }}</td>
-                <td> {{ grid_numbers.35 }}</td>
+                 <td> {{ if grid_numbers.30 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.30 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.31 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.31 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.32 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.32 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.33 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.33 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.34 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.34 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
+                 <td> {{ if grid_numbers.35 == 0 }}<img src="{{ static 'tables/zero.png'}}" width="50"/>{{ endif }} {{ if grid_numbers.35 == 1 }}<img src="{{ static 'tables/one.png'}}" width="50"/>{{ endif }}</td>
             </tr>
         </table>
     </div>
@@ -100,9 +100,8 @@ An example is displayed below.<br><br>
     <br>
 
 
-By delegating your work-load to your workers, you earn an income by choosing a worker from which you will earn commission from.
-This worker will also receive a bonus. <br><br>
-Specifically, both workers have worked on the hard task for 60 seconds following their previous performance.
+By delegating your work-load to your workers, you earn an income in this round by choosing a worker from whom you will earn commission off. <br><br>
+Specifically, both workers are working on the hard task above for 60 seconds.
 Your task is to now pick a worker, call them <b>Worker A</b>, who you wish to earn commission from.
 While the workers continue to receive <b>$0.10</b> per correct answer they submit, you will earn a commission of <b>$0.20</b> for every correct answer your chosen <b>Worker A</b> submits.
 You do not earn commission from the other worker. <b>Worker A</b> will also enter a draw to receive a bonus of $1.00.
@@ -117,7 +116,7 @@ Multiple managers may work with the same teams and so the draw will be determine
         table {
             float: right;
             margin: 20px;
-            border: 1px solid black; /* Border around the table */
+            border: 1px white; /* Border around the table */
             border-collapse: collapse; /* Collapses the border */
         }
         th, td {
@@ -132,7 +131,8 @@ Multiple managers may work with the same teams and so the draw will be determine
             <td colspan="3">Your board</td>
         </tr>
         <tr>
-            <td colspan="3"><img src="{{ static 'manager/board_avatar.png'}}" width="150"/></td>
+            <td colspan="3"><img src="{{ static 'manager/board_avatar.png'}}" width="150"/><br>
+            </td>
         </tr>
         <tr>
             <td>
@@ -149,7 +149,7 @@ Multiple managers may work with the same teams and so the draw will be determine
 </body>
 </html>
 <b>Additionally, you should note that you are under observation from your superiors during this round.
-    Your superiors consist of a board of 3 experienced managers who will individually vote for approval of your choice of Worker A.
+    Your superiors consist of a board of 3 experienced managers who will individually observe your choice of Worker A and vote whether they approve of this.
     For every board member that disapproves with your decision, you will lose one third of your commission. <br><br>
 
     The board members are shown to the right here.</b>

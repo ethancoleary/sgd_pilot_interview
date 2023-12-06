@@ -14,9 +14,40 @@ The two winners of this round will be the top two performers in the tasks over 2
 
 {{ if participant.quota == 1 }}
 Additionally, there is a gender quota for this tournament. At least one of the winners must be a female.
-Therefore, to guarantee a winning position, you must either be the top performing female or be in one of the top two positions of the group.
-{{ endif }} <br><br>
+Therefore, to guarantee a winning position, you must either be the top performing female or be in one of the top two positions of the group. <br><br>
+{{ endif }}
 
+
+Your competition group is shown below:
+
+<table class="table" style="margin: 0 auto; text-align: center;">
+    <tr>
+
+        <td></td>
+        <td> <img src="{{ static 'manager/neutral_avatar_highlighted.png'}}" width="50"/> <br>
+            <b>{{ participant.pseudonym }} (You)</b><br>
+        </td>
+
+        <td></td>
+
+        <td> <img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ player.participant.interview_competitor1 }}</b><br>
+        </td>
+
+        <td><img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ player.participant.interview_competitor2 }}</b><br>
+
+        <td> <img src="{{ static 'manager/neutral_avatar.png'}}" width="50"/> <br>
+            <b>{{ player.participant.interview_competitor3 }}</b><br>
+        </td>
+
+        <td></td>
+
+</tr>
+</table>
+<br><br>
+
+<b>Clicking next starts the timer for 20 seconds and the round will begin.</b><br><br>
 {{ next_button }}
 {{ endblock }}
 

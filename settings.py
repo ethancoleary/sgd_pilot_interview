@@ -5,11 +5,11 @@ SESSION_CONFIGS = [
          name='Main',
          #app_sequence = ['intro', 'interview', 'closing'],
          app_sequence=['intro',
-                          #'ability',
-                          #  'competitiveness',
-                         #  'interview',
+                        'ability',
+                        'competitiveness',
+                          'interview',
                            'manager',
-                           'board',
+                           #'board',
                            'closing'],
          num_demo_participants=5
      ),
@@ -29,8 +29,8 @@ PARTICIPANT_FIELDS = ['quota', 'risk_preference', 'interview_score',  'expiry', 
                       'interview_score', 'interview_payoff', 'interview_competitor1', 'interview_competitor2', 'interview_competitor3', 'interview_type',
                       'interview_competitor1_score', 'interview_competitor2_score', 'interview_competitor3_score',
                       'manager', 'combined_payoff', 'stage1_payoff', 'win_compete',
-                      't2_mixgroup', 't2_malefirst', 't3_observed', 't4_maleboard', 't4_femaleboard', 'male', 'total_round2_payoff', 'stage2_payoff',
-                      'female', 'gender', 'pseudonym', 'team1', 'team2', 'round1_score', 'total_round1_payoff', 'total_manager_payoff', 'board',
+                      't2_type', 't2_malefirst', 't3_observed', 't4_maleboard', 't4_femaleboard', 'male', 'total_round2_payoff', 'stage2_payoff',
+                      'female', 'gender', 'pseudonym', 'team', 'team1', 'team2', 'round1_score', 'total_round1_payoff', 'total_manager_payoff', 'board',
                       'board_names', 'board_payoff', 'total_earnings']
 SESSION_FIELDS = []
 
