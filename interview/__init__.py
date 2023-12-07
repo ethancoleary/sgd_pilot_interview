@@ -67,8 +67,13 @@ class Player(BasePlayer):
 def quota(player):
     import random
     treatment = random.randint(0,1)
+
+    #No quota in pilot
+    treatment = 0
     player.quota = treatment
     player.participant.quota = player.quota
+
+
 
     if player.participant.male == 1:
         player.participant.quota = 0
