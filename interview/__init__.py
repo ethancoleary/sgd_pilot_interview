@@ -65,15 +65,21 @@ class Player(BasePlayer):
 # PAGES
 
 def quota(player):
-    treatment = random.randint(0, 1)
+    import random
+    treatment = random.randint(0,1)
+
+    #No quota in pilot
+    treatment = 0
     player.quota = treatment
     player.participant.quota = player.quota
+
+
 
     if player.participant.male == 1:
         player.participant.quota = 0
 
-
 def competitors(player):
+    import random
     participant = player.participant
 
     if participant.male == 0:
@@ -114,6 +120,7 @@ def get_timeout_seconds(player):
     return participant.expiry - time.time()
 
 
+# PAGES
 class Structure(Page):
 
     @staticmethod
@@ -129,6 +136,8 @@ class Structure(Page):
     @staticmethod
     def before_next_page(player, timeout_happened):
         participant = player.participant
+        import time
+
         # remember to add 'expiry' to PARTICIPANT_FIELDS.
         participant.expiry = time.time() + 20
 
