@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+
+  otree_dev:
+    build: .
+    entrypoint: [ "/app/compose/local/entrypoint.sh" ]
+    command: [ "otree", "devserver", "0.0.0.0:8080" ]
+    container_name: otree_dev
+    env_file: .env_dev
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+    networks:
+      - otree
+    ports:
+      - "8080:8080"
+
+networks:
+  otree:

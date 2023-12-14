@@ -1,0 +1,45 @@
+# Base Image
+FROM python:3.11
+
+# Maintainer
+LABEL maintainer="Sebastian Fest <sebastian.fest@nhh.no>"
+
+# Set working directory
+WORKDIR /app
+
+# Create the app user
+RUN addgroup --system app && adduser --system --group app
+
+# Install wait-for-it package
+RUN DEBIAN_FRONTEND=noninteractive apt update -y && apt install -y wait-for-it
+
+# Python Interpreter Flags
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Dependencies installation
+COPY ./requirements.txt /app/requirements.txt
+COPY ./requirements_base.txt /app/requirements_base.txt
+RUN pip install --upgrade --quiet pip && pip install --no-cache-dir --quiet -r /app/requirements.txt
+
+# Copy project
+COPY . /app/
+
+# Alter entrypoint script
+RUN sed -i 's/\r$//g' /app/compose/production/entrypoint.sh
+RUN chmod +x /app/compose/production/entrypoint.sh
+
+# Alter start script
+RUN sed -i 's/\r$//g' /app/compose/production/start.sh
+RUN chmod +x /app/compose/production/start.sh
+
+# chown all the files to the app user
+RUN chown -R app:app .
+
+# change to the app user
+USER app
+
+# Set entrypoint
+ENTRYPOINT [ "./compose/production/entrypoint.sh" ]
+
+
