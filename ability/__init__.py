@@ -1,5 +1,7 @@
-from otree.api import *
+import time
+import random
 
+from otree.api import *
 
 doc = """
 Your app description
@@ -37,25 +39,24 @@ class Player(BasePlayer):
         ],
         initial=1
     )
-    belief_absolute = models.IntegerField(initial = 0)
+    belief_absolute = models.IntegerField(initial=0)
     combined_payoff = models.CurrencyField(initial=0)
     belief_absolute_payoff = models.CurrencyField(initial=0)
     belief_relative_payoff = models.CurrencyField(initial=0)
     interview_total_payoff = models.CurrencyField(initial=0)
 
 
-
-timer_text = 'Time left in interview task'
+# PAGES
 def get_timeout_seconds(player):
     participant = player.participant
-    import time
     return participant.expiry - time.time()
 
-# PAGES
+
 class Structure(Page):
 
-    def is_displayed(subsession):
-        return subsession.round_number == 1
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1
 
 
 class TrialTask1(Page):
@@ -83,33 +84,29 @@ class TrialTask1(Page):
 
 
 class Ready(Page):
-    def is_displayed(subsession):
-        return subsession.round_number == 1
+
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1
 
     @staticmethod
     def before_next_page(player, timeout_happened):
         participant = player.participant
-        import time
-
-        # remember to add 'expiry' to PARTICIPANT_FIELDS.
         participant.expiry = time.time() + 20
-
-
 
 
 class Task(Page):
     form_model = 'player'
     form_fields = ['number_entered']
-
-
+    timer_text = 'Time left in interview task'
     get_timeout_seconds = get_timeout_seconds
 
     @staticmethod
     def is_displayed(player):
         return get_timeout_seconds(player) >= 0
 
+    @staticmethod
     def vars_for_template(player):
-        import random
         # Generate a list of 25 random integers, each either 0 or 1
         ones = random.randint(1, 9)
         grid_numbers = [0, 0, 0,
@@ -132,17 +129,17 @@ class Task(Page):
             player.score = 1
 
 
-
 class Calculation(Page):
     timeout_seconds = 0.1
 
+    @staticmethod
     def is_displayed(player):
         return get_timeout_seconds(player) <= 0
 
+    @staticmethod
     def before_next_page(player, timeout_happened):
-
         all_players = player.in_all_rounds()
-        total_score = sum([p.score for p in all_players])
+        total_score = sum(p.score for p in all_players)
 
         participant = player.participant
         participant.ability_score = total_score
@@ -151,11 +148,12 @@ class Calculation(Page):
 class Belief(Page):
     form_model = 'player'
     form_fields = ['belief_absolute']
+
+    @staticmethod
     def is_displayed(player):
-        participant = player.participant
         return get_timeout_seconds(player) <= 0
 
-
+    @staticmethod
     def before_next_page(player, timeout_happened):
         participant = player.participant
         if participant.ability_score == player.belief_absolute:
@@ -168,10 +166,15 @@ class Belief(Page):
 
     @staticmethod
     def app_after_this_page(player, upcoming_apps):
-        participant = player.participant
         if get_timeout_seconds(player) <= 0:
             return upcoming_apps[0]
 
 
-page_sequence = [Structure, TrialTask1, Ready, Task, Calculation, Belief]
-
+page_sequence = [
+    Structure,
+    TrialTask1,
+    Ready,
+    Task,
+    Calculation,
+    Belief
+]
