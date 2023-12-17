@@ -1,7 +1,5 @@
-import random
-import time
-
 from otree.api import *
+
 
 doc = """
 Your app description
@@ -14,6 +12,7 @@ class C(BaseConstants):
     NUM_ROUNDS = 25
     PAYMENT_PER_CORRECT_ANSWER = 0.1
     USE_POINTS = True
+
     COMPETITORS = [1, 2, 3, 4, 5, 6]
     COMPETITOR_NAMES = [
         "Zoe",
@@ -32,6 +31,7 @@ class C(BaseConstants):
     ]
 
 
+
 class Subsession(BaseSubsession):
     pass
 
@@ -41,9 +41,11 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+
     number_entered = models.IntegerField()
     correct_answer = models.IntegerField()
     score = models.IntegerField(initial=0)
+
     quota = models.BooleanField()
     belief_relative = models.IntegerField(
         widget=widgets.RadioSelect,
@@ -54,7 +56,7 @@ class Player(BasePlayer):
             [4, '4th place'],
         ],
     )
-    belief_absolute = models.IntegerField(initial = 0)
+    belief_absolute = models.IntegerField(initial=0)
     combined_payoff = models.CurrencyField(initial=0)
     belief_absolute_payoff = models.CurrencyField(initial=0)
     belief_relative_payoff = models.CurrencyField(initial=0)
@@ -62,30 +64,32 @@ class Player(BasePlayer):
     position = models.IntegerField()
 
 
-# PAGES
-
 def quota(player):
-    #treatment = random.randint(0,1)
+    import random
+    treatment = random.randint(0, 1)
+
+    #No quota in pilot
     treatment = 0
     player.quota = treatment
     player.participant.quota = player.quota
 
 
+
     if player.participant.male == 1:
         player.participant.quota = 0
 
-
 def competitors(player):
+    import random
     participant = player.participant
 
-    if participant.male == 0 :
-        competitor1 = random.randint(3,5)
+    if participant.male == 0:
+        competitor1 = random.randint(3, 5)
         participant.interview_competitor1 = C.COMPETITOR_NAMES[competitor1]
         participant.interview_competitor1_score = C.COMPETITOR_SCORES[competitor1]
 
         competitor2 = random.randint(3, 5)
-        while competitor2 == competitor1 :
-            competitor2 = random.randint(3,5)
+        while competitor2 == competitor1:
+            competitor2 = random.randint(3, 5)
         participant.interview_competitor2 = C.COMPETITOR_NAMES[competitor2]
         participant.interview_competitor2_score = C.COMPETITOR_SCORES[competitor2]
 
@@ -109,13 +113,14 @@ def competitors(player):
         participant.interview_competitor3_score = C.COMPETITOR_SCORES[competitor3]
 
 
-
-
+timer_text = 'Time left in interview task'
 def get_timeout_seconds(player):
     participant = player.participant
+    import time
     return participant.expiry - time.time()
 
 
+# PAGES
 class Structure(Page):
 
     @staticmethod
@@ -218,7 +223,7 @@ class Calculation(Page):
 
             # Randomly draw winning probability if it is a tie
             if participant.interview_score == others_scores[1]:
-                roll = random.randint(0,1)
+                roll = random.randint(0, 1)
                 if roll == 1:
                     player.combined_payoff = cu(1)
                     participant.manager = 1
@@ -234,18 +239,18 @@ class Calculation(Page):
         # If female, have two cases. First is non-quota
         if participant.quota == 1:
 
-            #Find score of top male worker.
+            # Find score of top male worker.
             if participant.interview_competitor1_score >= participant.interview_competitor2_score:
                 top_male_score = participant.interview_competitor1_score
             if participant.interview_competitor1_score < participant.interview_competitor2_score:
                 top_male_score = participant.interview_competitor2_score
 
-            #If better than best male, definitely get promoted. If best female, also get promoted
+            # If better than best male, definitely get promoted. If best female, also get promoted
             if participant.interview_score > top_male_score or participant.interview_score > participant.interview_competitor3_score:
                 player.combined_payoff = 1
                 participant.manager = 1
-            #Two cases where a draw could happen.
-            #First is where player is just as good as top male competitor and other female is better than them,
+            # Two cases where a draw could happen.
+            # First is where player is just as good as top male competitor and other female is better than them,
             if participant.interview_score == top_male_score and participant.interview_competitor3_score > top_male_score:
                 roll = random.randint(0, 1)
                 if roll == 1:
@@ -296,7 +301,7 @@ class Outcome(Page):
         payoff_relative = None
         participant = player.participant
 
-        if player.position == 1 :
+        if player.position == 1:
             relative = "1st"
 
         if player.position == 2:
@@ -310,7 +315,7 @@ class Outcome(Page):
 
         if participant.manager == 1:
 
-            if player.belief_relative == 1 :
+            if player.belief_relative == 1:
                 belief_relative = "1st"
 
             if player.belief_relative == 2:
@@ -327,7 +332,7 @@ class Outcome(Page):
         participant.interview_payoff = cu(
             player.belief_relative_payoff + player.belief_absolute_payoff + player.combined_payoff)
 
-        round_draw = random.randint(1,3)
+        round_draw = random.randint(1, 3)
 
         if round_draw == 1:
             participant.stage1_payoff = participant.ability_payoff
@@ -336,19 +341,19 @@ class Outcome(Page):
         if round_draw == 3:
             participant.stage1_payoff = participant.interview_payoff
 
-        piece_rate = 10-participant.investment
-        compete_payoff_optionA = cu(participant.compete_score * participant.investment*0.03*participant.win_compete)
-        compete_payoff_optionB = cu(piece_rate * participant.compete_score*0.01)
+        piece_rate = 10 - participant.investment
+        compete_payoff_optionA = cu(participant.compete_score * participant.investment * 0.03 * participant.win_compete)
+        compete_payoff_optionB = cu(piece_rate * participant.compete_score * 0.01)
 
         if participant.manager == 1:
             return {
-                'belief_relative':belief_relative,
-                'relative':relative,
-                'payoff_relative':payoff_relative,
-                'round_draw':round_draw,
-                'compete_payoff_optionA':compete_payoff_optionA,
+                'belief_relative': belief_relative,
+                'relative': relative,
+                'payoff_relative': payoff_relative,
+                'round_draw': round_draw,
+                'compete_payoff_optionA': compete_payoff_optionA,
                 'compete_payoff_optionB': compete_payoff_optionB,
-                'piece_rate':piece_rate
+                'piece_rate': piece_rate
 
             }
 
