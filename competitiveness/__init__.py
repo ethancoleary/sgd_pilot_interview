@@ -187,9 +187,12 @@ class Decision(Page):
 class Ready(Page):
     form_model = 'player'
     form_fields = ['belief_relative_before']
+
+    @staticmethod
     def is_displayed(subsession):
         return subsession.round_number == 1
 
+    @staticmethod
     def vars_for_template(player):
         participant = player.participant
         win = cu(0.03 * participant.investment + 0.01 *(10-participant.investment))
@@ -219,6 +222,7 @@ class Task(Page):
     def is_displayed(player):
         return get_timeout_seconds(player) >= 0
 
+    @staticmethod
     def vars_for_template(player):
         import random
         # Generate a list of 25 random integers, each either 0 or 1
@@ -236,6 +240,7 @@ class Task(Page):
             'grid_numbers': grid_numbers
         }
 
+    @staticmethod
     def before_next_page(player, timeout_happened):
 
         if player.correct_answer == player.number_entered:
@@ -246,9 +251,11 @@ class Task(Page):
 class Calculation(Page):
     timeout_seconds = 0.1
 
+    @staticmethod
     def is_displayed(player):
         return get_timeout_seconds(player) <= 0
 
+    @staticmethod
     def before_next_page(player, timeout_happened):
 
         all_players = player.in_all_rounds()
@@ -278,10 +285,12 @@ class Belief(Page):
     form_model = 'player'
     form_fields = ['belief_absolute', 'belief_relative']
 
+    @staticmethod
     def is_displayed(player):
         participant = player.participant
         return get_timeout_seconds(player) <= 0
 
+    @staticmethod
     def before_next_page(player, timeout_happened):
         participant = player.participant
         if participant.compete_score == player.belief_absolute:
