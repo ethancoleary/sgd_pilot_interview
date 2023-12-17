@@ -65,9 +65,11 @@ class Player(BasePlayer):
 # PAGES
 
 def quota(player):
-    treatment = random.randint(0,1)
+    #treatment = random.randint(0,1)
+    treatment = 0
     player.quota = treatment
     player.participant.quota = player.quota
+
 
     if player.participant.male == 1:
         player.participant.quota = 0
