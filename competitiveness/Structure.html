@@ -27,46 +27,23 @@ piece-rate compensation scheme, just like the previous stage (option B). Tokens 
     <li> <b>Option B:</b> The piece-rate option pays $0.01 coin per token for each correct grid. </li>
 </ol> <br>
 <br>
-
-How many of your token would you like to invest into the tournament (option A)? <br>
-Text will appear below when you enter a number to help you decide. <br>
+<p>
+    Therefore, if you invest none of your 10 tokens, you will always receive $0.10 per correct grid - the same as in the previous round. <br>
+    If you invest all of your 10 tokens into the option A, you will receive $0.30 per correct grid <b>if</b> your performance exceeds that of your opponent, and $0.00 otherwise.
+</p>
+<p>Below is a set of questions that you must answer correctly to proceed to check your comprehension of the task.</p>
 <br>
-<center>
-
-
-            <input type="number" name="investment" id="investment" min="0" max="10" step="1" value=" " style="width: 5em;" list="markers" oninput="updateDescription(this)" required><p id="description"></p>
-            <span class="validity"></span>
-
-            <datalist id="markers">
-                <option value="0"></option>
-                <option value="1"></option>
-                <option value="2"></option>
-                <option value="3"></option>
-                <option value="4"></option>
-                <option value="5"></option>
-                <option value="6"></option>
-                <option value="7"></option>
-                <option value="8"></option>
-                <option value="9"></option>
-                <option value="10"></option>
-            </datalist>
-
-
-
-<br>
-<script>
-    let description = document.getElementById('description');
-    function updateDescription(input) {
-        let option_A = parseInt(input.value);
-        let option_B = 10 - option_A;
-        let tournament = option_A * 0.03;
-        let pr = option_B * 0.01;
-        let win = pr + tournament;
-        let lose = pr;
-        description.innerText = `Invest ${option_A} points in the tournament and ${option_B} points in the piece rate. \n Earn $${win} per correct answer if you win the tournament and $${lose} per correct submission if you lose.`;
-    }
-</script>
-    </center>
+<b>1. In the previous round, how much money did you receive for each grid correctly counted?</b>
+<p>{{ form.comprehension1 }}</p>
+<br><br>
+<b>2. In the previous round, how did your payment depend on your relative performance compared to other participants?</b>
+<p>{{ form.comprehension2 }}</p>
+<br><br>
+<b>3. In this round, how much money will you receive for each grid correctly counted?</b>
+<p>{{ form.comprehension3 }}</p>
+<br><br>
+<b>4. In this round, how does the amount of tokens you invest affect your payment per correct answer?</b>
+<p>{{ form.comprehension4}}</p>
 <br><br>
 
 {{ next_button }}

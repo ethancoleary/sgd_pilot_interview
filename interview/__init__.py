@@ -41,6 +41,16 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    comprehension1 = models.IntegerField(
+        choices = [
+            [1, 'I am competing with more individuals than in round 2'],
+            [2, 'Since the participants are drawn randomly in each round, the probability that I will be a winner in this round is the same as in the previous round'],
+            [3, 'I only receive a bonus payment in this round if I am a winner'],
+            [4, 'Unlike the last round, if I am not a winner in this round, I will exit the experiment'],
+            [5, 'All of the above are true']
+        ],
+        widget=widgets.RadioSelect,
+    )
 
     number_entered = models.IntegerField()
     correct_answer = models.IntegerField()
@@ -122,6 +132,8 @@ def get_timeout_seconds(player):
 
 # PAGES
 class Structure(Page):
+    form_model = 'player'
+    form_fields = ['comprehension1']
 
     @staticmethod
     def is_displayed(player):
@@ -138,6 +150,11 @@ class Structure(Page):
         participant = player.participant
         # remember to add 'expiry' to PARTICIPANT_FIELDS.
         participant.expiry = time.time() + 20
+
+    @staticmethod
+    def error_message(player: Player, values):
+        if values['comprehension1'] != 5:
+            return "Answer to question is wrong"
 
 
 class Task(Page):
