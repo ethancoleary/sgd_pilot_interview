@@ -1,6 +1,5 @@
 from otree.api import *
 
-
 doc = """
 Your app description
 """
@@ -35,23 +34,23 @@ class Player(BasePlayer):
     feedback = models.LongStringField(blank=True)
 
 
-
-
-
 # PAGES
 
 class RiskPref(Page):
     form_model = 'player'
     form_fields = ['riskyness']
 
+    @staticmethod
     def is_displayed(player):
         participant = player.participant
         return participant.manager == 1
+
 
 class Feedback(Page):
     form_model = 'player'
     form_fields = ['feedback']
 
+    @staticmethod
     def is_displayed(player):
         participant = player.participant
         return participant.manager == 1
@@ -67,6 +66,7 @@ class Feedback(Page):
             'total_pay': total_pay
         }
 
+
 class Redirect(Page):
     @staticmethod
     def vars_for_template(player):
@@ -78,4 +78,8 @@ class Redirect(Page):
         )
 
 
-page_sequence = [RiskPref, Feedback, Redirect]
+page_sequence = [
+    RiskPref,
+    Feedback,
+    Redirect
+]
