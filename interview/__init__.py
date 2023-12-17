@@ -192,14 +192,16 @@ class Calculation(Page):
         ]
         others_scores.sort(reverse=True)
 
+        top_male_score = None
+
         # Generate position
         if participant.interview_score >= others_scores[0]:
             player.position = 1
 
-        if participant.interview_score < others_scores[0] and participant.interview_score >= others_scores[1]:
+        if others_scores[0] > participant.interview_score >= others_scores[1]:
             player.position = 2
 
-        if participant.interview_score < others_scores[1] and participant.interview_score >= others_scores[2]:
+        if others_scores[1] > participant.interview_score >= others_scores[2]:
             player.position = 3
 
         if participant.interview_score < others_scores[2]:
