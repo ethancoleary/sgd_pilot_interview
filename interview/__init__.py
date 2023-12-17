@@ -107,8 +107,6 @@ def competitors(player):
         participant.interview_competitor3_score = C.COMPETITOR_SCORES[competitor3]
 
 
-
-
 def get_timeout_seconds(player):
     participant = player.participant
     return participant.expiry - time.time()
