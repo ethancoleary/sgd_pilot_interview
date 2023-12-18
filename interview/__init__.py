@@ -1,7 +1,5 @@
-import random
-import time
-
 from otree.api import *
+
 
 doc = """
 Your app description
@@ -14,6 +12,7 @@ class C(BaseConstants):
     NUM_ROUNDS = 25
     PAYMENT_PER_CORRECT_ANSWER = 0.1
     USE_POINTS = True
+
     COMPETITORS = [1, 2, 3, 4, 5, 6]
     COMPETITOR_NAMES = [
         "Zoe",
@@ -32,6 +31,7 @@ class C(BaseConstants):
     ]
 
 
+
 class Subsession(BaseSubsession):
     pass
 
@@ -41,9 +41,21 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    comprehension1 = models.IntegerField(
+        choices = [
+            [1, 'I am competing with more individuals than in round 2'],
+            [2, 'Since the participants are drawn randomly in each round, the probability that I will be a winner in this round is the same as in the previous round'],
+            [3, 'I only receive a bonus payment in this round if I am a winner'],
+            [4, 'Unlike the last round, if I am not a winner in this round, I will exit the experiment'],
+            [5, 'All of the above are true']
+        ],
+        widget=widgets.RadioSelect,
+    )
+
     number_entered = models.IntegerField()
     correct_answer = models.IntegerField()
     score = models.IntegerField(initial=0)
+
     quota = models.BooleanField()
     belief_relative = models.IntegerField(
         widget=widgets.RadioSelect,
@@ -62,18 +74,22 @@ class Player(BasePlayer):
     position = models.IntegerField()
 
 
-# PAGES
-
 def quota(player):
+    import random
     treatment = random.randint(0, 1)
+
+    #No quota in pilot
+    treatment = 0
     player.quota = treatment
     player.participant.quota = player.quota
+
+
 
     if player.participant.male == 1:
         player.participant.quota = 0
 
-
 def competitors(player):
+    import random
     participant = player.participant
 
     if participant.male == 0:
@@ -107,12 +123,18 @@ def competitors(player):
         participant.interview_competitor3_score = C.COMPETITOR_SCORES[competitor3]
 
 
+
 def get_timeout_seconds(player):
     participant = player.participant
+    import time
     return participant.expiry - time.time()
+    
 
 
+# PAGES
 class Structure(Page):
+    form_model = 'player'
+    form_fields = ['comprehension1']
 
     @staticmethod
     def is_displayed(player):
@@ -129,6 +151,11 @@ class Structure(Page):
         participant = player.participant
         # remember to add 'expiry' to PARTICIPANT_FIELDS.
         participant.expiry = time.time() + 20
+
+    @staticmethod
+    def error_message(player: Player, values):
+        if values['comprehension1'] != 5:
+            return "Answer to question is wrong"
 
 
 class Task(Page):
@@ -190,16 +217,14 @@ class Calculation(Page):
         ]
         others_scores.sort(reverse=True)
 
-        top_male_score = None
-
         # Generate position
         if participant.interview_score >= others_scores[0]:
             player.position = 1
 
-        if others_scores[0] > participant.interview_score >= others_scores[1]:
+        if participant.interview_score < others_scores[0] and participant.interview_score >= others_scores[1]:
             player.position = 2
 
-        if others_scores[1] > participant.interview_score >= others_scores[2]:
+        if participant.interview_score < others_scores[1] and participant.interview_score >= others_scores[2]:
             player.position = 3
 
         if participant.interview_score < others_scores[2]:

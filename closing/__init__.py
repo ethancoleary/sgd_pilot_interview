@@ -10,6 +10,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     PARTICIPATION = 2
+    PARTICIPATION_WORKER = 1.3
 
 
 class Subsession(BaseSubsession):
@@ -58,8 +59,14 @@ class Feedback(Page):
     @staticmethod
     def vars_for_template(player):
         participant = player.participant
-        total_bonus = participant.stage1_payoff + participant.stage2_payoff
-        total_pay = total_bonus + C.PARTICIPATION
+        if participant.manager == 1:
+            total_bonus = participant.stage1_payoff + participant.stage2_payoff
+            total_pay = cu(total_bonus + C.PARTICIPATION)
+        if participant.manager == 0:
+            total_bonus = participant.stage1_payoff
+            total_pay = cu(total_bonus+C.PARTICIPATION_WORKER)
+
+
 
         return {
             'total_bonus': total_bonus,
