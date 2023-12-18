@@ -123,11 +123,12 @@ def competitors(player):
         participant.interview_competitor3_score = C.COMPETITOR_SCORES[competitor3]
 
 
-timer_text = 'Time left in interview task'
+
 def get_timeout_seconds(player):
     participant = player.participant
     import time
     return participant.expiry - time.time()
+    
 
 
 # PAGES

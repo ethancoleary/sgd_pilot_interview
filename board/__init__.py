@@ -1,5 +1,6 @@
-from otree.api import *
+import random
 
+from otree.api import *
 
 doc = """
 Your app description
@@ -11,10 +12,24 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     FEMALE_NAMES = [
-             'Zoe',  'Abbie',  'Chloe',  'Grace',  'Emma', 'Ella', 'Viola', 'Sara'
-        ]
+        'Zoe',
+        'Abbie',
+        'Chloe',
+        'Grace',
+        'Emma',
+        'Ella',
+        'Viola',
+        'Sara'
+    ]
     MALE_NAMES = [
-        'Jacob', 'Aiden',  'Matthew',  'Alexander',  'Daniel', 'Joel', 'Harvey', 'Mason'
+        'Jacob',
+        'Aiden',
+        'Matthew',
+        'Alexander',
+        'Daniel',
+        'Joel',
+        'Harvey',
+        'Mason'
     ]
     TYPE = ['Won', 'Quota']
     TEAM = ['Male', 'Mix']
@@ -32,7 +47,6 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-
     pseudonym_loc = models.IntegerField()
 
     manager1 = models.IntegerField()
@@ -54,17 +68,15 @@ class Player(BasePlayer):
     manager2_approve = models.BooleanField()
 
 
-
 # PAGES
 class Intro(Page):
 
-
+    @staticmethod
     def vars_for_template(player):
 
-        ##Take out own name
+        # Take out own name
         participant = player.participant
 
-        import random
         participant.female = 1
         participant.pseudonym = "Emma"
         participant.team1 = "Daniel"
@@ -74,40 +86,40 @@ class Intro(Page):
         participant.compete = 1
         participant.board_payoff = 0
 
-        if participant.female == 1: #Female
+        if participant.female == 1:  # Female
             player.pseudonym_loc = C.FEMALE_NAMES.index(participant.pseudonym)
             female_names = [s for s in C.FEMALE_NAMES if s != participant.pseudonym]
             male_names = C.MALE_NAMES
-        else: #Male
+        else:  # Male
             player.pseudonym_loc = C.MALE_NAMES.index(participant.pseudonym)
             male_names = [s for s in C.MALE_NAMES if s != participant.pseudonym]
             female_names = C.FEMALE_NAMES
 
-        #Take out names come across
-        ## First is own workers
+        # Take out names come across
+        # First its own workers
         female_names = [s for s in female_names if s != participant.team1 and s != participant.team2]
         male_names = [s for s in male_names if s != participant.team1 and s != participant.team2]
 
-        ## If was under observation, take out board names
+        # If was under observation, take out board names
         if participant.t3_observed == 1:
             for x in range(2):
                 female_names = [s for s in female_names if s != participant.board_names[x]]
                 male_names = [s for s in male_names if s != participant.board_names[x]]
 
-        ## Now take out other options from the iteration that have been encountered
-        ## Team composition:
-        player.manager1_team = 1-participant.t2_mixgroup
-        player.manager2_team = 1-participant.t2_mixgroup
-        player.manager1_type = random.randint(0,1)
+        # Now take out other options from the iteration that have been encountered
+        # Team composition:
+        player.manager1_team = 1 - participant.t2_mixgroup
+        player.manager2_team = 1 - participant.t2_mixgroup
+        player.manager1_type = random.randint(0, 1)
         player.manager2_type = 1 - player.manager1_type
 
         names = female_names + male_names
-        number_names_left = len(names)-1
+        number_names_left = len(names) - 1
 
-        player.manager1 = random.randint(0,number_names_left)
+        player.manager1 = random.randint(0, number_names_left)
         player.manager1_name = names[player.manager1]
 
-        player.manager2 = random.randint(0,number_names_left)
+        player.manager2 = random.randint(0, number_names_left)
         while player.manager2 == player.manager1:
             player.manager2 = random.randint(0, number_names_left)
 
@@ -119,11 +131,11 @@ class Intro(Page):
             number_male_names_left = len(male_names) - 1
 
             player.manager1_team1 = male_names[
-                                        random.randint(0, number_male_names_left)
-                ]
+                random.randint(0, number_male_names_left)
+            ]
             player.manager1_team2 = male_names[
-                                        random.randint(0, number_male_names_left)
-                ]
+                random.randint(0, number_male_names_left)
+            ]
             while player.manager1_team1 == player.manager1_team2:
                 player.manager1_team2 = male_names[
                     random.randint(0, number_male_names_left)
@@ -146,7 +158,8 @@ class Intro(Page):
 
         if player.manager2_team == 0:
 
-            male_names = [s for s in male_names if s != player.manager2_name and s!= player.manager1_team1 and s!=player.manager1_team2]
+            male_names = [s for s in male_names if
+                          s != player.manager2_name and s != player.manager1_team1 and s != player.manager1_team2]
 
             number_male_names_left = len(male_names) - 1
 
@@ -163,8 +176,10 @@ class Intro(Page):
 
         else:
 
-            female_names = [s for s in female_names if s != player.manager2_name and s!= player.manager1_team1 and s!=player.manager1_team2]
-            male_names = [s for s in male_names if s != player.manager2_name and s!= player.manager1_team1 and s!=player.manager1_team2]
+            female_names = [s for s in female_names if
+                            s != player.manager2_name and s != player.manager1_team1 and s != player.manager1_team2]
+            male_names = [s for s in male_names if
+                          s != player.manager2_name and s != player.manager1_team1 and s != player.manager1_team2]
 
             number_female_names_left = len(female_names) - 1
             number_male_names_left = len(male_names) - 1
@@ -181,107 +196,109 @@ class Manager1(Page):
     form_model = 'player'
     form_fields = ['manager1_approve']
 
+    @staticmethod
     def vars_for_template(player):
-        participant = player.participant
 
-        #Winner or lucky
+        # Winner or lucky
         type_of_manager = player.manager1_type
-        if type_of_manager == True:
+        if type_of_manager:
             promotion_via = "Competed for position and won."
         else:
             promotion_via = "Obtained position through random draw."
 
-        #Male or mixed?
+        # Male or mixed?
         team_composition = player.manager1_team
 
-        #Team members
+        # Team members
         import random
         workers = [player.manager1_team1, player.manager1_team2]
-        worker1 = workers[random.randint(0,1)]
-        worker2 = workers[1-workers.index(worker1)]
+        worker1 = workers[random.randint(0, 1)]
+        worker2 = workers[1 - workers.index(worker1)]
 
         worker_performances = [C.MALE_TEAM, C.MIX_TEAM]
 
         worker1_performance = worker_performances[team_composition][workers.index(worker1)]
         worker2_performance = worker_performances[team_composition][workers.index(worker2)]
 
-        player.manager1_workerA = workers[random.randint(0,1)]
+        player.manager1_workerA = workers[random.randint(0, 1)]
         workerA = player.manager1_workerA
 
         worker1A = workerA == worker1
 
-        manager_performance = C.MANAGER_PERFORMANCE[random.randint(0,6)]
+        manager_performance = C.MANAGER_PERFORMANCE[random.randint(0, 6)]
 
         return {
-            'promotion_via':promotion_via,
-            'manager_performance':manager_performance,
-            'workerA':workerA,
-            'worker1':worker1,
-            'worker2':worker2,
-            'worker1A':worker1A,
-            'worker1_performance':worker1_performance,
-            'worker2_performance':worker2_performance,
+            'promotion_via': promotion_via,
+            'manager_performance': manager_performance,
+            'workerA': workerA,
+            'worker1': worker1,
+            'worker2': worker2,
+            'worker1A': worker1A,
+            'worker1_performance': worker1_performance,
+            'worker2_performance': worker2_performance,
 
         }
 
+    @staticmethod
     def before_next_page(player, timeout_happened):
         participant = player.participant
         participant.board_payoff += cu(0.5)
+
 
 class Manager2(Page):
     form_model = 'player'
     form_fields = ['manager2_approve']
 
+    @staticmethod
     def vars_for_template(player):
-        participant = player.participant
 
-        #Winner or lucky
+        # Winner or lucky
         type_of_manager = player.manager2_type
-        if type_of_manager == True:
+        if type_of_manager:
             promotion_via = "Competed for position and won."
         else:
             promotion_via = "Obtained position through random draw."
 
-        #Male or mixed?
+        # Male or mixed?
         team_composition = player.manager2_team
 
-        #Team members
-        import random
+        # Team members
         workers = [player.manager2_team1, player.manager2_team2]
-        worker1 = workers[random.randint(0,1)]
-        worker2 = workers[1-workers.index(worker1)]
+        worker1 = workers[random.randint(0, 1)]
+        worker2 = workers[1 - workers.index(worker1)]
 
         worker_performances = [C.MALE_TEAM, C.MIX_TEAM]
 
         worker1_performance = worker_performances[team_composition][workers.index(worker1)]
         worker2_performance = worker_performances[team_composition][workers.index(worker2)]
 
-        player.manager2_workerA = workers[random.randint(0,1)]
+        player.manager2_workerA = workers[random.randint(0, 1)]
         workerA = player.manager2_workerA
 
         worker1A = workerA == worker1
 
-        manager_performance = C.MANAGER_PERFORMANCE[random.randint(0,6)]
-
-
+        manager_performance = C.MANAGER_PERFORMANCE[random.randint(0, 6)]
 
         return {
-            'promotion_via':promotion_via,
-            'manager_performance':manager_performance,
-            'workerA':workerA,
-            'worker1':worker1,
-            'worker2':worker2,
-            'worker1A':worker1A,
-            'worker1_performance':worker1_performance,
-            'worker2_performance':worker2_performance,
+            'promotion_via': promotion_via,
+            'manager_performance': manager_performance,
+            'workerA': workerA,
+            'worker1': worker1,
+            'worker2': worker2,
+            'worker1A': worker1A,
+            'worker1_performance': worker1_performance,
+            'worker2_performance': worker2_performance,
 
         }
 
+    @staticmethod
     def before_next_page(player, timeout_happened):
         participant = player.participant
         participant.board_payoff += cu(0.5)
 
 
-
-
-page_sequence = [Intro, Manager1, Manager2]
+page_sequence = [
+    Intro,
+    Manager1,
+    Manager2
+]
