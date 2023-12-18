@@ -1,5 +1,7 @@
 from otree.api import *
 
+import random
+import time
 
 doc = """
 Your app description

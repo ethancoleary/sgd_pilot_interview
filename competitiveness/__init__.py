@@ -73,6 +73,7 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect
     )
     comprehension4 = models.IntegerField(
+        widget=widgets.RadioSelect,
         choices = [
             [1, 'The more tokens I invest, the higher my payment per correct answer'],
             [2, 'The more tokens I invest, the higher the payment I receive if I have a lower score than my opponent & lower the payment I receive if I have a higher score than them'],
