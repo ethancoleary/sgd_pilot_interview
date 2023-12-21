@@ -1,7 +1,7 @@
-from otree.api import *
-
 import random
 import time
+
+from otree.api import *
 
 doc = """
 Your app description
@@ -33,7 +33,6 @@ class C(BaseConstants):
     ]
 
 
-
 class Subsession(BaseSubsession):
     pass
 
@@ -44,9 +43,10 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     comprehension1 = models.IntegerField(
-        choices = [
+        choices=[
             [1, 'I am competing with more individuals than in round 2'],
-            [2, 'Since the participants are drawn randomly in each round, the probability that I will be a winner in this round is the same as in the previous round'],
+            [2,
+             'Since the participants are drawn randomly in each round, the probability that I will be a winner in this round is the same as in the previous round'],
             [3, 'I only receive a bonus payment in this round if I am a winner'],
             [4, 'Unlike the last round, if I am not a winner in this round, I will exit the experiment'],
             [5, 'All of the above are true']
@@ -77,21 +77,16 @@ class Player(BasePlayer):
 
 
 def quota(player):
-    import random
-    treatment = random.randint(0, 1)
-
-    #No quota in pilot
+    # No quota in pilot
     treatment = 0
     player.quota = treatment
     player.participant.quota = player.quota
 
-
-
     if player.participant.male == 1:
         player.participant.quota = 0
 
+
 def competitors(player):
-    import random
     participant = player.participant
 
     if participant.male == 0:
@@ -125,15 +120,12 @@ def competitors(player):
         participant.interview_competitor3_score = C.COMPETITOR_SCORES[competitor3]
 
 
-
+# PAGES
 def get_timeout_seconds(player):
     participant = player.participant
-    import time
     return participant.expiry - time.time()
-    
 
 
-# PAGES
 class Structure(Page):
     form_model = 'player'
     form_fields = ['comprehension1']
@@ -223,10 +215,10 @@ class Calculation(Page):
         if participant.interview_score >= others_scores[0]:
             player.position = 1
 
-        if participant.interview_score < others_scores[0] and participant.interview_score >= others_scores[1]:
+        if others_scores[0] > participant.interview_score >= others_scores[1]:
             player.position = 2
 
-        if participant.interview_score < others_scores[1] and participant.interview_score >= others_scores[2]:
+        if others_scores[1] > participant.interview_score >= others_scores[2]:
             player.position = 3
 
         if participant.interview_score < others_scores[2]:
@@ -258,7 +250,7 @@ class Calculation(Page):
 
         # If female, have two cases. First is non-quota
         if participant.quota == 1:
-
+            top_male_score = None
             # Find score of top male worker.
             if participant.interview_competitor1_score >= participant.interview_competitor2_score:
                 top_male_score = participant.interview_competitor1_score

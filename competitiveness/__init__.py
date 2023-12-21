@@ -1,5 +1,7 @@
 from otree.api import *
 
+import random
+import time
 
 doc = """
 Your app description
@@ -12,28 +14,28 @@ class C(BaseConstants):
     NUM_ROUNDS = 25
     PAYMENT_PER_CORRECT_ANSWER = 0.1
     USE_POINTS = True
-    COMPETITORS = [1,2,3,4,5,6,7,8,9]
+    COMPETITORS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     COMPETITOR_NAMES = [
-                        "Zoe",
-                        "Chloe",
-                        "Chloe",
-                        "Emma",
-                        "Alexander",
-                        "Daniel",
-                        "Jacob",
-                        "Jacob",
-                        "Harvey"]
+        "Zoe",
+        "Chloe",
+        "Chloe",
+        "Emma",
+        "Alexander",
+        "Daniel",
+        "Jacob",
+        "Jacob",
+        "Harvey"]
     COMPETITOR_SCORES = [
-                        3,
-                        4,
-                        5,
-                        7,
-                        8,
-                        5,
-                        3,
-                        6,
-                        4,
-                        ]
+        3,
+        4,
+        5,
+        7,
+        8,
+        5,
+        3,
+        6,
+        4,
+    ]
 
 
 class Subsession(BaseSubsession):
@@ -63,7 +65,7 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect
     )
     comprehension3 = models.IntegerField(
-        choices = [
+        choices=[
             [1, '$0.00'],
             [2, '$0.02'],
             [3, '$0.10'],
@@ -74,16 +76,18 @@ class Player(BasePlayer):
     )
     comprehension4 = models.IntegerField(
         widget=widgets.RadioSelect,
-        choices = [
+        choices=[
             [1, 'The more tokens I invest, the higher my payment per correct answer'],
-            [2, 'The more tokens I invest, the higher the payment I receive if I have a lower score than my opponent & lower the payment I receive if I have a higher score than them'],
-            [3, 'The more tokens I invest, the higher the payment I receive if I have a higher score than my opponent & lower the payment I receive if I have a lower score than them']
+            [2,
+             'The more tokens I invest, the higher the payment I receive if I have a lower score than my opponent & lower the payment I receive if I have a higher score than them'],
+            [3,
+             'The more tokens I invest, the higher the payment I receive if I have a higher score than my opponent & lower the payment I receive if I have a lower score than them']
         ],
     )
 
     investment = models.IntegerField(
         widget=widgets.RadioSelect,
-        choices= [
+        choices=[
             [0, '0'],
             [1, '1'],
             [2, '2'],
@@ -101,55 +105,43 @@ class Player(BasePlayer):
     score = models.IntegerField(initial=0)
     belief_relative_before = models.IntegerField()
     belief_relative = models.IntegerField()
-    belief_absolute = models.IntegerField(initial = 0)
+    belief_absolute = models.IntegerField(initial=0)
     combined_payoff = models.CurrencyField(initial=0)
     belief_absolute_payoff = models.CurrencyField(initial=0)
     interview_total_payoff = models.CurrencyField(initial=0)
     competitor = models.IntegerField()
     competitor_score = models.IntegerField()
     position = models.IntegerField()
-    win = models.IntegerField(initial = 0)
+    win = models.IntegerField(initial=0)
 
 
-#def quota(player):
- #   import random
-    #  treatment = random.randint(0,1)
-    #   player.quota = treatment
-    #player.participant.quota = player.quota
-
-    #if player.participant.male == 1:
-#   player.participant.quota = 0
+# PAGES
 
 def competitor(player):
-    import random
-    competitor = random.randint(0,8)
+    competitor = random.randint(0, 8)
     participant = player.participant
 
     participant.competitor = C.COMPETITOR_NAMES[competitor]
     participant.competitor_score = C.COMPETITOR_SCORES[competitor]
 
 
-
-timer_text = 'Time left in interview task'
 def get_timeout_seconds(player):
     participant = player.participant
-    import time
     return participant.expiry - time.time()
 
-def is_displayed1(player: Player):
-    """only returns True if there is time left."""
-    return get_timeout_seconds1(player) > 0
 
-# PAGES
 class Structure(Page):
     form_model = 'player'
-    form_fields = ['comprehension1', 'comprehension2', 'comprehension3', 'comprehension4']
+    form_fields = [
+        'comprehension1',
+        'comprehension2',
+        'comprehension3',
+        'comprehension4',
+    ]
 
+    @staticmethod
     def is_displayed(subsession):
         return subsession.round_number == 1
-    #def vars_for_template(player):
-        #quota(player)
-
 
     @staticmethod
     def error_message(player: Player, values):
@@ -162,16 +154,16 @@ class Structure(Page):
         if values['comprehension4'] != 3:
             return "Answer to question 4 is wrong"
 
+
 class Decision(Page):
     form_model = 'player'
     form_fields = ['investment']
 
-    def is_displayed(subsession):
-        return subsession.round_number == 1
-    #def vars_for_template(player):
-        #quota(player)
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1
 
-
+    @staticmethod
     def before_next_page(player, timeout_happened):
         competitor(player)
         participant = player.participant
@@ -190,14 +182,14 @@ class Ready(Page):
     form_fields = ['belief_relative_before']
 
     @staticmethod
-    def is_displayed(subsession):
-        return subsession.round_number == 1
+    def is_displayed(player):
+        return player.round_number == 1
 
     @staticmethod
     def vars_for_template(player):
         participant = player.participant
-        win = cu(0.03 * participant.investment + 0.01 *(10-participant.investment))
-        lose = cu(0.01 * (10-participant.investment))
+        win = cu(0.03 * participant.investment + 0.01 * (10 - participant.investment))
+        lose = cu(0.01 * (10 - participant.investment))
 
         return {
             'win': win,
@@ -207,16 +199,13 @@ class Ready(Page):
     @staticmethod
     def before_next_page(player, timeout_happened):
         participant = player.participant
-        import time
-
-        # remember to add 'expiry' to PARTICIPANT_FIELDS.
         participant.expiry = time.time() + 20
+
 
 class Task(Page):
     form_model = 'player'
     form_fields = ['number_entered']
-    import random
-
+    timer_text = 'Time left in interview task'
     get_timeout_seconds = get_timeout_seconds
 
     @staticmethod
@@ -225,7 +214,6 @@ class Task(Page):
 
     @staticmethod
     def vars_for_template(player):
-        import random
         # Generate a list of 25 random integers, each either 0 or 1
         ones = random.randint(1, 9)
         grid_numbers = [0, 0, 0,
@@ -246,7 +234,6 @@ class Task(Page):
 
         if player.correct_answer == player.number_entered:
             player.score = 1
-
 
 
 class Calculation(Page):
@@ -270,16 +257,16 @@ class Calculation(Page):
         if participant.compete_score < participant.competitor_score:
             participant.win_compete = 0
 
-
         if participant.compete_score == participant.competitor_score:
             participant.compete_payoff = cu(0.02 * (10 - participant.investment) * participant.compete_score)
         if participant.compete_score != participant.competitor_score:
 
-            if participant.win_compete == 1 :
-                participant.compete_payoff = cu(0.03* participant.investment * participant.compete_score) + cu(0.01 * (10-participant.investment)*participant.compete_score)
+            if participant.win_compete == 1:
+                participant.compete_payoff = cu(0.03 * participant.investment * participant.compete_score) + cu(
+                    0.01 * (10 - participant.investment) * participant.compete_score)
 
             if participant.win_compete == 0:
-                participant.compete_payoff = cu(0.01 * (10-participant.investment)*participant.compete_score)
+                participant.compete_payoff = cu(0.01 * (10 - participant.investment) * participant.compete_score)
 
 
 class Belief(Page):
@@ -306,9 +293,11 @@ class Belief(Page):
             return upcoming_apps[0]
 
 
-
-
-
-
-page_sequence = [Structure, Decision, Ready, Task, Calculation, Belief]
-
+page_sequence = [
+    Structure,
+    Decision,
+    Ready,
+    Task,
+    Calculation,
+    Belief
+]

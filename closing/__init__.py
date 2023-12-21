@@ -51,7 +51,6 @@ class Feedback(Page):
     form_model = 'player'
     form_fields = ['feedback']
 
-
     @staticmethod
     def vars_for_template(player):
         participant = player.participant
@@ -60,9 +59,7 @@ class Feedback(Page):
             total_pay = cu(total_bonus + C.PARTICIPATION)
         if participant.manager == 0:
             total_bonus = participant.stage1_payoff
-            total_pay = cu(total_bonus+C.PARTICIPATION_WORKER)
-
-
+            total_pay = cu(total_bonus + C.PARTICIPATION_WORKER)
 
         return {
             'total_bonus': total_bonus,
