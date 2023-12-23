@@ -9,8 +9,8 @@ class C(BaseConstants):
     NAME_IN_URL = 'intro'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
-    PARTICIPATION = 2
-    PARTICIPATION_WORKER = 1.3
+    PARTICIPATION = 2.50
+    PARTICIPATION_WORKER = 1.65
 
 
 class Subsession(BaseSubsession):
